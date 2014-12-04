@@ -1,0 +1,11 @@
+{% form_theme form 'CittandoSiteBundle:Form:fields.html.twig' %}
+
+<form action="{{ path('fos_user_registration_register') }}" {{ form_enctype(form) }} method="POST" class="fos_user_registration_register form-horizontal">
+    <input type="hidden" name="_csrf_token" value="{% render('CittandoSiteBundle:Default:getToken') %}" />
+
+    {{ form_widget(form) }}
+
+    <div class="controls">
+        <input type="submit" class="btn btn-primary btn-register" value="{{ 'registration.submit'|trans({}, 'FOSUserBundle') }}" />
+    </div>
+</form>

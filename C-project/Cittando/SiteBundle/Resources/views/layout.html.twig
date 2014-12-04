@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>{% block title %}Cittando{% endblock %}</title>
+
+        <meta charset="utf-8">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+        {% stylesheets filter='cssrewrite'
+            'css/bootstrap.min.css'
+            'css/application.css'
+            'css/slider.css'
+            'css/colorbox.css'
+        %}
+            <link rel="stylesheet" href="{{ asset(asset_url) }}">
+        {% endstylesheets %}
+        {% block beginJs %}
+            {% javascripts
+                'js/jquery.min.js'
+                'js/bootstrap.min.js'
+                'js/OpenLayers.js'
+                'js/application.js'
+            %}
+
+            <script src="{{ asset(asset_url) }}"></script>
+
+            {% endjavascripts %}
+        {% endblock %}
+
+        <!—[if lt IE 9]>
+            <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]—>
+    </head>
+    <body>
+         <!-- This contains the hidden content for city lightbox -->
+        <div style="display:none">
+            {% include "CittandoSiteBundle:Container:city_lightbox.html.twig" %}
+        </div>
+        {% block container %}
+        <div class="container">
+            <div class="row">
+                <div class="main-header">
+                    {% block headerMenu%}
+                        <div class="navbar main">
+                            <div class="navbar-inner">
+                                <div class="container">
+                                    <a class="brand" href="{{ path('_cittando_home') }}"><img src="{{ asset('../img/logo.png') }}" alt="cittando_logo" />{% block brand %}{% endblock %}</a>
+                                    <div class="nav-collapse">
+                                        {% include 'CittandoSiteBundle:Container:site-navigation.html.twig' %}
+                                    </div><!-- /.nav-collapse -->
+                                    <ul class="nav pull-right">
+                                        <form class="navbar-search pull-left">  
+                                            <input type="text" class="search-query" placeholder="Search">  
+                                        </form> 
+                                    </ul>
+                                </div>
+                            </div><!-- /navbar-inner -->
+                        </div>
+                    {% endblock%}
+                    {% block headerSubmenu%}
+                        <div class="navbar second">
+                            <div class="navbar-inner">
+                                <div class="container">
+                                    <div class="nav-collapse">
+                                        <ul class="nav header-second-menu">
+                                            <li class="item">
+                                                <a class='inline' href="#inline_content">City {{ app.session.get('cittandoCityRequest')=='empty'?'Select One':app.session.get('cittandoCityRequest') }} {{ app.session.get('cittandoCityBorrar')!=null?app.session.get('cittandoCityBorrar'):'' }}</a>
+                                            </li>
+                                            <li class="item"><a href="{{ path('_event_new') }}"><span>Add Event</span>&nbsp;<span class="iconbox"><i class="icon-plus icon-white"></i></span></a></li>
+                                            <li class="item"><a href="#"><span>Add Venue</span>&nbsp;<span class="iconbox"><i class="icon-plus icon-white"></i></span></a></li>
+                                        </ul>
+                                    </div><!-- /.nav-collapse -->
+                                    <ul class="nav pull-right login">
+                                        <li class="item loginSpan">
+                                            <i><img src="/img/login.png" /></i>
+                                            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                                                <span><a href="{{ path("_user") }}">{{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }}</a> | </span><a href="{{ path('fos_user_security_logout') }}"> {{ 'layout.logout'|trans({}, 'FOSUserBundle') }} </a>
+                                            {% else %}
+                                                <span><a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a></span> / <span><a href="{{ path('fos_user_registration_register') }}">{{ 'Sign up'|trans({}, 'FOSUserBundle') }}</a></span>
+                                            {% endif %}
+                                        </li>
+                                        <li class="item">
+                                            <div class="blue-drop btn-group">
+                                                <a class="blue-toggle dropdown-toggle" data-toggle="dropdown" href="#">
+                                                    Eng
+                                                    <span class="caret big"></span>
+                                                </a>
+                                                <ul class="blue-dropdown dropdown-menu">
+                                                    <li>Ita</li>
+                                                    <li>Ger</li>
+                                                </ul>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div><!-- /navbar-inner -->
+                        </div>
+                    {% endblock%}
+                </div> <!-- Main header -->
+            </div>
+                
+            {% if app.session.flash('notice') %}
+                <div class="flash-message">
+                    <em>Notice</em>: {{ app.session.flash('notice') }}
+                </div>
+            {% endif %}
+
+            {% for key, message in app.session.getFlashes() %}
+                <div class="{{ key }}">
+                    {{ message|trans({}, 'FOSUserBundle') }}
+                </div>
+            {% endfor %}
+            <!-- page footer -->
+            <div class="main-content">
+                {% block bannerMap %}
+                    <div class="row-fluid content-box">
+                        <div class="span8 box">
+                            <!-- Slider -->
+                        {% include "CittandoSiteBundle:Container:slider.html.twig" %}
+                            <!-- end Caption-->  
+                        </div>
+                        <!-- Map container -->
+                        {% include "CittandoSiteBundle:Container:map.html.twig" %}
+                    </div>
+                {% endblock%}
+  
+                {% block toolbarcontent %}{% endblock%}
+                    
+                {% block sharedButtons %}{% endblock %}
+                <div class="row-fluid">   
+                    {% block content %}
+                        {% block fos_user_content %}{% endblock %}
+                    {% endblock %}
+                    {% block sidebar %}
+                        {% block sidebarAdd %}
+                            <div class="span4 content-box add">
+                            <!--<img src="/img/add-1.jpg" alt="" title="" />-->
+                                <script type="text/javascript"><!--
+                                        google_ad_client = "ca-pub-6517980185477128";
+                                        /* Cittando 300x250 */
+                                        google_ad_slot = "2935381743";
+                                        google_ad_width = 300;
+                                        google_ad_height = 250;
+                                        //-->
+                                </script>
+                                <script type="text/javascript"
+                                        src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+                                </script>
+                            </div>
+                        {% endblock%}
+                        {% block sidebarNews %}
+                            <div class="span4 content-box latest-news">
+                                <div class="box">
+                                    <div class="title">
+                                        Latest Blog Posts
+                                        <a class='pull-right' href="#">View all news >></a>
+                                    </div>              
+                                    <ul>
+                                        <li>
+                                            <a href="#" class="list-title">Very good festival</a>                       
+                                            <a href="#" class="list-date">March / 24</a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="list-title">Pictures from events</a>                       
+                                            <a href="#" class="list-date">March / 24</a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="list-title">Family adventures</a>                       
+                                            <a href="#" class="list-date">March / 24</a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="list-title">Hello morning</a>                       
+                                            <a href="#" class="list-date">March / 24</a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="list-title">Seven Days</a>                       
+                                            <a href="#" class="list-date">March / 24</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        {% endblock%}
+                        {% block sidebarFacebook %}
+                            <div class="span4 content-box facebook">
+                                    <!--<img src="/img/add-2.jpg" alt="" title="" />-->
+                                <iframe src="//www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Fcittando&amp;width=292&amp;height=258&amp;show_faces=true&amp;colorscheme=light&amp;stream=false&amp;border_color&amp;header=false&amp;appId=101202319921005" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:292px; height:258px;" allowTransparency="true"></iframe>
+                            </div>
+                        {% endblock%}
+                {% endblock %}
+                </div>
+            </div>
+            <!-- footer -->
+            {% block footer%}
+                {% include "CittandoSiteBundle:Container:footer.html.twig" %}
+            {% endblock %}
+        </div> <!-- Main container -->
+        {% endblock%}
+        {% block contentMap%}{% endblock %}
+
+         {% block endJs %}
+            {% javascripts
+                'js/jquery.slider.js'
+                'js/jquery.colorbox-min.js'
+                'js/easydrag.js'
+                'js/moments.js'
+                'js/AnimatedCluster.js'
+            %}
+            <script src="{{ asset(asset_url) }}"></script>
+            {% endjavascripts %}
+         {% endblock %}
+         <!-- AddThis Button END -->
+         {% if app.session.get('cittandoCityRequest')!='empty' %}
+             <script>
+                 $("a.inline.cboxElement").click();
+             </script>
+         {% endif %}
+    </body>
+</html>

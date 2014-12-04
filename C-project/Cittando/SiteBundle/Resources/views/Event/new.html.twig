@@ -1,0 +1,121 @@
+{% extends 'CittandoSiteBundle::layout.html.twig' %}
+
+{% block title %}Cittando | New Event{% endblock %}
+
+{% block content %}
+
+	<div class="row-fluid">
+        <div class="span8">
+            <div class="content-box">
+                <div class="header">
+                    <div class="title">New Event</div>
+                </div>
+                <br><br><br>                
+                <div>
+                	{% if form_errors(form) %}
+                		<div class="alert error">
+                			{{ form_errors(form) }}
+                		</div>
+                	{% endif %}
+
+                    <h1 class="new-event-title">Register new Event</h1>
+                    <p class="new-event-description">Morbi ac vulputate nisi. Integer risus augue, dictum id dignissim eu,
+                        porttitor vel odio. Donec leo libero, hendrerit in hendrerit sed, mollis vitae mi.</p>
+                    <div class="new-event-text">
+
+                        <p> Donec ligula dolor, scelerisque sit amet dignissim non, consequat vitae orci.
+                            Nullam ac ipsum vitae orci mattis tristique. Nulla sit amet lobortis erat.
+                            Nunc vitae ipsum nec orci pellentesque hendrerit. Nulla sollicitudin, tortor nec
+                            gravida mollis, mauris urna sollicitudin lorem, in pharetra nulla lectus sed libero.
+                            Proin id magna sapien.</p>
+
+                        <p> Proin imperdiet ullamcorper vehicula.
+                            In erat nibh, interdum ut laoreet vel, condimentum id nulla.
+                            Nam porta condimentum libero nec porta. Class aptent taciti sociosqu ad litora torquent per
+                            conubia nostra, per inceptos himenaeos. Proin quis ultricies ligula. Integer at nunc nibh,
+                            a sollicitudin ante.</p>
+                    </div>
+
+                    <div class="login-form new-event">
+                        <form action="{{ uri }}" id="new-event" class="form-horizontal" method="post" data-submit="new-event" {{ form_enctype(form) }}>
+
+                            <div class="control-group">
+                                {{ form_label(form.title, null, {attr: {class:"control-label"}}) }}
+                                <div class="controls">
+                                    {{ form_widget(form.title) }}
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                {{ form_label(form.description, null, {attr: {class:"control-label"}}) }}
+                                <div class="controls">
+                                    {{ form_widget(form.description) }}
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                {{ form_label(form.start_date, null, {attr: {class:"control-label"}}) }}
+                                <div class="controls">
+                                    {{ form_widget(form.start_date) }}
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                {{ form_label(form.end_date, null, {attr: {class:"control-label"}}) }}
+                                <div class="controls">
+                                    {{ form_widget(form.end_date) }}
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                {{ form_label(form.ticket_url, null, {attr: {class:"control-label"}}) }}
+                                <div class="controls">
+                                    {{ form_widget(form.ticket_url) }}
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                {{ form_label(form.file, null, {attr: {class:"control-label"}}) }}
+                                <div class="controls">
+                                    {{ form_widget(form.file) }}
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                {{ form_label(form.media_url, null, {attr: {class:"control-label"}}) }}
+                                <div class="controls">
+                                    {{ form_widget(form.media_url) }}
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                {{ form_label(form.media_description, null, {attr: {class:"control-label"}}) }}
+                                <div class="controls">
+                                    {{ form_widget(form.media_description) }}
+                                </div>
+                            </div>
+
+
+                            <div class="control-group">
+                                {{ form_label(form.category, null, {attr: {class:"control-label"}}) }}
+                                <div class="controls">
+                                    {{ form_widget(form.category) }}
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                {{ form_label(form.venue, null, {attr: {class:"control-label"}}) }}
+                                <div class="controls">
+                                    {{ form_widget(form.venue) }}
+                                </div>
+                            </div>
+                            <div class="controls">
+                                <input type="submit" value="Submit" class="btn btn-primary">
+                            </div>
+                            {{ form_rest(form) }}
+                        </form>
+                    </div>
+				</div>
+			</div>
+		</div>
+{% endblock %}

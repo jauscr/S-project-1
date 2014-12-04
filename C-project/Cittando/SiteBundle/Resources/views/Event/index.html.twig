@@ -1,0 +1,170 @@
+{% extends 'CittandoSiteBundle:Default:index.html.twig' %}
+
+{% block title %}Cittando | Events {% endblock %}
+
+{% block content %}
+    <div class="span8">
+        <div class="content-box list-container">
+            <div class="header">
+                <div class="title">Event Listings</div>
+                <a href="#" class="pull-right"></a>
+            </div>
+            <div class="black-breadcrum event">
+                <div class="breadcrum-list filter-option">
+                    <a href="#" style="margin-left:0px;"><span>+</span> By category</a>
+                    <a href="#"><span>+</span> By date</a>
+                    <a href="#"><span>+</span> By distance</a>
+                    <a href="#"><span>+</span> By venue</a>
+                </div>
+                <a class="pull-right filter show_hide">Filter <span>+</span></a>
+            </div>
+            <div class="slidingDiv">
+                <ul class="cat">
+                    <li><input type="checkbox" name="" id="" class=""/> Rock</li>
+                    <li><input type="checkbox" name="" id="" class=""/> Pop</li>
+                    <li><input type="checkbox" name="" id="" class=""/> Alternative</li>
+                    <li><input type="checkbox" name="" id="" class=""/> R&B/Soul</li>
+                    <li><input type="checkbox" name="" id="" class=""/> HipHop/Rap</li>
+                    <li><input type="checkbox" name="" id="" class=""/> Electronic</li>
+                    <li class="last">More genres</li>
+                </ul>
+                <ul class="date">
+                    <li>All dates</li>
+                    <li>Today</li>
+                    <li>Tomorrow</li>
+                    <li>This week</li>
+                    <li>This weekend</li>
+                    <li>This month</li>
+                    <li>Pick dates</li>
+                </ul>
+                <ul class="dist">
+                    <li>5 miles</li>
+                    <li>10 miles</li>
+                    <li>25 miles</li>
+                    <li>50 miles</li>
+                    <li>75 miles</li>
+                    <li>100 miles</li>
+                </ul>
+                <ul class="venue">
+                    <li><input type="checkbox" name="" id="" class=""/> Hollywood Bowl</li>
+                    <li><input type="checkbox" name="" id="" class=""/> Troubadour</li>
+                    <li><input type="checkbox" name="" id="" class=""/> The Greek Theatre</li>
+                    <li><input type="checkbox" name="" id="" class=""/> El Rey Theatre</li>
+                    <li><input type="checkbox" name="" id="" class=""/> House of Blues</li>
+                    <li><input type="checkbox" name="" id="" class=""/> Club Nokia</li>
+                    <li class="last">More venues</li>
+                </ul>
+                <div class="reset"><a>Reset Filters</a> | <a>View all results</a></div>
+            </div>
+            <!-- begin popup-->
+            <div class="popupDiv">
+                <p class="popup_title" id="EventListing-eventTitle"></p>
+
+                <p id="EventListing-eventDesc"></p>
+
+                <div id="mapdiv"></div>
+
+                <div class="option-result">
+                    <a class="dark-link" style="margin-left: 0px;">Email friends <img src="/img/green-mail.png"/></a>
+                    <a class="dark-link">Get directions <img src="/img/green-arrow.png"/></a>
+                    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                        <a class="dark-link BootstrapMsj" id="btn_saveevents" onclick="">Save event <img src="/img/green-mail.png"/></a>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="backgroundPopup"></div>
+            <!-- end popup -->
+            <ul class="itemListing">
+                {% for event in events %}
+                    <li>
+                        {% if event.promoted.id %} <div class="sponsor">Sponsored</div>{% endif %}
+                        <a href="{{ path("_event_id", {'id': event.id}) }} "><img src="../{{ event.media.0.path }}" alt="" title=""/></a>
+                        <div class="info">
+                            <a class="title" href="{{ path("_event_id", {'id': event.id}) }}">{{ event.eventTitle }}</a>
+                            {% if event.eventDescription is defined %}
+                                {% if event.eventDescription | length > 65 %}
+                                    <p class="description">{{ event.eventDescription|slice(0,65) }}</p>
+                                {% else %}
+                                    <p class="description">{{ event.eventDescription }}</p>
+                                {% endif %}
+                            {% else %}
+                                <p class="description">The description show soon.</p>
+                            {% endif %}
+
+                        </div>
+                        <div class="date_info">
+                            <label>{{ event.startDate | date("D / M / t") }}</label>
+                            <label>{{ event.startDate | date("g:i a") }}</label>
+                        </div>
+                        <div class="options">
+                            {% if event.ticketUrl is defined %}
+                                <a class="details" href="{{ event.ticketUrl }}">Buy Tickets>></a>
+                            {% endif %}
+                        </div>
+                        <div class="option-result">
+                            <a href="#" class="direction" id="direction-{{ event.id }}">Add to calendar</a>
+                            <a href="#" class="share" id="share-{{ event.id }}">Share</a>
+                            <a class="map OpenMap" id="map-{{ event.id }}">View map</a>
+                        </div>
+                        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                            {% if event.id in isSaved %}
+                                <div class="save_item item-{{ event.id }}">
+                                    <label class="save_event" style="margin:2px 40px 0px 0px;">Saved</label>
+                                    <input type="checkbox" id="{{ event.id }}" class="event-{{ event.id }}"
+                                           name="event-{{ event.id }}" checked="checked"
+                                           onclick="DeleteUserEventVenue('events',{{ event.id }})"/>
+                                </div>
+                            {% else %}
+                                <div class="save_item item-{{ event.id }}">
+                                    <label class="save_event">Save event</label>
+                                    <input type="checkbox" id="{{ event.id }}" class="event-{{ event.id }}"
+                                           name="event-{{ event.id }}"
+                                           onclick="SaveUserEventVenue('events',{{ event.id }})"/>
+                                </div>
+                            {% endif %}
+                            <div class="save_item item-{{ event.id }}">
+
+                            </div>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+            {% if count > 0 %}
+                <div class="row event-pagination">
+                    <div class="saved_items"><a href="#">Saved items >></a></div>
+                    <div class="pagination">
+                        <ul>
+                            {% if page > 1 %}
+                                <li><a href="{{ path("_events") }}?limit{{ limit }}&page={{ page - 1 }}">Prev</a></li>
+                            {% endif %}
+                            {% for prevItem in 2..1 %}
+                                {% if (page - prevItem) >= 1 %}
+                                    <li {% if page == page - prevItem %}class="active"{% endif %}>
+                                        <a href="{{ path("_events") }}?limit={{ limit }}&page={{ page - prevItem }}">{{ page - prevItem }}</a>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                            {% for nextItem in range(0, 2, 1) %}
+                                {% if (page + nextItem) < pages %}
+                                    <li {% if page == (page + nextItem) %}class="active"{% endif %}>
+                                        <a href="{{ path("_events") }}?limit={{ limit }}&page={{ page + nextItem }}">{{ page + nextItem }}</a>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+
+                            {% if page < pages %}
+                                <li><a href="{{ path("_events") }}?limit={{ limit }}&page={{ page + 1 }}">Next</a></li>
+                            {% endif %}
+                        </ul>
+
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+        <div class="content-search">
+            <p>Recieve weekly event list for <span>Roma</span></p>
+            <input type="text" name="bottom-search" id="bottom-search"/>
+            <input type="submit" name="submit" id="submit" value="Submit"/>
+        </div>
+    </div>
+{% endblock %}

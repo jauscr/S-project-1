@@ -1,0 +1,18 @@
+{% block main_menu %}
+	<ul id="menu" class="nav header-menu">
+		{% block main_menu_items %}
+			<li class="{% if app.request.attributes.get('_route') == '_cittando_home' %}active{% endif %}">
+				<a href="{{ path('_cittando_home') }}"><i class="ico-home">&nbsp;</i>Home</a>
+			</li>
+			<li class="{% if app.request.attributes.get('_route') in ['_events', '_event_id', '_event_new'] %}active{% endif %}">
+				<a href="{{ path('_events') }}"><i class="ico-event">&nbsp;</i>Events</a>
+			</li>
+			<li class="{% if app.request.attributes.get('_route') == '_venues' %}active{% endif %}">
+				<a href="{{ path('_venues') }}"><i class="ico-venues">&nbsp;</i>Venues</a>
+			</li>
+			<li class="{% if app.request.attributes.get('_route') == '_cinema' %}active{% endif %}">
+				<a href="{{ path('_cinema') }}"><i class="ico-cinema">&nbsp;</i>Cinema</a>
+			</li>
+		{% endblock %}
+	</ul>
+{% endblock %}

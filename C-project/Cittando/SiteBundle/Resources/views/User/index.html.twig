@@ -1,0 +1,292 @@
+{% extends 'CittandoSiteBundle::layout.html.twig' %}
+
+{% block title %}Cittando | User profile {% endblock %}
+
+{% block bannerMap %}{% endblock %}
+
+{% block content %}
+    <div class="span8">
+        <div class="content-box list-container">
+            <div class="header">
+                <div class="title">User account</div>
+                <a href="#" class="pull-right"></a>
+            </div>
+            <div class="black-breadcrum">
+                <div class="breadcrum-list">
+                    <a href="{{ path("_cittando_home") }}">Home</a> >
+                    <a href="{{ path("_user") }}">Users</a> >
+                    <a href="#">{{ app.user.username|capitalize }}</a>
+                </div>
+                <a href="#" class="pull-right">Invite a friend <span>+</span></a>
+            </div>
+            <div class="inner-content venue-info">
+                <div class="img-content"><img src="/img/users/cage.png" style="width:180px; height:180px;" title=""
+                                              alt=""/></div>
+                <p class="title user">{{ app.user.username|capitalize }} </p>
+                <input type="button" id="edit-profile" name="edit-profile" value="Edit Profile"/>
+
+                <div class="inner-direction">
+                    <ul>
+                        <li><b>Location:</b> USA</li>
+                        <li><b>Member since:</b></li>
+                        <li><b style="color:#06abd9">View comments about {{ app.user.username|capitalize }}</b></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- <div class="black-breadcrum showtimeTool nav account-menu"> -->
+            <ul class="nav nav-tabs" id="myTab">
+                <li class="active"><a href="#SaveEvents">Saved Events</a></li>
+                <li><a href="#SaveVenues">Saved Venues</a></li>
+                <li><a href="#SaveMovies">Saved Movies</a></li>
+            </ul>
+            <!-- </div> -->
+            <div class="tab-content">
+                <div id="SaveEvents" class="tab-pane active account-info">
+                    {% for event in events %}
+                        {% if loop.index is divisibleby(2) %}
+                            <ul>
+                                <li><a style="color:#06abd9">{{ event.eventEvent.eventTitle }}</a></li>
+                                <li>{{ event.eventEvent.startDate | date("D/M/t") }} <span class="orange">{{ event.eventEvent.startDate | date("g:i a") }}</span></li>
+                                <li>{{ event.eventEvent.venue.0.city.cityName }}, {{ event.eventEvent.venue.0.country.name }}</li>
+                            </ul>
+                        {% else %}
+                            <ul style="background-color: transparent; border:none;">
+                                <li><a style="color:#06abd9">{{ event.eventEvent.eventTitle }}</a></li>
+                                <li>{{ event.eventEvent.startDate | date("D/M/t") }} <span class="orange">{{ event.eventEvent.startDate | date("g:i a") }}</span></li>
+                                <li>{{ event.eventEvent.venue.0.city.cityName }}, {{ event.eventEvent.venue.0.country.name }}</li>
+                            </ul>
+                        {% endif %}
+                    {% else %}
+                        <ul style="background-color: transparent; border:none;">
+                            <li><a style="color:#06abd9">No event saved by User</a></li>
+                            <li></li>
+                            <li></li>
+                        </ul>
+                    {% endfor %}
+                    <!-- Items Owned -->
+                    <ul class="separation">
+                        <li><b>{{ app.user.username|capitalize }}</b> items owned</li>
+                    </ul>
+                    <ul style="background-color: transparent; border:none;">
+                        <li>Name</li>
+                        <li style="border: none">Type</li>
+                        <li>Created</li>
+                    </ul>
+                    <ul>
+                        <li><a style="color:#06abd9">Linking Park concert</a></li>
+                        <li>Event</li>
+                        <li>Mon/Jan/24 <span class="orange">6:30pm</span></li>
+                    </ul>
+                    <ul style="background-color: transparent; border:none;">
+                        <li><a style="color:#06abd9">Linking Park concert</a></li>
+                        <li>Event</li>
+                        <li>Mon/Jan/24 <span class="orange">6:30pm</span></li>
+                    </ul>
+                    <ul>
+                        <li><a style="color:#06abd9">Linking Park concert</a></li>
+                        <li>Event</li>
+                        <li>Mon/Jan/24 <span class="orange">6:30pm</span></li>
+                    </ul>
+                    <!-- Items Promoted -->
+                    <ul class="separation">
+                        <li><b>{{ app.user.username|capitalize }}</b> items promoted</li>
+                    </ul>
+                    <ul style="background-color: transparent; border:none;">
+                        <li>Name</li>
+                        <li style="border: none">Type</li>
+                        <li>Created</li>
+                    </ul>
+                    <ul>
+                        <li><a style="color:#06abd9">Linking Park concert</a></li>
+                        <li>Event</li>
+                        <li>Mon/Jan/24 <span class="orange">6:30pm</span></li>
+                    </ul>
+                    <ul style="background-color: transparent; border:none;">
+                        <li><a style="color:#06abd9">Linking Park concert</a></li>
+                        <li>Event</li>
+                        <li>Mon/Jan/24 <span class="orange">6:30pm</span></li>
+                    </ul>
+                    <ul>
+                        <li><a style="color:#06abd9">Linking Park concert</a></li>
+                        <li>Event</li>
+                        <li>Mon/Jan/24 <span class="orange">6:30pm</span></li>
+                    </ul>
+                </div>
+
+                <div id="SaveVenues" class="tab-pane account-info">
+                    {% for venue in venues %}
+
+                        {% if loop.index is divisibleby(2) %}
+                            <ul>
+                                <li><a style="color:#06abd9">{{ venue.venueVenue.venueName }}</a></li>
+                                <li>{{ venue.venueVenue.address1 }}</li>
+                                <li>{{ venue.venueVenue.city.cityName }}, {{ venue.venueVenue.country.name }}</li>
+                            </ul>
+                        {% else %}
+                            <ul style="background-color: transparent; border:none;">
+                                <li><a style="color:#06abd9">{{ venue.venueVenue.venueName }}</a></li>
+                                <li>{{ venue.venueVenue.address1 }}</li>
+                                <li>{{ venue.venueVenue.city.cityName }}, {{ venue.venueVenue.country.name }}</li>
+                            </ul>
+                        {% endif %}
+                    {% else %}
+                        <ul style="background-color: transparent; border:none;">
+                            <li><a style="color:#06abd9">No venues saved by User</a></li>
+                            <li></li>
+                            <li></li>
+                        </ul>
+                    {% endfor %}
+                    <!-- Items Owned -->
+                    <ul class="separation">
+                        <li><b>{{ app.user.username|capitalize }}</b> items owned</li>
+                    </ul>
+                    <ul style="background-color: transparent; border:none;">
+                        <li>Name</li>
+                        <li style="border: none">Type</li>
+                        <li>Created</li>
+                    </ul>
+                    <ul>
+                        <li><a style="color:#06abd9">Linking Park concert</a></li>
+                        <li>Event</li>
+                        <li>Mon/Jan/24 <span class="orange">6:30pm</span></li>
+                    </ul>
+                    <ul style="background-color: transparent; border:none;">
+                        <li><a style="color:#06abd9">Linking Park concert</a></li>
+                        <li>Event</li>
+                        <li>Mon/Jan/24 <span class="orange">6:30pm</span></li>
+                    </ul>
+                    <ul>
+                        <li><a style="color:#06abd9">Linking Park concert</a></li>
+                        <li>Event</li>
+                        <li>Mon/Jan/24 <span class="orange">6:30pm</span></li>
+                    </ul>
+                    <!-- Items Promoted -->
+                    <ul class="separation">
+                        <li><b>{{ app.user.username|capitalize }}</b> items promoted</li>
+                    </ul>
+                    <ul style="background-color: transparent; border:none;">
+                        <li>Name</li>
+                        <li style="border: none">Type</li>
+                        <li>Created</li>
+                    </ul>
+                    <ul>
+                        <li><a style="color:#06abd9">Linking Park concert</a></li>
+                        <li>Event</li>
+                        <li>Mon/Jan/24 <span class="orange">6:30pm</span></li>
+                    </ul>
+                    <ul style="background-color: transparent; border:none;">
+                        <li><a style="color:#06abd9">Linking Park concert</a></li>
+                        <li>Event</li>
+                        <li>Mon/Jan/24 <span class="orange">6:30pm</span></li>
+                    </ul>
+                    <ul>
+                        <li><a style="color:#06abd9">Linking Park concert</a></li>
+                        <li>Event</li>
+                        <li>Mon/Jan/24 <span class="orange">6:30pm</span></li>
+                    </ul>
+                </div>
+                <div id="SaveMovies" class="tab-pane account-info">
+                    {% for film in films %}
+                        {% if loop.index is divisibleby(2) %}
+                            <ul>
+                                <li><a style="color:#06abd9">{{ film.filmFilm.title }}</a></li>
+                                <li>{{ film.filmFilm.date | date("D/M/t") }} <span class="orange">{{ film.filmFilm.date | date("g:i a") }}</span></li>
+                                <li></li>
+                            </ul>
+                        {% else %}
+                            <ul style="background-color: transparent; border:none;">
+                                <li><a style="color:#06abd9">{{ film.filmFilm.title }}</a></li>
+                                <li>{{ film.filmFilm.releaseDateOther | date("D/M/t") }} <span class="orange">{{ film.filmFilm.releaseDateOther | date("g:i a") }}</span></li>
+                                <li></li>
+                            </ul>
+                        {% endif %}
+                    {% else %}
+                        <ul style="background-color: transparent; border:none;">
+                            <li><a style="color:#06abd9">No event saved by User</a></li>
+                            <li></li>
+                            <li></li>
+                        </ul>
+                    {% endfor %}
+                    <!-- Items Owned -->
+                    <ul class="separation">
+                        <li><b>{{ app.user.username|capitalize }}</b> items owned</li>
+                    </ul>
+                    <ul style="background-color: transparent; border:none;">
+                        <li>Name</li>
+                        <li style="border: none">Type</li>
+                        <li>Created</li>
+                    </ul>
+                    <ul>
+                        <li><a style="color:#06abd9">Linking Park concert</a></li>
+                        <li>Event</li>
+                        <li>Mon/Jan/24 <span class="orange">6:30pm</span></li>
+                    </ul>
+                    <ul style="background-color: transparent; border:none;">
+                        <li><a style="color:#06abd9">Linking Park concert</a></li>
+                        <li>Event</li>
+                        <li>Mon/Jan/24 <span class="orange">6:30pm</span></li>
+                    </ul>
+                    <ul>
+                        <li><a style="color:#06abd9">Linking Park concert</a></li>
+                        <li>Event</li>
+                        <li>Mon/Jan/24 <span class="orange">6:30pm</span></li>
+                    </ul>
+                    <!-- Items Promoted -->
+                    <ul class="separation">
+                        <li><b>{{ app.user.username|capitalize }}</b> items promoted</li>
+                    </ul>
+                    <ul style="background-color: transparent; border:none;">
+                        <li>Name</li>
+                        <li style="border: none">Type</li>
+                        <li>Created</li>
+                    </ul>
+                    <ul>
+                        <li><a style="color:#06abd9">Linking Park concert</a></li>
+                        <li>Event</li>
+                        <li>Mon/Jan/24 <span class="orange">6:30pm</span></li>
+                    </ul>
+                    <ul style="background-color: transparent; border:none;">
+                        <li><a style="color:#06abd9">Linking Park concert</a></li>
+                        <li>Event</li>
+                        <li>Mon/Jan/24 <span class="orange">6:30pm</span></li>
+                    </ul>
+                    <ul>
+                        <li><a style="color:#06abd9">Linking Park concert</a></li>
+                        <li>Event</li>
+                        <li>Mon/Jan/24 <span class="orange">6:30pm</span></li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+        <div class="content-search">
+            <p>Recieve weekly event list for <span>Roma</span></p>
+            <input type="text" name="bottom-search" id="bottom-search"/>
+            <input type="submit" name="submit" id="submit" value="Submit"/>
+        </div>
+    </div>
+{% endblock %}
+{% block sidebar %}
+    {% block sidebarAdd %}
+        <div class="span4 content-box add user-created">
+            <div class="header">
+                <div class="title"><b>{{ app.user.username|capitalize }}</b> has created</div>
+            </div>
+            <ul class="user-created-list">
+                {% for num in size %}
+                    <li><img src="/img/red-event.jpg"/> <span>{{ num.numEvents }}</span> Events</li>
+                    <li><img src="/img/red-venue.jpg"/> <span>{{ num.numVenues }}</span> Venues</li>
+                    <li><img src="/img/red-movie.jpg"/> <span>0</span> Films</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endblock %}
+    {% block sidebarNews %}
+        {{ parent() }}
+    {% endblock %}
+
+    {% block sidebarFacebook %}
+        {{ parent() }}
+    {% endblock %}
+{% endblock %}

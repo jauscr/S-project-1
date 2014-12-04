@@ -1,0 +1,116 @@
+{% for venue in venues %}
+    <div class="span8">
+        <div class="content-box">
+            <div class="header">
+                <div class="title">Venues</div>
+                <a href="#" class="pull-right"></a>
+            </div>
+            <div class="black-breadcrum">
+                <div class="breadcrum-list">
+                    <a href="{{ path("_cittando_home") }}">Home</a> >
+                    <a href="{{ path("_venues") }}">Venues</a> >
+                    <a href="{{ path("_venue_id", {"id": venue.id}) }}">{{ venue.venueName }}</a> >
+                    <a href="#">{{ venue.category.name }}</a>
+                </div>
+
+                <a href="#" class="pull-right">Promote venue <span>+</span></a>
+            </div>
+            <div class="inner-content venue-info">
+                <div class="img-content"><img src="/img/add-1.jpg" style="width:180px; height:180px;" title="" alt=""/></div>
+                <p class="title">{{ venue.venueName }}</p>
+
+                <div class="inner-direction">
+                    <ul>
+                        <li>{{ venue.address1 }}</li>
+                        <li>{{ venue.city.cityName }}</li>
+                        {% if venue.country.name is defined %}
+                            <li>{{ venue.country.name }}</li>
+                        {% else %}
+                            <li> </li>
+                        {% endif %}
+                    </ul>
+                    <!-- <a class="dark-link">Get directions <img src="/img/green-arrow.png"/></a> -->
+                </div>
+                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                    {% if venue.id in isSaved %}
+                        <a class="dark-link" onclick="saveVenueOnFilm({{ venue.id }},$(this),'delete')">Delete Venue <img src="/img/green-save.png"/></a>
+                        <a class="dark-link" style="margin-left: 10px;">Email friends <img src="/img/green-mail.png"/></a>
+                    {% else %}
+                        <a class="dark-link" onclick="saveVenueOnFilm({{ venue.id }},$(this),'save')">Save Venue <img src="/img/green-save.png"/></a>
+                        <a class="dark-link" style="margin-left: 10px;">Email friends <img src="/img/green-mail.png"/></a>
+                    {% endif %}
+                {% else %}
+                    <a class="dark-link">Email friends <img src="/img/green-mail.png"/></a>
+                {% endif %}
+            </div>
+            <div class="inner-content related-events">
+                <!-- begin popup-->
+                <div class="popupDiv">
+                    <p class="popup_title">#TITLE</p>
+
+                    <div class="image_container">
+                        <img src="#IMG"/>
+                    </div>
+                    <div class="content">
+                        <p>#DESCRIPTION</p>
+                        <a href="">View more details >></a>
+                    </div>
+                    <div class="option-result">
+                        <a class="dark-link" style="margin-left: 0px;">Email friends <img
+                                    src="/img/green-mail.png"/></a>
+                        <a class="dark-link">Get directions <img src="/img/green-arrow.png"/></a>
+                        <a class="dark-link">Save event <img src="/img/green-mail.png"/></a>
+                    </div>
+                </div>
+                <div class="backgroundPopup"></div>
+                <!-- end popup-->
+                <div class="header">
+                    <div class="title">Showtimes & tickets</div>
+                    <div class="dropdown-wrap">
+                        <a href="#">Date:</a>
+                        <div class="filmVenue btn-group">
+                            <a class="dark-toggle dropdown-toggle" data-toggle="dropdown" href="#">
+                                Select Date
+                                <span class="dropdown-arrow caret"></span>
+                            </a>
+                            <ul class="dark-dropdown dropdown-menu">
+                                <li><a onclick="getFilmInVenue({{ venue.id }},0)">Today</a></li>
+                                <li><a onclick="getFilmInVenue({{ venue.id }},1)">This week</a></li>
+                                <li><a onclick="getFilmInVenue({{ venue.id }},2)">This Month</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <table class="table-events" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td>Movie:</td>
+                        <td>Time:</td>
+                        <td>
+                            <img src="/img/icon-feed.jpg" title="" alt=""/>
+                            <img src="/img/icon-calendar.jpg" title="" alt=""/>
+                        </td>
+                    </tr>
+                    {% for event in venue.event %}
+                        <tr>
+                            <td><label>{{ event.startDate | date("D t") }}</label></td>
+                            <td><label>{{ event.startDate | date("g:i a") }}</label></td>
+                            <td><a href="{{ event.ticketUrl }}" class="btn_buyticket"/>BUY TICKET</a></td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            <div class="inner-content facebook-comments">
+                <div class="header">
+                    <div class="title">Facebook comments</div>
+                    <a href="#" class="pull-right"></a>
+                </div>
+                {% include "CittandoSiteBundle:Container:facebook-comments.html.twig" %}
+            </div>
+        </div>
+        <div class="content-search">
+            <p>Recieve weekly event list for <span>Roma</span></p>
+            <input type="text" name="bottom-search" id="bottom-search"/>
+            <input type="submit" name="submit" id="submit" value="Submit"/>
+        </div>
+    </div>
+{% endfor %}

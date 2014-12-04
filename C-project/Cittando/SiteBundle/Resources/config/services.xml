@@ -1,0 +1,17 @@
+<!-- src\Cittando\SiteBundle\Resources\config\services.xml -->
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+
+        <service id="cittando_user.registration.form.type" class="Cittando\SiteBundle\Form\Type\RegistrationFormType.php">
+            <tag name="form.type" alias="cittando_user_registration" />
+            <argument>%fos_user.model.user.class%</argument>
+        </service>
+
+    </services>
+
+</container>

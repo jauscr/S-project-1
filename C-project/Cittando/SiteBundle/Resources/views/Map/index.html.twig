@@ -1,0 +1,327 @@
+{% extends 'CittandoSiteBundle::layout.html.twig' %}
+
+{% block title %}Cittando | Map {% endblock %}
+{% block beginJs %}
+    {% javascripts
+    'js/OpenLayers.js'
+    'js/AnimatedCluster.js'
+    'js/jquery.min.js'
+    'js/bootstrap.min.js'
+    'js/application.js'
+    %}
+
+    <script src="{{ asset(asset_url) }}"></script>
+
+    {% endjavascripts %}
+{% endblock %}
+{% block container %}
+    <div class="container maping">
+        <div class="row">
+            <div class="main-header">
+                {% block headerMenu %} {{ parent() }} {% endblock %}
+            </div>
+        </div>
+    </div>
+    <div class="container drop-map">
+        <div class="drop-align">
+            <div class="drop-box">
+                <label>Date: </label>
+                <div class="gray btn-group">
+                    <input type="hidden" class="beBeauty" id="undefined" name="undefined" value="Barbecue">
+                    <a class="btn selected">Today</a>
+                    <a data-toggle="dropdown" class="btn dropdown-toggle">
+                        <i class="icon-chevron-down"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a data-value="Mustard" href="">Tomorrow</a></li>
+                        <li><a data-value="Ketchup" href="">Next Week</a></li>
+                        <li><a data-value="Barbecue" href="">Next year</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="drop-box">
+                <label>Event Category: </label>
+                <div class="gray btn-group">
+                    <input type="hidden" class="beBeauty" id="undefined" name="undefined" value="Barbecue">
+                    <a class="btn selected">Family</a>
+                    <a data-toggle="dropdown" class="btn dropdown-toggle">
+                        <i class="icon-chevron-down"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a data-value="Mustard" href="">Kids</a></li>
+                        <li><a data-value="Ketchup" href="">Teen</a></li>
+                        <li><a data-value="Barbecue" href="">Mom & Dad</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="drop-box">
+                <label>Search within: </label>
+                <div class="gray btn-group">
+                    <input type="hidden" class="beBeauty" id="undefined" name="undefined" value="Barbecue">
+                    <a class="btn selected">Radius</a>
+                    <a data-toggle="dropdown" class="btn dropdown-toggle">
+                        <i class="icon-chevron-down"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a data-value="Mustard" href="">Triangle</a></li>
+                        <li><a data-value="Ketchup" href="">Radius</a></li>
+                        <li><a data-value="Barbecue" href="">Triangle</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="drop-box goBot">
+                <input type="text" value="Zip" class="gray-text pos-bot" />
+            </div>
+            <div class="drop-box goBot">
+                <input type="button" value="go" class="btn_map pos-bot" />
+            </div>
+            <div class="drop-box goBot" style="margin-left: 10px;">
+                <a class="pos-bot" href=""><span>Add Event</span>&nbsp;<span class="iconbox"><i class="icon-plus icon-white"></i></span></a>
+            </div>
+            <div class="drop-box goBot" style="margin-left: 30px;">
+                <a class="pos-bot" href=""><span>Add Venue</span>&nbsp;<span class="iconbox"><i class="icon-plus icon-white"></i></span></a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block contentMap%}
+<div class="largemap" id="bigMap">
+    <div class="span4 map-list">
+        <ul>
+
+        </ul>
+    </div>
+</div>
+<script type="text/javascript">
+
+$(document).ready(function(){
+    var colors = {
+        low: "rgb(0, 190, 247)",
+        middle: "rgb(255, 255, 74)",
+        high: "rgb(253, 113, 51)"
+    };
+    // Define three rules to style the cluster features.
+
+    var lowRule = new OpenLayers.Rule({
+        filter: new OpenLayers.Filter.Comparison({
+            type: OpenLayers.Filter.Comparison.LESS_THAN,
+            property: "count",
+            value: 15
+        }),
+        symbolizer: {
+            fillColor: colors.low,
+            fillOpacity: 0.9,
+            strokeColor: colors.low,
+            strokeOpacity: 0.5,
+            strokeWidth: 12,
+            pointRadius: 10,
+            label: "${count}",
+            labelOutlineWidth: 1,
+            fontColor: "#ffffff",
+            fontOpacity: 0.8,
+            fontSize: "12px",
+            cursor: "pointer"
+        },
+        select: {
+            cursor: "pointer"
+        }
+    });
+    var middleRule = new OpenLayers.Rule({
+        filter: new OpenLayers.Filter.Comparison({
+            type: OpenLayers.Filter.Comparison.BETWEEN,
+            property: "count",
+            lowerBoundary: 15,
+            upperBoundary: 50
+        }),
+        symbolizer: {
+            fillColor: colors.middle,
+            fillOpacity: 0.9,
+            strokeColor: colors.middle,
+            strokeOpacity: 0.5,
+            strokeWidth: 12,
+            pointRadius: 15,
+            label: "${count}",
+            labelOutlineWidth: 1,
+            fontColor: "#ffffff",
+            fontOpacity: 0.8,
+            fontSize: "12px",
+            cursor: "pointer"
+        },
+        select: {
+            cursor: "pointer"
+        }
+    });
+    var highRule = new OpenLayers.Rule({
+        filter: new OpenLayers.Filter.Comparison({
+            type: OpenLayers.Filter.Comparison.GREATER_THAN,
+            property: "count",
+            value: 50
+        }),
+        symbolizer: {
+            fillColor: colors.high,
+            fillOpacity: 0.9,
+            strokeColor: colors.high,
+            strokeOpacity: 0.5,
+            strokeWidth: 12,
+            pointRadius: 20,
+            label: "${count}",
+            labelOutlineWidth: 1,
+            fontColor: "#ffffff",
+            fontOpacity: 0.8,
+            fontSize: "12px",
+            cursor: "pointer"
+        },
+        select: {
+            cursor: "pointer"
+        }
+    });
+
+    OpenLayers.ImgPath = "img/OpenLayer/";
+    var selectControl;
+    bigMap = new OpenLayers.Map("bigMap");
+
+    // Create a map and add OSM raster layer as the base layer
+    var osm = new OpenLayers.Layer.OSM();
+    bigMap.addLayer(osm);
+
+    var mapCenter = new OpenLayers.LonLat(2.548828, 42.763146).transform(new OpenLayers.Projection("EPSG:4326"), // transform from WGS 1984
+            bigMap.getProjectionObject() // to Spherical Mercator Projection
+    );
+    var pos = 0, count = 1;
+
+    // Create a Style that uses the three previous rules
+    var style = new OpenLayers.Style(null, {
+        rules: [lowRule, middleRule, highRule]
+    });
+    var vector = new OpenLayers.Layer.Vector("Features", {
+        hover: true,
+        renderers: ['Canvas', 'SVG'],
+        strategies: [
+            new OpenLayers.Strategy.Cluster({distance: 10, threshold: 2 })
+        ],
+        styleMap: new OpenLayers.StyleMap(style)
+    });
+
+    bigMap.addLayer(vector);
+
+    var features = [];
+    var clusterFeature;
+    var is_popup = 0;
+    $.ajax({
+        url: "/events",
+        dataType: "json",
+        type: "GET",
+        success: function (msg) {
+            $(msg).each(function () {
+                var lon = this['venue'][0]['venueLong'];
+                var lat = this['venue'][0]['venueLat'];
+                var attributes = {title: "my name", description: "foo"};
+                //addMarker(count,this['venue'][0]['venueLat'],this['venue'][0]['venueLong'] , CustomPopUp(this['eventTitle'],'/img/park.jpg',this['eventDescription']));
+                $('#bigMap .map-list ul').append('<li><p class="title event_click" ><a class="linkPop' + count + '" onclick="showPopupMap(' + count + ',' + lon + ',' + lat + ',\''+this['eventTitle']+'\',\''+this['eventDescription']+'\')">' + this['eventTitle'] + '</a></p><p class="direction">' + this['venue'][0]['address1'] + '</p></li>');
+                var lonlat = new OpenLayers.LonLat(lon, lat);
+                lonlat.transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
+                var f = new OpenLayers.Feature.Vector(
+                            new OpenLayers.Geometry.Point(lonlat.lon, lonlat.lat),
+                            {
+                                eventTitle: this['eventTitle'],
+                                eventDescription: "here description",
+                                venueName: this['venue'][0]['venueName'],
+                                startDate: this['startDate']
+                            }
+
+                        );
+                features.push(f);
+                count++;
+            });
+        }
+    });
+
+    selectControl = new OpenLayers.Control.SelectFeature(vector,{
+        clickout: true,
+        toggle: false,
+        multiple: false,
+        hover: false
+    });
+
+    bigMap.addControl(selectControl);
+    selectControl.activate();
+
+    vector.addFeatures(features);
+    bigMap.setCenter(mapCenter, 4);
+
+//zoom on click cluster
+    vector.events.on({
+        "featureselected": function(e) {
+            var i=0;
+            var htmlStr='';
+            //bigMap.setCenter(e.feature.geometry.getBounds().getCenterLonLat());
+            //bigMap.zoomIn();
+            //console.log(e.feature.geometry);
+            console.log(e.feature);
+
+            //populate clusters with info
+
+            htmlStr = '<div class="carousel slide" id="clusterCarousel">';
+            htmlStr = htmlStr +'<div class="carousel-inner">';
+
+            for(i=0; i < e.feature.cluster.length; i++){
+                if(i == 0){
+                    htmlStr = htmlStr + '<div class="active item">'+CustomPopUp(e.feature.cluster[i].attributes.eventTitle, '/img/park.jpg', e.feature.cluster[i].attributes.eventDescription)+'</div>';
+                }
+                else{
+                    htmlStr = htmlStr + '<div class="item">'+CustomPopUp(e.feature.cluster[i].attributes.eventTitle, '/img/park.jpg', e.feature.cluster[i].attributes.eventDescription)+'</div>';
+                }
+            }
+            htmlStr = htmlStr + '</div>';
+            htmlStr = htmlStr + '<a data-slide="prev" class="carousel-control left" onclick="$(\'#clusterCarousel\').carousel(\'prev\')" >&lsaquo;</a>';
+            htmlStr = htmlStr + '<a data-slide="next" class="carousel-control right" onclick="$(\'#clusterCarousel\').carousel(\'next\')" >&rsaquo;</a>';
+            htmlStr = htmlStr + '</div>';
+
+            clusterFeature = e.feature;
+            var popup = new OpenLayers.Popup.FramedCloud("popup",
+                    OpenLayers.LonLat.fromString(clusterFeature.geometry.toShortString()),
+                    null,
+                    htmlStr,
+                    null,
+                    false,
+                    null
+            );
+            //popup.autoSize = true;
+            //popup.maxSize = new OpenLayers.Size(450,800);
+            popup.fixedRelativePosition = true;
+            clusterFeature.popup = popup;
+            bigMap.addPopup(popup);
+            $('#popup_contentDiv').removeAttr('style').attr('style','width: 397px; height: 285px; top: 10px; position: absolute; z-index: 1; left: 8px;');
+            //console.log(clusterFeature.popup.contentDiv.attributes['style']);
+            //$('#popup').attr('style','width: 450px; height: 320px;');
+
+            $('[id^="clusterCarousel"]').carousel();
+        },
+        'featureunselected':function(e){
+            clusterFeature = e.feature;
+            bigMap.removePopup(clusterFeature.popup);
+            clusterFeature.popup.destroy();
+            clusterFeature.popup = null;
+            $('[id^="clusterCarousel"]').remove();
+        }
+    });
+});
+
+function showPopupMap(id, lon, lat, title,content) {
+    $('.olPopup').hide();
+    var lonlat = new OpenLayers.LonLat(lon, lat);
+    lonlat.transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
+    popup = new OpenLayers.Popup("mapPop" + id, new OpenLayers.LonLat(lonlat.lon, lonlat.lat), new OpenLayers.Size(380, 255), CustomPopUp(title, '/img/park.jpg', content), true);
+    bigMap.addPopup(popup);
+    $('.olPopup').hide();
+    $('#mapPop'+id).fadeIn(1000);
+
+    var mapCenter = new OpenLayers.LonLat(lon, lat - 1).transform(new OpenLayers.Projection("EPSG:4326"), // transform from WGS 1984
+            bigMap.getProjectionObject() // to Spherical Mercator Projection
+    );
+    bigMap.setCenter(mapCenter, 8);
+}
+
+</script>
+{% endblock %}

@@ -1,0 +1,115 @@
+{% extends 'CittandoSiteBundle::layout.html.twig' %}
+
+{% block title %}Cittando | {{ films.0.title }} {% endblock %}
+
+{% block bannerMap %}{% endblock %}
+
+{% block sharedButtons %}
+    <!-- AddThis Button BEGIN -->
+    <div class="addthis_toolbox addthis_floating_style addthis_counter_style">
+        <a class="addthis_button_facebook_like" fb:like:layout="box_count"></a>
+        <a class="addthis_button_tweet" tw:count="vertical"></a>
+        <a class="addthis_button_google_plusone" g:plusone:size="tall"></a>
+        <a class="addthis_counter"></a>
+    </div>
+    <script type="text/javascript" src="http://s7.addthis.com/js/300/addthis_widget.js#pubid=xa-50882aa0451f452f"></script>
+    <!-- AddThis Button END -->
+{% endblock %}
+
+{%  block content %}
+    {% for film in films %}
+        <div class="span8">
+        <div class="content-box">
+        <div class="header">
+            <h1 class="title">Cinema</h1>
+            <a href="#" class="pull-right"></a>
+        </div>
+        <div class="black-breadcrum">
+            <div class="breadcrum-list">
+                <a href="{{ path("_cittando_home") }}">Home</a> >
+                <a href="{{ path("_cinema") }}">Cinema</a> >
+                <a href="#">{{ film.category.name }}</a> >
+                <a href="{{ path("_cinema_id", {"id": film.id}) }}">{{ film.title }}</a>
+            </div>
+            <a href="#" class="pull-right">Promote movie <span>+</span></a>
+        </div>
+        <div class="inner-content film-info">
+            <div class="img-content"><img src="{% if film.media.0.path is defined %}/{{ film.media.0.path }}{% else %}/img/no-cinema.jpg{% endif %}" style="width:180px; height:180px;" title="" alt="" /></div>
+            <p class="title"><label>{{ film.title }}</label><span class="starRating">9.5</span></p>
+            <div class="inner-movieInfo">
+                <ul>
+                    <li><b>Starring:</b> {{ film.cast }}</li>
+                    <li><b>Director:</b> {{ film.director }}</li>
+                    <li><b>Genre:</b> {{ film.category.type.name }} / {{ film.category.name }}</li>
+                </ul>
+            </div>
+            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                {% if film.id in isSaved %}
+                    <a class="dark-link saveFilm" onclick="deleteFilm({{ film.id }})">Delete movie <img src="/img/green-save.png" /></a>
+                    <a class="dark-link" style="margin-left: 10px;">Email friends <img src="/img/green-mail.png" /></a>
+                {% else %}
+                    <a class="dark-link saveFilm" onclick="saveMovie({{ film.id }})">Save movie <img src="/img/green-save.png" /></a>
+                    <a class="dark-link" style="margin-left: 10px;">Email friends <img src="/img/green-mail.png" /></a>
+                {% endif %}
+            {% else %}
+                <a class="dark-link">Email friends <img src="/img/green-mail.png" /></a>
+            {% endif %}
+        </div>
+        {%  block filmDesc %}
+            <div class="black-breadcrum showtimeTool nav">
+                <a href="{{ path("_cinema_id", {'id': film.id}) }}" class="active">Description</a>
+                <a href="{{ path("_showtimes", {'id': film.id}) }}">Showtimes</a>
+            </div>
+            <p class="filmDescription-title">Storyline</p>
+            <p class="filmDescription-text">{{ film.synopsis }}</p>
+            <p class="filmDescription-title">Trailers</p>
+            <div class="movie-slide">
+                <div class="carousel slide" id="film-video">
+                    <div class="carousel-inner">
+                        {% if media.trailers is defined %}
+                            {% for trailer in media.trailers %}
+                                <div class="{% if loop.index == 1 %}item active{% else %}item{% endif %}">
+                                    <ul class="thumbnails">
+                                        <li class="span4">
+                                            <iframe width="480" height="240" src="http://www.youtube.com/embed/{{ trailer.path }}?&controls=0&showinfo=0" frameborder="0" allowfullscreen></iframe>
+                                        </li>
+                                    </ul>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <a data-slide="prev" href="#film-video" class="left carousel-control-custom">‹</a>
+                    <a data-slide="next" href="#film-video" class="right carousel-control-custom">›</a>
+                </div>
+            </div>
+            <p class="filmDescription-title">Pictures</p>
+            <div class="movie-slide">
+                <div class="carousel slide" id="film-pictures">
+                    <div class="carousel-inner">
+                        {% for picture in media.picture %}
+                            <div class="{% if loop.index ==1 %}item active{% else %}item{% endif %}">
+                                <ul class="thumbnails">
+                                    {% for data in picture %}
+                                        <li class="span4">
+                                            <h2 class="subtitle">Preview Image</h2>
+                                            <img src="/{{ data.path }}" alt="" />
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <a data-slide="prev" href="#film-pictures" class="left carousel-control-custom">‹</a>
+                    <a data-slide="next" href="#film-pictures" class="right carousel-control-custom">›</a>
+                </div>
+            </div>
+        {% endblock %}
+        </div>
+            <div class="content-search">
+                <p>Recieve weekly event list for <span>Roma</span></p>
+                <input type="text" name="bottom-search" id="bottom-search" />
+                <input type="submit" name="submit" id="submit" value="Submit" />
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}

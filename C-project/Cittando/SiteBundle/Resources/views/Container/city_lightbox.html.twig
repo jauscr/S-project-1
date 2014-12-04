@@ -1,0 +1,89 @@
+<div id='inline_content' style='padding:10px; background:#fff;'>
+    <p class="title">Select your city</p>
+    <p class="subtitle">Please select your city</p>
+    <div class="city-box">
+        <p class="title">Italy</p>
+        <ul>
+            {% if highlight is defined %}
+            {% if highlight is not empty  %}
+            {% for city in highlight %}
+            <li><a href="{{ path("_changecity", {"cityid": city.id}) }}" >{{ city.cityName }}</a></li>
+            {% endfor %}
+            {% endif %}
+            {% endif %}
+            <!--<li><a href="#" target="_self">Calgary</a></li>
+            <li><a href="#" target="_self">Edmonton</a></li>
+            <li><a href="#" target="_self">Montreal</a></li>
+            <li><a href="#" target="_self">Toronto</a></li>
+            <li><a href="#" target="_self">Vancouver BC</a></li>
+            <li><a href="#" target="_self">Whistler</a></li>
+            <li><a href="#" target="_self">Victoria</a></li>-->
+        </ul>
+    </div>
+    
+    <div class="city-box">
+        <p class="title">United States</p>
+        <ul>
+            <li><a href="#" target="_self">Atlanta</a></li>
+            <li><a href="#" target="_self">Atlantic</a></li>
+            <li><a href="#" target="_self">Boston</a></li>
+            <li><a href="#" target="_self">Chicago</a></li>
+            <li><a href="#" target="_self">Dallas</a></li>
+            <li><a href="#" target="_self">Denver</a></li>
+            <li><a href="#" target="_self">Detroit</a></li>
+            <li><a href="#" target="_self">Houston</a></li>
+            <li><a href="#" target="_self">Las Vegas</a></li>
+            <li><a href="#" target="_self">Los Angeles</a></li>
+        </ul>
+        <ul>
+            <li><a href="#" target="_self">Miami</a></li>
+            <li><a href="#" target="_self">New Jersey</a></li>
+            <li><a href="#" target="_self">New York</a></li>
+            <li><a href="#" target="_self">Orange County</a></li>
+            <li><a href="#" target="_self">Orlando</a></li>
+            <li><a href="#" target="_self">Philadelphia</a></li>
+            <li><a href="#" target="_self">San Diego</a></li>
+            <li><a href="#" target="_self">San Francisco</a></li>
+            <li><a href="#" target="_self">San Jose</a></li>
+            <li><a href="#" target="_self">Seattle</a></li>
+        </ul>
+        <ul>
+            <li><a href="#" target="_self">Washington D.C.</a></li>
+            <li><a href="#" target="_self">Iowa</a></li>
+            <li><a href="#" target="_self">St Luis</a></li>
+        </ul>
+    </div>
+    
+    <div class="city-box">
+        <p class="title">International</p>
+        <ul>
+            <li><a href="#" target="_self">London, UK</a></li>
+            <li><a href="#" target="_self">Cancun, MX</a></li>
+        </ul>
+    </div>
+    
+    <div class="city-box custom">
+        <p class="title">Other Cities</p>
+        <select id="country" name="country">
+            <option value="volvo">England</option>
+            <option value="saab">Mexico</option>
+            <option value="mercedes">Denmark</option>
+            <option value="audi">Spain</option>
+        </select>
+        
+        <select id="capital" name="capital">
+            <option value="volvo">Liverpool</option>
+            <option value="saab">Mexico DF</option>
+            <option value="mercedes">San Jose</option>
+            <option value="audi">Paris</option>
+        </select>
+        
+        <select id="city" name="city">
+            <option value="volvo">Keokuk</option>
+            <option value="saab">Quincy</option>
+            <option value="mercedes">Alamat</option>
+            <option value="audi">Demasia</option>
+        </select>
+        <input type="button" name="select" id="select" value="Select"/>
+    </div>
+</div>

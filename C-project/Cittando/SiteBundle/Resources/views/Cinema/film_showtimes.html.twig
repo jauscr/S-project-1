@@ -1,0 +1,61 @@
+{% extends 'CittandoSiteBundle:Cinema:film_detail.html.twig' %}
+
+{%  block filmDesc %}
+    <div class="black-breadcrum showtimeTool nav">
+        <a href="{{ path("_cinema_id", {'id': film.id}) }}">Description</a>
+        <a href="{{ path("_showtimes", {'id': film.id}) }}" class="active">Showtimes</a>
+    </div>
+    <div class="black-breadcrum showtimeTool">
+        <div class="showtime-box">
+            <p>Showtimes for <b>{{ film.title }}</b></p>
+            <p>near to Santa Monica |</p>
+            <div class="ShowCity btn-group">
+                <a class="dark-toggle dropdown-toggle" data-toggle="dropdown" href="#">
+                    Change city
+                    <span class="dropdown-arrow caret"></span>
+                </a>
+                <ul class="dark-dropdown dropdown-menu">
+                    <li>Iowa</li>
+                    <li>New York</li>
+                    <li>Miami</li>
+                </ul>
+            </div>
+        </div>
+        <div class="showtime-box">
+            <p>Theater: </p>
+            <div class="TheaCity btn-group">
+                <a class="dark-toggle dropdown-toggle" data-toggle="dropdown" href="#">
+                    Select Theater
+                    <span class="dropdown-arrow caret"></span>
+                </a>
+                <ul class="dark-dropdown dropdown-menu">
+                    {% for venue in film.venue %}
+                        <li id="{{ venue.id }}"><a onclick="getFilmShowtime({{ film.id }},{{ venue.id }})" class="theater-{{ venue.id }}">{{ venue.venueName }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+    <ul class="showtime-info" style="display:none">
+        <li>
+            <div class="description">
+                <p class="title"></p>
+                <p class="location"></p>
+                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                    <a class="dark-link" onclick="" >Save venue <img src="/img/green-save.png" /></a>
+                {% endif %}
+            </div>
+            <div class="showtime-info-container">
+                <ul class="movies">
+                    <li>Date</li>
+                </ul>
+                <ul class="times">
+                    <li>Showtimes</li>
+                </ul>
+                <ul class="available-tickets">
+                    <li>&zwj;</li>
+                </ul>
+            </div>
+        </li>
+    </ul>
+{% endblock %}

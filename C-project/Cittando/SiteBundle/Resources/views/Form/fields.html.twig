@@ -1,0 +1,18 @@
+{% block field_row %}
+    {% spaceless %}
+        <div class="control-group">
+            {{ form_label(form) }}
+            <div class="controls">
+                {{ form_errors(form) }}
+                {{ form_widget(form) }}
+            </div>
+        </div>
+    {% endspaceless %}
+{% endblock field_row %}
+
+
+{% block field_label %}
+    {% spaceless %}
+        <label class="control-label" for="{{ id }}">{{ id|trans([], 'FOSUserBundle') }}</label>
+    {% endspaceless %}
+{% endblock field_label %}

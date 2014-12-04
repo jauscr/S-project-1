@@ -1,0 +1,80 @@
+<div id="slider" class="nivoSlider">
+    <!-- Event slider -->
+    {% if slider.events is defined %}
+        {% if slider.events is not empty %}
+            {% for event in slider.events %}
+                <a href="{{ path("_event_id", {"id": event.id}) }}">
+                    {% if event.media.0.path is defined %}
+                        <img src="../{{ event.media.0.path }}" alt="" title="#slideEvent{{ loop.index }}"/>
+                    {% else %}
+                        <img src="/img/no-image.jpg" alt="" title="#slideEvent{{ loop.index }}"/>
+                    {% endif %}
+                </a>
+            {% endfor %}
+        {% endif %}
+    {% endif %}
+
+    <!-- Venue slider -->
+    {% if slider.venues is defined %}
+        {% if slider.venues is not empty %}
+            {% for venue in slider.venues %}
+                <a href="{{ path("_venue_id", {"id": venue.id}) }}">
+                    {% if event.media.0.path is defined %}
+                        <img src="../{{ venue.media.0.path }}" alt="" title="#slideVenue{{ loop.index }}"/>
+                    {% else %}
+                        <img src="/img/no-image.jpg" alt="" title="#slideVenue{{ loop.index }}"/>
+                    {% endif %}
+                </a>
+            {% endfor %}
+        {% endif %}
+    {% endif %}
+    <!-- Film slider -->
+    {% if slider.films is defined %}
+        {% if slider.films is not empty %}
+            {% for film in slider.films %}
+                <a href="#">
+                    {% if film.media.0.path is defined and film.media.0.category.name == 'picture'%}
+                        <img src="../{{ film.media.0.path }}" alt="" title="#slideFilm{{ loop.index }}"/>
+                    {% else %}
+                        <img src="/img/no-cinema.jpg" alt="" title="#slideFilm{{ loop.index }}"/>
+                    {% endif %}
+                </a>
+            {% endfor %}
+        {% endif %}
+    {% endif %}
+</div>
+<!-- Event Begin Caption -->
+{% if slider.events is defined %}
+    {% if slider.events is not empty %}
+        {% for event in slider.events %}
+            <div id="slideEvent{{ loop.index }}" class="nivo-html-caption">
+                <div class="title">{{ event.eventTitle }}</div>
+                <div class="date">{{ event.startDate | date("F d") }}</div>
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endif %}
+
+<!-- Venue Begin Caption -->
+{% if slider.venues is defined %}
+    {% if slider.venues is not empty %}
+        {% for venue in slider.venues %}
+            <div id="slideVenue{{ loop.index }}" class="nivo-html-caption">
+                <div class="title">{{ venue.venueName }}</div>
+                <div class="date">{{ venue.address1 }}</div>
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endif %}
+
+<!-- Film Begin Caption -->
+{% if slider.films is defined %}
+    {% if slider.films is not empty %}
+        {% for film in slider.films %}
+            <div id="slideFilm{{ loop.index }}" class="nivo-html-caption">
+                <div class="title">{{ film.title }}</div>
+                <div class="date">{{ film.synopsis|slice(0,40) }} <span style="font-size: 12px; color:#78db06 ">... read more</span></div>
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endif %}

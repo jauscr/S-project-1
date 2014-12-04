@@ -1,0 +1,141 @@
+{% extends 'CittandoSiteBundle::layout.html.twig' %}
+
+{% block title %}Cittando | Home{% endblock %}
+
+ {% block toolbarcontent %}
+     <div class="row-fluid toolbar-content">
+         <div class="span12 content-box">
+             <div class="navbar toolbar">
+                 <div class="navbar-inner">
+                     <div class="container" style="background-color: #424242;">
+                         <div class="nav-collapse">
+                             <ul id="menu" class="nav">
+                                 <li class="brand">Find your event</li>
+                                 <li class="item">
+                                     <label for="date">Date</label>
+
+                                     <div class="dark-drop btn-group">
+                                         <a class="dark-toggle dropdown-toggle" data-toggle="dropdown" href="#">
+                                             Today
+                                             <span class="dropdown-arrow caret"></span>
+                                         </a>
+                                         <ul class="dark-dropdown dropdown-menu">
+                                             <li>Tomorrow</li>
+                                             <li>In the future</li>
+                                         </ul>
+                                     </div>
+                                 </li>
+                                 <li class="item">
+                                     <label for="category">Category</label>
+
+                                     <div class="dark-drop btn-group">
+                                         <a class="dark-toggle dropdown-toggle" data-toggle="dropdown" href="#">
+                                             Family
+                                             <span class="dropdown-arrow caret"></span>
+                                         </a>
+                                         <ul class="dark-dropdown dropdown-menu">
+                                             <li>Adult</li>
+                                             <li>Kids</li>
+                                             <li>Baby</li>
+                                         </ul>
+                                     </div>
+                                 </li>
+                             </ul>
+                         </div>
+                         <!-- /.nav-collapse -->
+                         <ul class="nav pull-right">
+                             <li>
+                                 <button>go</button>
+                             </li>
+                         </ul>
+                     </div>
+                 </div>
+                 <!-- /navbar-inner -->
+             </div>
+         </div>
+     </div>
+ {% endblock %}
+{% block content %}
+    <div class="span8">
+        <div class="content-box">
+            <div class="header">
+                <div class="title">Popular Events</div>
+                <a class='pull-right' href="{{ path("_events") }}">See all events..</a>
+            </div>
+            <div class="content">
+                {% if events is not empty %}
+                    <ul>
+                        {% for event in events %}
+                            <li>
+                                {% if event.promotedPromoted.promotedId is defined %}
+                                    <div>Sponsored</div>{% endif %}
+                                <a href="{{ path("_event_id", {"id": event.id}) }}"><img src="../{{ event.media.0.path }}" alt="" title="" class="thumb-home"/></a>
+                                <a href="{{ path("_event_id", {"id": event.id}) }}"
+                                   class="list-title custom">{{ event.eventTitle }}</a>
+                                <a href="#" class="list-date">{{ event.startDate | date("D / F / d") }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <h3>We currently have no events for this particular locale.</h3>
+                {% endif %}
+            </div>
+        </div>
+        <div class="content-box">
+            <div class="header">
+                <div class="title">Popular Venues</div>
+                <a class='pull-right' href="{{ path("_venues") }}">See all venues..</a>
+            </div>
+            <div class="content">
+                {% if venues is not empty %}
+                    <ul>
+                        {% for venue in venues %}
+                            <li>
+                                {% if venue.promotedPromoted.promotedId is defined %}<div>Sponsored</div>{% endif %}
+                                {% if venue.media.0.path is defined %}
+                                    <img src="../{{ venue.media.0.path }}" alt="" title="" class="thumb-home"/>
+                                {% else %}
+                                    <img src="/img/no-venue.jpg" alt="" title="" class="thumb-home"/>
+                                {% endif %}
+                                <a href="{{ path("_venue_id", {"id": venue.id}) }}" class="list-title popular-venue">{{ venue.venueName }}</a>
+                                <a href="#" class="list-subtitle">{{ venue.address1 }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <h3>We currently have no venues for this particular locale.</h3>
+                {% endif %}
+            </div>
+        </div>
+        <div class="content-box">
+            <div class="header">
+                <div class="title">Popular Cinema</div>
+                <a class='pull-right' href="{{ path("_cinema") }}">See all cinema..</a>
+            </div>
+            <div class="content">
+                {% if films|length > 0 %}
+                    <ul>
+                        {% for film in films %}
+                            <li>
+                                {% if film.promotedPromoted.promotedId is defined %}
+                                    <div>Sponsored</div>
+                                {% endif %}
+                                    <img src="/img/no-cinema.jpg" alt="" title="" class="thumb-home"/>
+                                    <a href="{{ path("_cinema_id", {'id': film.id}) }}" class="list-title popular-venue">{{ film.title }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <ul>
+                        <li><h3>We currently have no Cinema films for this particular locale.</h3></li>
+                    </ul>
+                {% endif %}
+            </div>
+        </div>
+        <div class="content-search">
+            <p>Recieve weekly event list for <span>Roma</span></p>
+            <input type="text" name="bottom-search" id="bottom-search"/>
+            <input type="submit" name="submit" id="submit" value="Submit"/>
+        </div>
+    </div>
+{% endblock %}

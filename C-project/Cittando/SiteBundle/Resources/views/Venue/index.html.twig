@@ -1,0 +1,146 @@
+{% extends 'CittandoSiteBundle::layout.html.twig' %}
+
+{% block title %}Cittando | Venues{% endblock %}
+
+{% block content %}
+    <div class="span8">
+        <div class="content-box list-container">
+            <div class="header">
+                <div class="title">Venue Listings</div>
+                <a href="#" class="pull-right"></a>
+            </div>
+            <div class="black-breadcrum">
+                <div class="breadcrum-list filter-option">
+                    <a href="#" style="margin-left:0px;"><span>+</span> By category</a>
+                    <a href="#"><span>+</span> By distance</a>
+                </div>
+                <a class="pull-right filter show_hide">Filter <span>+</span></a>
+            </div>
+            <div class="slidingDiv venue-filter">
+                <ul class="cat">
+                    <li><input type="checkbox" name="" id="" class=""/> Rock</li>
+                    <li><input type="checkbox" name="" id="" class=""/> Pop</li>
+                    <li><input type="checkbox" name="" id="" class=""/> Alternative</li>
+                    <li><input type="checkbox" name="" id="" class=""/> R&B/Soul</li>
+                    <li><input type="checkbox" name="" id="" class=""/> HipHop/Rap</li>
+                    <li><input type="checkbox" name="" id="" class=""/> Electronic</li>
+                    <li class="last">More genres</li>
+                </ul>
+                <ul class="dist">
+                    <li>5 miles</li>
+                    <li>10 miles</li>
+                    <li>25 miles</li>
+                    <li>50 miles</li>
+                    <li>75 miles</li>
+                    <li>100 miles</li>
+                </ul>
+                <div class="reset"><a>Reset Filters</a> | <a>View all results</a></div>
+            </div>
+            <!-- begin popup-->
+            <div class="popupDiv">
+                <p class="popup_title" id="EventListing-eventTitle"></p>
+
+                <p id="EventListing-eventDesc"></p>
+
+                <div id="mapdiv"></div>
+
+                <div class="option-result">
+                    <a class="dark-link" style="margin-left: 0px;">Email friends <img src="/img/green-mail.png"/></a>
+                    <!-- <a class="dark-link">Get directions <img src="/img/green-arrow.png" /></a> -->
+                    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                        <a class="dark-link" id="btn_savevenues">Save event <img src="/img/green-mail.png"/></a>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="backgroundPopup"></div>
+            <!-- end popup-->
+            <ul class="itemListing">
+                {% for data in venues %}
+                    <li>
+                        {% if data.promoted.id %}
+                            <div class="sponsor">Sponsored</div>{% endif %}
+                        {% if data.media.0.path is defined %}
+                            <img src="../{{ data.media.path }}" alt="" title=""/>
+                        {% else %}
+                            <img src="/img/no-image.jpg" alt="" title=""/>
+                        {% endif %}
+                        <div class="info">
+                            <a class="title" href="{{ path("_venues") }}/{{ data.id }}">{{ data.venueName }}</a>
+
+                            <p class="description">{{ data.address1 }}</p>
+                        </div>
+                        <div class="date_info">
+                            <label></label>
+                            <label></label>
+                        </div>
+                        <div class="options">
+                            <a class="details" href="{{ path("_venues") }}/{{ data.id }}">View details>></a>
+                        </div>
+                        <div class="option-result">
+                            <!-- <a class="direction" id="direction- data.id ">Get directions</a> -->
+                            <!-- Addthis -->
+                            <script type="text/javascript">var addthis_config = {"data_track_addressbar": true};</script>
+                            <script type="text/javascript"
+                                    src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-50d4a8050dff7ea0"></script>
+                            <a class="share addthis_button_compact" id="share-{{ data.id }}">Share </a>
+                            <a class="map VenueMap" id="map-{{ data.id }}">View map</a>
+                        </div>
+                        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                            {% if data.id in isSaved %}
+                                <div class="save_item item-{{ data.id }}">
+                                    <label class="save_venue" style="margin:2px 40px 0px 0px;">Saved</label>
+                                    <input type="checkbox" id="{{ data.id }}" class="venue-{{ data.id }}"
+                                           name="venue-{{ data.id }}" checked="checked"
+                                           onclick="DeleteUserEventVenue('venues',{{ data.id }})"/>
+                                </div>
+                            {% else %}
+                                <div class="save_item item-{{ data.id }}">
+                                    <label class="save_venue">Save venue</label>
+                                    <input type="checkbox" id="{{ data.id }}" class="venue-{{ data.id }}"
+                                           name="venue-{{ data.id }}"
+                                           onclick="SaveUserEventVenue('venues',{{ data.id }})"/>
+                                </div>
+                            {% endif %}
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+            <!-- pagination -->
+            {% if count > 0 %}
+                <div class="row event-pagination">
+                    <div class="pagination">
+                        <ul>
+                            {% if page > 1 %}
+                                <li><a href="{{ path("_venues") }}?limit{{ limit }}&page={{ page - 1 }}">Prev</a></li>
+                            {% endif %}
+                            {% for prevItem in 2..1 %}
+                                {% if (page - prevItem) >= 1 %}
+                                    <li {% if page == page - prevItem %}class="active"{% endif %}>
+                                        <a href="{{ path("_venues") }}?limit={{ limit }}&page={{ page - prevItem }}">{{ page - prevItem }}</a>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                            {% for nextItem in range(0, 2, 1) %}
+                                {% if (page + nextItem) < pages %}
+                                    <li {% if page == (page + nextItem) %}class="active"{% endif %}>
+                                        <a href="{{ path("_venues") }}?limit={{ limit }}&page={{ page + nextItem }}">{{ page + nextItem }}</a>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+
+                            {% if page < pages %}
+                                <li><a href="{{ path("_venues") }}?limit={{ limit }}&page={{ page + 1 }}">Next</a></li>
+                            {% endif %}
+                        </ul>
+
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+        <div class="content-search">
+            <p>Recieve weekly event list for <span>Roma</span></p>
+            <input type="text" name="bottom-search" id="bottom-search"/>
+            <input type="submit" name="submit" id="submit" value="Submit"/>
+        </div>
+    </div>
+{% endblock %}

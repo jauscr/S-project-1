@@ -1,0 +1,38 @@
+{% extends "CittandoSiteBundle::layout.html.twig" %}
+{% block container %}
+    <div class="container">
+        <div class="row">
+            <div class="main-header">
+                {% block headerMenu %} {{ parent() }} {% endblock %}
+            </div>
+        </div>
+{% block fos_user_content %}
+    <div class="row-fluid">
+        <div class="content-box">
+            <div class="header">
+                <div class="title">Sign up form</div>
+            </div>
+            <div class="login-form">
+                {% include "CittandoSiteBundle:Registration:register_content.html.twig" %}
+            </div>
+            <div class="login-text">
+                <h1>Register your Account</h1>
+                <p class="description">Morbi ac vulputate nisi. Integer risus augue, dictum id dignissim eu, 
+                porttitor vel odio. Donec leo libero, hendrerit in hendrerit sed, mollis vitae mi.</p>
+                <p><img src="/img/map-icon.jpg" />Etiam faucibus bibendum metus et volutpat. Etiam eget tellus magna, quis fermentum mauris. 
+                Vivamus fermentum pretium condimentum. Etiam sollicitudin molestie odio quis auctor.</p>
+                <p><img src="/img/calendar-icon.jpg" />Proin imperdiet ullamcorper vehicula. In erat nibh, interdum ut laoreet vel, 
+                condimentum id nulla. Nam porta condimentum libero nec porta. Class aptent taciti 
+                sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. 
+                Proin quis ultricies ligula. Integer at nunc nibh, a sollicitudin ante. </p>
+                <p> Donec ligula dolor, scelerisque sit amet dignissim non, consequat vitae orci. 
+                Nullam ac ipsum vitae orci mattis tristique. Nulla sit amet lobortis erat. 
+                Nunc vitae ipsum nec orci pellentesque hendrerit. Nulla sollicitudin, tortor nec 
+                gravida mollis, mauris urna sollicitudin lorem, in pharetra nulla lectus sed libero. 
+                Proin id magna sapien.</p>
+            </div>
+	</div>
+     </div>
+{% endblock fos_user_content %}
+</div>
+{% endblock %}

@@ -1,0 +1,168 @@
+{% extends 'CittandoSiteBundle::layout.html.twig' %}
+
+{% block title %}Cittando | Cinema{% endblock %}
+{% block toolbarcontent %}
+<div class="row-fluid toolbar-content">
+    <div class="span12 content-box">
+        <div class="navbar toolbar">
+            <div class="navbar-inner">
+                <div class="container" style="background-color: #424242;">
+                    <div class="nav-collapse">
+                        <ul id="menu" class="nav">
+                            <li class="brand">Find a Movie</li>
+                            <li class="item">
+                                <label for="date">Movie list</label>
+                                <div class="dark-drop btn-group">
+                                    <a class="dark-toggle dropdown-toggle" data-toggle="dropdown" href="#">
+                                        Today
+                                        <span class="dropdown-arrow caret"></span>
+                                    </a>
+                                    <ul class="dark-dropdown dropdown-menu">
+                                        <li>Tomorrow</li>
+                                        <li>In the future</li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="item">
+                                <label for="category">Theaters</label>
+                                <div class="dark-drop btn-group">
+                                    <a class="dark-toggle dropdown-toggle" data-toggle="dropdown" href="#">
+                                        Family
+                                        <span class="dropdown-arrow caret"></span>
+                                    </a>
+                                    <ul class="dark-dropdown dropdown-menu">
+                                        <li>Adult</li>
+                                        <li>Kids</li>
+                                        <li>Baby</li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </div><!-- /.nav-collapse -->
+                    <ul class="nav pull-right">
+                        <li><button>go</button></li>
+                    </ul>
+                </div>
+            </div><!-- /navbar-inner -->
+        </div>
+    </div>
+</div>
+{% endblock %}
+{%  block content %}
+<div class="span8" >
+    <div class="content-box">
+        <div class="current-movies">
+            <div class="header">
+                <h1>Current movies</h1>
+                <div class="pagination films">
+                    <ul>
+                        {% if page > 1 %}
+                            <li><a class="prev" href="{{ path("_cinema") }}?limit{{ limit }}&page={{ page - 1 }}"> </a></li>
+                        {% endif %}
+
+
+                        {% if page < pages %}
+                            <li><a class="next" href="{{ path("_cinema") }}?limit={{ limit }}&page={{ page + 1 }}"> </a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+
+            </div>
+            <ul class="current-Listing">
+                {% for film in films %}
+                    {% if loop.index == 1 or loop.index == 5 %}
+                        <li class="first">
+                            <a href="{{ path("_cinema_id", {'id': film.id}) }}">
+                                <img src="/img/no-cinema-home.png" alt="" id="" class="" />
+                            </a>
+                            <a class="title" href="{{ path("_cinema_id", {'id': film.id}) }}">{{ film.title }}</a>
+                        </li>
+                    {% else %}
+                        <li>
+                            <a href="{{ path("_cinema_id", {'id': film.id}) }}">
+                                <img src="/img/no-cinema-home.png" alt="" id="" class="" />
+                            </a>
+                            <a class="title" href="{{ path("_cinema_id", {'id': film.id}) }}">{{ film.title }}</a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+
+            </ul>
+        </div>
+    </div>
+    <div class="content-box">
+        <div class="movie-slide">
+            <div class="header">
+                <h1>Coming soon</h1>
+            </div>
+            <div class="carousel slide" id="coming-soon">
+                <div class="carousel-inner">
+                    {% for movie in movies %}
+                        <div class="{% if loop.index ==1 %}item active{% else %}item{% endif %}">
+                            <ul class="thumbnails">
+                                {% for data in movie %}
+                                    <li class="span4">
+                                        <a href="{{ path("_cinema_id", {'id': data.id}) }}"><h2 class="subtitle">{{ data.title }}</h2></a>
+                                        {% if data.media.0.path is defined %}
+                                            <a href="{{ path("_cinema_id", {'id': data.id}) }}"><img src="/{{ data.media.0.path }}" alt="" /></a>
+                                        {% else %}
+                                            <a href="{{ path("_cinema_id", {'id': data.id}) }}"><img src="/img/no-soon.jpg" alt="" /></a>
+                                        {% endif %}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endfor %}
+                </div>
+                <a data-slide="prev" href="#coming-soon" class="left carousel-control-custom">‹</a>
+                <a data-slide="next" href="#coming-soon" class="right carousel-control-custom">›</a>
+            </div>
+        </div>     
+    </div>
+    <div class="content-box">
+        <div class="movie-slide">
+            <div class="header">
+                <h1>Popular trailers</h1>
+            </div>
+            <div class="carousel slide" id="popular-trailers">
+                <div class="carousel-inner">
+                <div class="item active">
+                        <ul class="thumbnails">
+                            <li class="span4">
+                                <h2 class="subtitle">Quo mundi lobortis</h2>
+                                <img src="http://placehold.it/260x180" alt="" />
+                            </li>
+                            <li class="span4">
+                                <h2 class="subtitle">No mei ferri </h2>
+                                <img src="http://placehold.it/260x180" alt="" />
+                            </li>
+                            <li class="span4">
+                                <h2 class="subtitle">Ad cum veri accommodare</h2>
+                                <img src="http://placehold.it/260x180" alt="" />
+                            </li>
+                        </ul>
+                </div>
+                <div class="item">
+                        <ul class="thumbnails">
+                           <li class="span4">
+                                <h2 class="subtitle">Sed at malis</h2>
+                                <img src="http://placehold.it/260x180" alt="" />
+                            </li>
+                            <li class="span4">
+                                <h2 class="subtitle">Sit inani ubique</h2>
+                                <img src="http://placehold.it/260x180" alt="" />
+                            </li>
+                            <li class="span4">
+                                <h2 class="subtitle">His vero singulis ea</h2>
+                                <img src="http://placehold.it/260x180" alt="" />
+                            </li>
+                        </ul>
+                </div>
+                </div>
+                <a data-slide="prev" href="#popular-trailers" class="left carousel-control-custom">‹</a>
+                <a data-slide="next" href="#popular-trailers" class="right carousel-control-custom">›</a>
+            </div>
+        </div>     
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,93 @@
+parameters:
+#    cittando.example.class: Cittando\SiteBundle\Example
+
+# src/Acme/UserBundle/Resources/config/services.yml
+services:
+    cittando_user.registration.form.type:
+        class: Cittando\SiteBundle\Form\Type\RegistrationFormType
+        arguments: [%fos_user.model.user.class%]
+        tags:
+           - { name: form.type, alias: cittando_user_registration }
+
+    Cittando.twig.extension.debug:
+        class:        Twig_Extension_Debug
+        tags:
+             - { name: 'twig.extension' }
+
+    Cittando.Admin.Status:
+        class: Cittando\SiteBundle\Admin\StatusAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: basic, label: Status }
+        arguments: [ null, Cittando\SiteBundle\Entity\Status, SonataAdminBundle:CRUD ]
+
+    Cittando.Admin.Category:
+        class: Cittando\SiteBundle\Admin\CategoryAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: basic, label: Category }
+        arguments: [ null, Cittando\SiteBundle\Entity\Category, SonataAdminBundle:CRUD ]
+
+    Cittando.Admin.Locale:
+        class: Cittando\SiteBundle\Admin\LocaleAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: basic, label: Locale }
+        arguments: [ null, Cittando\SiteBundle\Entity\Locale, SonataAdminBundle:CRUD ]
+
+    Cittando.Admin.Promoted:
+        class: Cittando\SiteBundle\Admin\PromotedAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: basic, label: Promoted }
+        arguments: [ null, Cittando\SiteBundle\Entity\Promoted, SonataAdminBundle:CRUD ]
+
+    Cittando.Admin.PromotedCost:
+        class: Cittando\SiteBundle\Admin\PromotedCostAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: basic, label: Promoted Cost }
+        arguments: [ null, Cittando\SiteBundle\Entity\PromotedCost, SonataAdminBundle:CRUD ]
+
+    Cittando.Admin.Country:
+        class: Cittando\SiteBundle\Admin\CountryAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: localization, label: Country }
+        arguments: [ null, Cittando\SiteBundle\Entity\Country, SonataAdminBundle:CRUD ]
+
+    Cittando.Admin.City:
+        class: Cittando\SiteBundle\Admin\CityAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: localization, label: City }
+        arguments: [ null, Cittando\SiteBundle\Entity\City, SonataAdminBundle:CRUD ]
+
+    Cittando.Admin.Province:
+        class: Cittando\SiteBundle\Admin\ProvinceAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: localization, label: Province }
+        arguments: [ null, Cittando\SiteBundle\Entity\Province, SonataAdminBundle:CRUD ]
+
+    Cittando.Admin.PostalCode:
+        class: Cittando\SiteBundle\Admin\PostalCodeAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: localization, label: Postal Code }
+        arguments: [ null, Cittando\SiteBundle\Entity\PostalCode, SonataAdminBundle:CRUD ]
+
+    Cittando.Admin.Artist:
+        class: Cittando\SiteBundle\Admin\ArtistAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: information, label: Artist }
+        arguments: [ null, Cittando\SiteBundle\Entity\Artist, SonataAdminBundle:CRUD ]
+
+    Cittando.Admin.Event:
+        class: Cittando\SiteBundle\Admin\EventAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: information, label: Event }
+        arguments: [ null, Cittando\SiteBundle\Entity\Event, SonataAdminBundle:CRUD ]
+
+    Cittando.Admin.Venue:
+        class: Cittando\SiteBundle\Admin\VenueAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: information, label: Venue }
+        arguments: [ null, Cittando\SiteBundle\Entity\Venue, SonataAdminBundle:CRUD ]
+
+    Cittando.Admin.Film:
+        class: Cittando\SiteBundle\Admin\FilmAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: information, label: Film }
+        arguments: [ null, Cittando\SiteBundle\Entity\Film, SonataAdminBundle:CRUD ]
