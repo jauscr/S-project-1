@@ -1,0 +1,404 @@
+{% extends "SooundAppBundle::layout.html.twig" %}
+
+{% block title %}Account Settings{% endblock title %}
+
+{% block content %}
+
+{% include "SooundAppBundle:blocks:header.html.twig" %}
+{% javascripts
+'@SooundAppBundle/Resources/public/js/braintree.js'
+'@SooundAppBundle/Resources/public/js/jquery.easing.js'
+'@SooundAppBundle/Resources/public/js/jquery.scrollTo.min.js'
+'@SooundAppBundle/Resources/public/js/perfect-scrollbar.min.js'
+'@SooundAppBundle/Resources/public/js/dropzone.min.js'
+'@SooundAppBundle/Resources/public/js/accountSettings.js'
+%}
+<script src="{{ asset_url }}"></script>
+{% endjavascripts %}
+
+{% stylesheets
+    'bundles/sooundapp/css/account.css' filter="cssrewrite"
+    'bundles/sooundapp/css/perfect-scrollbar.min.css'
+%}
+<link rel="stylesheet" href="{{ asset_url }}" />
+{% endstylesheets %}
+
+<div class="container account-settings">
+	<div id="left-sidebar">
+		<div id="side-percent">0%</div>
+		<div id="progressbar"></div>
+		<div class="sidebar-section-completion">Account Completion</div>
+		<div id="side-basic" data-go="basicInfo" class="side-link">Basic information</div>
+		<div id="side-password" data-go="changePassword" class="side-link">Password change</div>
+		<div id="side-email" data-go="changeEmail" class="side-link">Email change</div>
+		<div id="side-notif" data-go="notification" class="side-link">Notifications</div>
+		<div id="side-paypal" data-go="payment" class="side-link">Payment</div>
+	</div>
+
+	<div id="account-content">
+		<div id="your-account">
+			Your Account
+		</div>
+
+		<div id="account-submenu">
+			<a href="#general" class="active">General</a>
+			<a href="#notification">Notifications</a>
+			<a href="#privacy">Privacy</a>
+			<a href="#payment">Payment</a>
+		</div>
+		<div id="general" class="tab-content active">
+
+	        <form id="userfile" action="{{path('saveAvatar')}}" class="dropzone dz-clickable">
+			    <div class="form_field" style="margin-top:0px">
+			        <div id="userfile-dropzone" class="dropzone dz-clickable">
+		                <div id="project-picture-thumb">
+		                    <div id="project-picture-plus"></div>
+		                </div>
+			            <div class="project_img_content">
+			                <div class="project_img_details">
+			                    Upload an image for your account. Accepted files include .jpg, .jpeg, .png & .gif images smaller than 5MB
+			                </div>
+			            </div>
+			            <div class="project_input_img gray-button provide-details-grey" style="width:215px !important;"> 
+			                <img class="upload_logo" src="{{asset('bundles/sooundapp/css/images/upload_img.png') }}" >
+			                <span>Upload New Photo</span>
+			            </div>
+			            <div id="project-upload-preview" style="display:none"></div>
+			        </div>
+			        <div id="userfile-errors"></div>
+			    </div>
+	        </form>
+			<div class="account-subheader" id="basicInfo">
+				<img src="/bundles/sooundapp/css/images/basic.png">Basic Information
+			</div>
+			<form id="basicSettings" method="post" action="{{path('saveBasicAccountSettings')}}">
+				<div class="account-general">
+					<div class="padding">
+						<div class="form-location" >Full Name</div>
+						<input type="text" name="fullName" class="form-box-location" value="{{fullName}}" size="20">
+						<div class="highlight-input_deco"></div>
+					</div>
+
+					<div class="padding">
+						<div class="form-location" >Location</div>
+						<input type="text" name="location" class="form-box-location" value="{{location}}" size="20">
+						<div class="highlight-input_deco"></div>
+					</div>
+
+					<div class="form-job">What job titles do you have?</div>
+					<input type="text" name="form-box-job" class="form-box-job" value="" size="20" />
+					<div class="highlight-input_deco"></div>
+
+					<div class="form-alias">Alias & URL: www.soound.com/</div>
+					<input type="text" name="url" class="form-box-alias" value="{{url}}" size="20">
+					<div class="highlight-input_deco"></div>
+
+					<div class="confirm">
+						<input type="submit" value="SUBMIT">
+					</div>
+				</div>
+
+			</form>
+			<div style="clear:both"></div>
+			<div class="account-subheader" id="changePassword">
+				<img src="/bundles/sooundapp/css/images/password.png">Change Password
+			</div>
+
+			<form id="changePasswordForm" method="post" action="{{path('changePassword')}}">
+				<div class="account-general2">
+					<div class="left-text-content">
+						<div class="form-pw-new">New password</div>
+						<input type="password" name="newPassword" class="input-box-pw-new" value="" size="20">
+						<div class="highlight-input_deco"></div>
+					</div>
+
+					<div class="right-text-content">
+						<div class="form-pw-confirm">Confirm password</div>
+						<input type="password" name="newPasswordAgain" class="form-box-pw-confirm" value="" size="20">
+						<div class="highlight-input_deco"></div>
+					</div>
+
+					<div class="padding">
+						<div class="form-pw-current">Current password</div>
+						<input type="password" name="currentPassword" class="form-box-pw-current" value="" size="20">
+						<div class="highlight-input_deco"></div>
+					</div>
+
+					<div id="changePasswordSubmit" class="confirm">
+						CHANGE PASSWORD
+					</div>
+					<div class="error" style="float:left;display:inline-block;margin-left: 20px;font-size: 20px;color: #e74c3c;padding-top: 25px;"></div>
+				</div>
+			</form>
+
+			<div class="account-subheader" id="changeEmail">
+				<img src="/bundles/sooundapp/css/images/email.png">Change Email
+			</div>
+
+			<div class="account-general3">
+				<form id="changeEmailForm" method="post" action="{{path('saveEmail')}}">
+					<div class="form-em-new">New email</div>
+					<input type="text" name="email" class="form-box-em-new" value="" size="20">
+					<div class="highlight-input_deco"></div>
+
+					<div class="form-pw-current">Current password</div>
+					<input type="password" name="currentPassword" class="form-box-pw-current" value="" size="20">
+					<div class="highlight-input_deco"></div>
+
+					<div class="confirm">
+						<input type="submit" value="CHANGE EMAIL">
+					</div>
+				</div>
+			</form>
+		</div>
+
+		<div id="notification" class="tab-content hide">
+			<div id="account-title">
+				<img src="/bundles/sooundapp/css/images/email.png">Email me when
+			</div>
+
+			<div class="email-notification">
+				<div class="custom-checkbox">
+					<input id="checkbox1" class="custom-checkbox_input" type="checkbox" value="owner-new-submission-revision" {% if notifications['owner-new-submission-revision'] is defined and notifications['owner-new-submission-revision'] %} checked {% endif %} />
+					<label class="custom-checkbox_label" for="checkbox1">A new submission has been sent on a project that I'm apart of
+</label>
+				</div>
+
+				<div class="custom-checkbox">
+					<input id="checkbox2" class="custom-checkbox_input" type="checkbox" value="owner-new-comment" {% if notifications['owner-new-comment'] is defined and notifications['owner-new-comment'] %} checked {% endif %} />
+					<label class="custom-checkbox_label" for="checkbox2">A new comment has been posted on a project that I'm apart of
+</label>
+				</div>
+
+				<div class="custom-checkbox">
+					<input id="checkbox3" class="custom-checkbox_input" type="checkbox" value="owner-withdrawn-submission-revision" {% if notifications['owner-withdrawn-submission-revision'] is defined and notifications['owner-withdrawn-submission-revision'] %} checked {% endif %} />
+					<label class="custom-checkbox_label" for="checkbox3">A submission is withdrawn from a project that I'm apart of</label>
+				</div>
+				
+				<div class="custom-checkbox">
+					<input id="checkbox4" class="custom-checkbox_input" type="checkbox" value="creative-submission-accepted-rejected" {% if notifications['creative-submission-accepted-rejected'] is defined and notifications['creative-submission-accepted-rejected'] %} checked {% endif %} />
+					<label class="custom-checkbox_label" for="checkbox4">A submission is accepted or rejected from a project that I'm apart of</label>
+				</div>
+
+				<div class="custom-checkbox">
+					<input id="checkbox5" class="custom-checkbox_input" type="checkbox" value="user-accepted-rejected-project-invite" {% if notifications['user-accepted-rejected-project-invite'] is defined and notifications['user-accepted-rejected-project-invite'] %} checked {% endif %} />
+					<label class="custom-checkbox_label" for="checkbox5">Invited user accepted/rejected project invite </label>
+				</div>
+
+				<div class="custom-checkbox">
+					<input id="checkbox6" class="custom-checkbox_input" type="checkbox" value="user-accepted-rejected-team-invite" {% if notifications['user-accepted-rejected-team-invite'] is defined and notifications['user-accepted-rejected-team-invite'] %} checked {% endif %} />
+					<label class="custom-checkbox_label" for="checkbox6">Invited user accepted/rejected team invite </label>
+				</div>
+				{#
+			    {% for key, notification in notifications %}
+					<div class="custom-checkbox">
+						<input class="custom-checkbox_input" id="checkbox{{key}}" type="checkbox" value="{{key}}" {% if notificationPreferences[key] %} checked="true" {% endif %}/>
+						<label class="custom-checkbox_label" for="checkbox{{key}}">{{notification}}</label>
+					</div>
+			    {% endfor %}
+			    #}
+			</div>
+		</div>
+		<div id="privacy" class="tab-content hide">
+			<div id="account-title">
+				<div id="remove-account-icon"></div>Delete account
+			</div>
+
+			<div class="account-content">
+				Deleting your account is permanent.
+			</div>
+			<div class="account-content">
+				All of your information will be deleted.
+			</div>
+			<div class="account-content">
+				No one will have access to your profile or your projects ever again.
+			</div>
+
+			<div class="custom-radio">
+				<input class="custom-radio_input" name="choose" id="radio1" type="radio"/>
+				<label class="custom-radio_label" for="radio1">Yes, delete my account permanently. This cannot be undone.</label>
+			</div>
+
+			<input id="delete-confirm" value="Delete account" />
+			<div class="blackout"></div>
+			<div class="msgbox">
+				<div class="closeBox">
+					<img src="/bundles/sooundapp/css/images/close.png">
+				</div>
+				<div class="delete-confirm-box-text">
+					Are you sure you want to delete your account?
+				</div>
+				<div class="delete-confirm-box">
+					<a href="{{ path('deleteAccount') }}" class="delete-confirm-box-yes"><img src="/bundles/sooundapp/css/images/yes.png">Yes, delete</a>
+					<div class="delete-confirm-box-no"><img src="/bundles/sooundapp/css/images/no.png">No, don't delete</div>
+				</div>
+			</div>
+		</div>
+		<div id="payment" class="tab-content hide">
+			<div id="account-title">
+				<div id="payment-account-icon"></div>Link Your Paypal Account
+			</div>
+			<form id="link-paypal-form" action="{{ path('linkPaypalAccount') }}" method="post">
+				<div class="form-section">
+					<div class="form-field city">
+						<label class="form-field-label">First Name</label>
+						<input id="street-address-field" name="first" type="text" class="form-input" value="{{paypalFirstName}}">
+						<div class="highlight-input_deco"></div>
+					</div>	
+					<div class="form-field city">
+						<label class="form-field-label">Last Name</label>
+						<input id="street-address-field" name="last" type="text" class="form-input" value="{{paypalLastName}}">
+						<div class="highlight-input_deco"></div>
+					</div>	
+					<div class="form-field city">
+						<label class="form-field-label">Email Address</label>
+						<input id="street-address-field" name="email" type="text" class="form-input" value="{{paypalEmail}}">
+						<div class="highlight-input_deco"></div>
+					</div>					
+					<input type="submit" class="submit_btn" value="LINK PAYPAL"></div>
+				</div>
+				{% if paypalVerified %}
+					<div>Paypal account verified</div>
+				{% endif %}
+			</form>
+<!--
+			<form id="link-bank-form" action="{{ path('linkBankAccount') }}" enctype="multipart/form-data" method="post">
+				<div class="form-section">
+					<div class="form-field street-address">
+						<label class="form-field-label">Street Address</label>
+						<input id="street-address-field" data-encrypted-name="street" type="text" class="form-input" required>
+					</div>
+					<div class="form-field city">
+						<label class="form-field-label">City</label>
+						<input id="city-field" type="text" data-encrypted-name="city" class="form-input" required>
+					</div>
+					<div class="form-field state">
+						<label class="form-field-label">State</label>
+						<input id="state-field" type="text" data-encrypted-name="state" class="form-input" required>
+					</div>
+					<div class="form-field zip-code">
+						<label class="form-field-label">Zip Code</label>
+						<input id="zip-code-field" type="text" data-encrypted-name="zipCode" class="form-input" required>
+					</div>
+					<div class="form-field date-of-birth">
+						<label class="form-field-label">Date of Birth</label>
+						<div class="selector birth-month">
+							<input id="birth-month-field" class="selector-input" type="text" readonly="readonly" value="Month" name="birthMonth" required>
+							<div class="scroll-cont">
+								<ul>
+			                        <li class="selected">Month</li>
+			                        <li>January</li>
+			                        <li>February</li>
+			                        <li>March</li>
+			                        <li>April</li>
+			                        <li>May</li>
+			                        <li>June</li>
+			                        <li>July</li>
+			                        <li>August</li>
+			                        <li>September</li>
+			                        <li>October</li>
+			                        <li>November</li>
+			                        <li>December</li>
+			                    </ul>
+		                    </div>
+	                    </div>
+	                    <div class="selector birth-day">
+							<input id="birth-day-field" class="selector-input" type="text" readonly="readonly" value="Day" name="birthDay" required>
+							<div class="scroll-cont">
+								<ul>
+			                        <li class="selected">Day</li>
+			                        {% for i in 1..31 %}
+										<li>{{i}}</li>
+									{% endfor %}
+			                    </ul>
+		                    </div>
+	                    </div>
+	                    <div class="selector birth-year">
+							<input id="birth-year-field" class="selector-input" type="text" readonly="readonly" value="Year" name="birthYear" required>
+							<div class="scroll-cont">
+								<ul>
+			                        <li class="selected">Year</li>
+			                        {% for i in startBirthYear..endBirthYear %}
+										<li>{{i}}</li>
+									{% endfor %}
+			                    </ul>
+		                    </div>
+	                    </div>
+                    </div>
+				</div>
+				<div class="form-section">
+					<div class="form-field routing-number">
+						<label class="form-field-label">Routing Number (9 digits)</label>
+						<input id="routing-number-field" type="text" class="form-input" required maxlength="9" data-encrypted-name="routing">
+					</div>
+					<div class="form-field routing-number">
+						<label class="form-field-label">Checking Account Number (3-17 digits)</label>
+						<input id="account-number-field" type="text" class="form-input" required maxlength="17" data-encrypted-name="account">
+					</div>
+				</div>
+				<div id="routing-image"></div>
+				<div id="info-box">
+					Your information is encrypted before it ever gets sent to our servers, so nobody will ever see your personal information.
+				</div>
+				<div id="link-account-btn" class="submit_btn">LINK ACCOUNT</div>
+				<div class="overlay">
+					<div class="popup">
+						<div id="tos-container">
+							<div id="tos-contents">
+								<b>Non-Disclosure Agreement</b><br><br>
+								A Non-Disclosure Agreement is an agreement under which a party (the "Recipient") agrees not to disclose proprietary and confidential information ("Confidential Information") that it receives from another party (the "Owner"). This type of agreement may be useful in a variety of circumstances. For example, a company might choose to share information with a web marketing consultant for the purpose improving its on-line sales through its web site. In such a situation, the company would probably be sharing product and customer information with the marketing consultant and would want to protect this information from disclosure by the consultant to third parties.<br><br>
+
+								Some typical provisions that are included for the protection of the Owner include the following: 
+								<ul>
+								<li><b>No Warranty.</b> There is a possibility that the Confidential Information could contain mistakes or errors, or be based on assumptions that later prove to be incorrect. Therefore, it is common for Owners to include a "no warranty" provision that specifies that the Owner will not be responsible for any damages that the Recipient might incur from using the Confidential Information.</li><br>
+								<li>
+								<b>Risk of Disclosure.</b> In addition to the "No Warranty" provision, the Owner may also want to provide that any disclosure made by the Recipient of any information is at the Recipient's risk. Because the Owner has already stated that it will not warrant the accuracy of the information, the Owner can further provide that the Recipient will bear the risk of using the information in violation of the agreement. For example, if the Recipient acts on some of the information and the information was inaccurate, the Recipient cannot hold the Owner responsible for the harm caused by the inaccurate information.</li><br>
+								<li>
+								<b>Limited License.</b> Generally, the Owner and the Recipient intend that the Confidential Information will only be used by the Recipient for the limited purpose of reviewing the information and becoming familiar with the Owner's business to determine whether the parties might have interest in future transactions (based on some additional agreement). A "limited license" provision makes it clear that the Recipient is not acquiring the right to use the Confidential Information on a general basis.</li><br>
+								<li>
+								<b>General Provisions.</b> A Non-Disclosure Agreement should include provisions that (i) require amendments (changes) to the agreement to be in writing and signed by both parties, (ii) specify the state whose laws will govern and interpret disputes between the parties regarding the matters covered by the agreement, and (iii) prohibit the parties from assigning their obligations under the agreement to third parties.Generally, the state whose laws should govern the agreement should be the state of the Owner or the Recipient.</li><br></ul>
+							</div>
+						</div>
+						<div id="tos-actions">
+							<div id="tos-decline" class="tos-button">Decline</div>
+							<input id="tos-accept" class="submit_btn tos-button" type="submit" value="ACCEPT">
+						</div>
+					</div>
+				</div>
+			</form>
+-->
+
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$(function(){
+		$("#link-paypal-form").on('submit', function(event) {
+			event.preventDefault();
+			$(this).ajaxSubmit({
+				success: function(resp){
+					if(resp=='error')
+						$("#link-paypal-form").after("<div>Sorry, we couldn't verify your paypal account</div>")
+					else
+						$("#link-paypal-form").after("<div>Paypal account verified</div>")
+				}
+			});
+			return false;
+		});
+		var braintree = Braintree.create('MIIBCgKCAQEA5hrLwyPbxcYnclbrg2ZDfoq79nqlSETjKOoWKhSApf1JYqGboi8Skkn55a0ADCQEc0IEMnlNNOymIBOQOWoHQq810a22Z4iR9mar6YSexF/AmH23Hm0goyFulYu5nbOG9UJUP4xVhDf8dHACzsHQTOAiB/37eWc0ELvwRko5mj9mPxDimGDsnJX/sG0+jumTzFyV2rU3CxylTCzKJYjAzoAQE4JYB1imwUtWI3v3BqUWrgWQl+33Cv6Amm9ZUlphpSiPKE+cmE/Dio9TlJg1r/GgIzc5MdPAB5LI7IxhyGRLTxiCisGQTOf4shYMJtxP+h/XQ1jdh96sAwvx3A2AuwIDAQAB');
+
+	    var submitBankAccount = function(e){
+			var form = $('#link-bank-form');
+			e.preventDefault();
+			$('#tos-accept').attr('disabled', 'disabled');
+			$.post(form.attr('action'), form.serialize()).done(function(data){
+				var response = $.parseJSON(data);
+				console.log(response);
+			});
+		};
+
+	    braintree.onSubmitEncryptForm('link-bank-form', submitBankAccount);
+	});
+    
+</script>
+{% endblock %}

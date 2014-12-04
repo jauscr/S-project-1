@@ -1,0 +1,118 @@
+{% extends "SooundAppBundle::layout.html.twig" %}
+{% block title %}About Us{% endblock title %}
+{% block content %}
+
+{% include "SooundAppBundle:blocks:header.html.twig" %}
+
+{% stylesheets 
+    'bundles/sooundapp/css/about.css' filter="cssrewrite"
+%}
+<link rel="stylesheet" href="{{ asset_url }}" />
+{% endstylesheets %}
+
+<!--Intro-->
+
+<div class="intro">
+	<div class="intro-title">
+		Built in Los Angeles
+	</div>
+	<div class="intro-description">
+	Plato once said, music gives flight to the imagination. At Soound, our work is driven by that belief and the simple idea of bringing all those imaginations together in one place. Our vision is to be that place and we've made it our mission to build it and we did.  Soound.com is a new music platform for the creation and management of audio projects. Our goal is to help artists, labels, artist management & music supervisors source the creation of the ideal sound for their music needs. Whether they’re looking for a sound like Justin Bieber, Beck, Bob Marley or Kanye West - or any variation in-between; here is where producers, musicians, songwriters & engineers around the world will work to create THAT sound.
+	</div>
+</div>
+
+<!--About-->
+
+<div class="about">
+
+<div class="team">
+	<div class="team-photo cardin"></div>
+
+<div class="team-description">
+
+	<div class="team-member">
+	Cardin Campbell
+	</div>
+
+	<div class="team-title">
+	Founder & CEO
+	</div>
+
+	<div class="team-story">
+	Cardin's unique background in managing IT systems & the music/entertainment industry gives him the ideal perspective for leading Soound. His dad was an entertainer; grew up fascinated with entertainment in an IT era.
+	</div>
+</div>
+</div>
+
+<div class="team">
+	<div class="team-photo david"></div>
+
+<div class="team-description">
+
+	<div class="team-member">
+	David Mckenzie
+	</div>
+
+	<div class="team-title">
+	CMO
+	</div>
+
+	<div class="team-story">
+	Serial entrepreneur, with a focus in marketing, sales & capital raising in his startup ventures. He currently resides in Sweden where he will play an important role in Soound’s global reach.
+	</div>
+</div>
+</div>
+
+</div>
+
+<!--Contact-->
+
+<div class="contact">
+	<div class="contact-box">
+		<div class="contact-title">
+			Headquarters
+		</div>
+		<span class="about-location-icon"></span>
+		<div class="contact-content">
+			SOOUND<br>
+			604 Arizona<br>
+			Santa Monica, CA 90401
+		</div>
+	</div>
+
+	<div class="contact-box">
+		<div class="contact-title">
+			Contact us
+		</div>
+		<span class="about-contact-icon"></span>
+		<div class="contact-content">
+			Drop us a line if you think of anything<br>
+			we can do to improve your experience <br>
+			<a href="mailto:into@soound.com?Subject=Dear%20Soound," target="_top">
+info@soound.com</a>
+		</div>
+	</div>
+
+	<div class="contact-box">
+		<div class="contact-title">
+			Career
+		</div>
+		<!--
+		<img src="/web/bundles/sooundapp/css/images/about-career.png">
+		-->
+		<span class="about-career-icon"></span>
+		<div class="contact-content">
+			Interested in Soound?<br>
+			Please send resumes over to<br>
+			<a href="mailto:career@soound.com?Subject=Dear%20Soound," target="_top">
+career@soound.com</a>
+		</div>
+	</div>
+</div>
+
+<!--Map-->
+
+<div class="map"></div>​
+<div class="location">Santa Monica, CA</div>
+
+{% endblock %}

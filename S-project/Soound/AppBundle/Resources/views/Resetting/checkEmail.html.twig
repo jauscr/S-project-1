@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Soound Verify Email</title>
+    {% stylesheets
+    'bundles/sooundapp/css/register-global.css'
+    'bundles/sooundapp/css/forms.css'
+    filter='cssrewrite' %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+
+    {% javascripts
+    '@SooundAppBundle/Resources/public/js/jquery.js'
+    '@SooundAppBundle/Resources/public/js/jquery.placeholder.js'
+    '@SooundAppBundle/Resources/public/js/register-soound.1.1.js'
+    '@SooundAppBundle/Resources/public/js/controls.js'
+    '@SooundAppBundle/Resources/public/js/soound.1.1.js'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+</head>
+<body>
+    {% include "SooundAppBundle:blocks:header.html.twig" %}
+<div class="fullwidth">
+    <div id="page-sign-up" class="fullwidth-content">
+        {% trans_default_domain 'FOSUserBundle' %}
+
+        {% block fos_user_content %}
+        <p>
+        {{ 'resetting.check_email'|trans({'%email%': email}) }}
+        </p>
+        {% endblock %}
+    </div>
+</div>
+<div id="body-btm-wave"></div>
+<script>
+    OO.Layouts.fullWidthCenter('#page-sign-up');
+</script>
+    <script>
+        {% if app.user %}
+        var nav = new Navigation({
+            'container' :'#nav',
+            'actionOne': '.oo-ui-activity',
+            'actionTwo': '.oo-ui-member'
+        });
+        ooNav(nav);
+        {% else %}
+        var nav = new Navigation({
+            'container' :'#nav',
+            'actionOne': '.oo-ui-login'
+        });
+        ooNav(nav);
+        {% endif %}
+    </script>
+</body>
+</html>

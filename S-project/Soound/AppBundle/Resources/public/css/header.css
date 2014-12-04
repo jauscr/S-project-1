@@ -1,0 +1,87 @@
+/*Header CSS Rules*/
+
+/* Login Popup */
+.login_popup{
+	border:1px solid #000;
+	border-top:none;
+	background-color:#fff;
+	top:60px;
+	position:absolute;
+	right:10px;
+	height:280px;
+	width:340px;
+	z-index:4;
+}
+.login_popup.steps_popup{right:0}
+.login_popup--a{
+	vertical-align:middle;
+	display:inline-block;
+}
+.login_popup--a a:hover{color:#dedede}
+.login_popup--a .highlight-input--wicon{margin-bottom:20px;}
+.login_popup--a .highlight-input--wicon+.highlight-input--wicon{margin-bottom:16px}
+.login_popup--a .highlight-input_deco{
+	padding:0;
+	margin:0;
+}
+.login_popup--a .highlight-input_deco:before{top:-40px}
+.login_input{
+	padding:30px 30px 10px;
+	border-bottom:1px solid #f5f5f5;
+	line-height:20px;
+}
+.login_input input:-webkit-autofill{-webkit-box-shadow:0 0 0 1000px #fff inset;:none}
+/*End Login Popup */
+
+/* Navigation Bar */
+.navigation-bar{
+	height:60px;
+	line-height:60px;
+	z-index:2;
+	background:#000;
+	margin:0 auto;
+	width:100%;
+}
+.navigation-bar--transparent{background:transparent}
+.navigation-bar_logo{
+	position:absolute;
+	top:5px;
+	left:0px;
+}
+.navigation-bar_links{
+	position:absolute;
+	top:0px;
+	right:0px;
+	font-size:0;
+}
+.navigation-bar_links .user_thumb{
+	width:30px;
+	height:30px;
+	margin-right:10px;
+}
+.navigation-bar_links .user_thumb,.navigation-bar_links .user_name{
+	display:inline-block;
+	vertical-align:middle;
+}
+.navigation-bar a:hover{color:#e74c3c}
+.navigation-bar_container{
+	position:relative;
+	width:960px;
+	margin:0 auto;
+}
+
+.navi-btn{display:inline-block;vertical-align:middle;color:#fff;-webkit-transition:color .2s ease 0;-moz-transition:color .2s ease 0;-o-transition:color .2s ease 0;-ms-transition:color .2s ease 0;transition:color .2s ease 0;font-size:14px;padding:0 20px;letter-spacing:0;}
+.navi-btn.browse-btn{margin-right:20px}
+.navi-btn .icon{display:inline-block;vertical-align:-2px;width:16px;height:16px;margin-right:10px;background-image:url("images/navi-icons-sprite.png");-webkit-transition:background-image .2s ease 0;-moz-transition:background-image .2s ease 0;-o-transition:background-image .2s ease 0;-ms-transition:background-image .2s ease 0;transition:background-image .2s ease 0}
+.navi-btn:hover{color:#e74c3c}
+.navi-btn:hover .icon{background-image:url("images/navi-icons-sprite-hover.png")}
+
+.icon-sign-in{background-position:-16px 0}
+.navigation-bar .search_text{width:1px;height:1px;border:none;background-color:#000}
+.navigation-bar .icon-search{background:url("images/search") no-repeat;border:none;margin:0;width:16px;height:16px}
+.icon-search{background-image:url("images/search.png")}
+.icon.icon-activity,.icon.icon-activity:hover{background:url("images/activity8.png") no-repeat !important;width:24px;height:16px;line-height:16px;text-indent:6px;color:#fff;vertical-align:top;margin-top:21px;margin-right:3px}
+.icon-log-in{background-position:-32px 0;margin-right:4px !important}
+.icon-cross-new{background-position:-49px 0}
+.start-btn{display:none}
+/* End Navigation Bar */

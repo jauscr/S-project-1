@@ -1,0 +1,74 @@
+parameters:
+    soound_app.ffmpeg.class: Soound\AppBundle\Services\FFMpeg
+    soound_app.ffmpeg.binary: "%kernel.root_dir%/../src/Soound/AppBundle/Services/ffmpeg.exe"
+    security.authentication.handler.class: Soound\AppBundle\Handler\AuthenticationHandler
+    my_user_provider.class: Soound\AppBundle\Security\Core\User\FOSUBUserProvider
+    soound_app.topic_comment_service.class: Soound\AppBundle\Topic\CommentTopic
+    soound_app.topic_notification_service.class: Soound\AppBundle\Topic\NotificationTopic
+
+services:
+    soound_app.ffmpeg:
+        class: %soound_app.ffmpeg.class%
+        arguments: [%soound_app.ffmpeg.binary%, @aws_s3, %s3_bucket%, %kernel.root_dir%, 30000, 2000, 8]
+
+    soound_app.zmq.client:
+        class: Soound\AppBundle\Services\ZMQClient
+        arguments: [%zmq_host%,%zmq_port%]
+
+    soound_app.pusher:
+        class: Soound\AppBundle\Services\Pusher
+
+    soound_app.activity:
+        class: Soound\AppBundle\Services\ActivityService
+        arguments: [@doctrine_mongodb, @soound_app.zmq.client]
+
+    soound_app.realtime.submission:
+        class: Soound\AppBundle\Services\RealtimeSubmissionService
+        arguments: [@soound_app.zmq.client]
+
+    security.authentication.handler:
+        class: %security.authentication.handler.class%
+        public: false
+        arguments:
+            - @security.context
+            - @router
+            - @aws_s3
+            - %s3_bucket%
+
+    soound.twig.soound_extension:
+        class: Soound\AppBundle\Twig\SooundExtension
+        tags:
+            - { name: twig.extension }
+
+    my_user_provider:
+        class: %my_user_provider.class%
+        #this is the place where the properties are passed to the UserProvider - see config.yml
+        arguments: [@fos_user.user_manager,{facebook: facebook_id, google: google_id}]
+
+    fos_user.mailer.custom:
+        class: Soound\AppBundle\Services\FosCustomMailer
+        arguments: [@hip_mandrill.dispatcher, @templating, @router]
+
+    soound.password_resetting:
+        class: Soound\AppBundle\Handler\PasswordResettingHandler
+        arguments: 
+            - @security.context
+            - @router
+        tags:
+            - { name: kernel.event_listener, event: fos_user.resetting.reset.success, method: onPasswordResettingCompleted }
+
+    activity_mail_user:
+        class:     Soound\AppBundle\Services\ActivityUserEmail
+        arguments: [@hip_mandrill.dispatcher, @templating, @security.context]
+
+    soound.custom.registration.type:
+        class: Soound\AppBundle\Form\CustomRegistrationType
+        arguments: [%fos_user.model.user.class%]
+        tags:
+            - { name: form.type, alias: custom_user_registration }
+
+    soound.registration_activity:
+        class: Soound\AppBundle\Services\RegistrationActivity
+        arguments: [@security.context, @soound_app.activity]
+        tags:
+            - { name: kernel.event_listener, event: fos_user.registration.confirmed, method: onRegistrationConfirmed }

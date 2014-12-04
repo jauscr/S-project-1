@@ -1,0 +1,71 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Soound Sign Up</title>
+    {% stylesheets
+    'bundles/sooundapp/css/register-global.css'
+    'bundles/sooundapp/css/forms.css'
+    'bundles/sooundapp/css/soound-style.css'
+    filter='cssrewrite' %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+    <!--
+    <link href="{{ asset('css/soound-style.css') }}" rel="stylesheet" type="text/css">
+    -->
+    {% javascripts
+    '@SooundAppBundle/Resources/public/js/jquery.js'
+    '@SooundAppBundle/Resources/public/js/jquery.placeholder.js'
+    '@SooundAppBundle/Resources/public/js/register-soound.1.1.js'
+    '@SooundAppBundle/Resources/public/js/oauth_connect.js'
+    '@SooundAppBundle/Resources/public/js/functions.js'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+</head>
+<body>
+    <div id="fb-root"></div>
+    {% include "SooundAppBundle:Security:loginCustom.html.twig" %}
+    {% block fos_user_content %}
+        {% include "SooundAppBundle:Resetting:reset_content.html.twig" %}
+    {% endblock fos_user_content %}
+    <script>
+        {% if app.user %}
+            var nav = new Navigation({
+                'container' :'#nav',
+                'actionOne': '.oo-ui-activity',
+                'actionTwo': '.oo-ui-member'
+            });
+            ooNav(nav);
+        {% else %}
+            var nav = new Navigation({
+                'container' :'#nav',
+                'actionOne': '.oo-ui-login'
+            });
+            ooNav(nav);
+            $(function(){
+                $(".log-in-btn.navi-btn.oo-ui-login, #modal-background, #img-login-close, #popup-close").click(function () {
+                    $("#modal-content,#modal-background").toggleClass("active");
+                });
+            });
+        {% endif %}
+    </script>
+    <script type="text/javascript">
+        OO.Layouts.fullWidthCenter('#modal-content');
+        var soound = {};
+        soound.oauth = {
+            facebook: {
+                client_id:  '{{ facebook_client_id }}',
+                scope:      '{{ facebook_scope }}',
+                redirect:   '{{ url("hwi_oauth_service_redirect", {service: "facebook"}) }}'
+            },
+            google: {
+                client_id:  '{{ google_client_id }}',
+                api_key:    '{{ google_client_secret }}',
+                scope:      '{{ google_scope }}',
+                redirect:   '{{ url("hwi_oauth_service_redirect", {service: "google"}) }}'
+            }
+        }
+    </script>
+</body>
+</html>
+

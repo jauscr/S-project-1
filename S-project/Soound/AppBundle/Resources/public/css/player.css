@@ -1,0 +1,741 @@
+/* Player CSS Rules */
+
+.player-top {
+	width: 100%;
+	min-height: 42px;
+}
+
+.player-top-button {
+	cursor: pointer;
+	float: left;
+	background-image: url("images/player-controls.png");
+	background-repeat: no-repeat;
+	background-position: 0px 0px;
+	width: 42px;
+	height: 42px;
+}
+
+.player-top-credit-title {
+	float: left;
+	padding-top: 15px;
+	padding-left: 10px;
+	font-family: "helveticaneuemedium";
+	font-size: 14px;
+	color: #3c3c3c;
+}
+
+.player-top-about {
+	float: left;
+	margin-left: 10px;
+}
+
+.player-top-title {
+	font-size:18px;
+	font-family:'brandongrotesqueregular';
+	color:#3c3c3c;
+}
+.player-top-artist{
+	height:13px;
+}
+.player-top-artist a{
+	color:#9a9fa2;
+	font-size:12px;
+	font-family:'helveticaneuemedium';
+	text-transform: none;
+}
+
+.player-top-rating {
+	float: left;
+	margin-top: 5px;
+	margin-left: 15px;
+}
+
+.player-top-team-rating {
+	float: right;
+	margin-top: 5px;
+	color: #9a9fa2;
+	font-family: 'helveticaneuemedium';
+	font-size: 14px;
+}
+.player-top-team-rating-star{
+	float: left;
+	margin-top: 5px;
+	margin-left:15px;
+	color: #9a9fa2;
+	font-family: 'helveticaneuemedium';
+	font-size: 14px;	
+}
+.player-avg-rating{
+	float: right;
+	line-height: 20px;
+	margin-right: 5px;
+	vertical-align: middle;
+}
+
+.player-star{
+	float:right;
+}
+
+.player-top-actions {
+	cursor: pointer;
+	float: right;
+	padding: 5px 10px 10px 20px;
+	font-family:'helveticaneuemedium';
+	color:#3c3c3c;
+	font-size:14px;
+}
+
+.player-top-actions-active {
+	border-bottom: solid 3px #F04F35;
+}
+
+.player-top-actions-active .actions-icon {
+	background-position: 0px 0px;
+}
+
+.player-top-actions:hover {
+	color: #000;
+}
+
+.player-top-actions:hover .actions-icon {
+	background-position: 0px 0px;
+}
+
+.actions-icon {
+	float: left;
+	width: 14px;
+	height: 14px;
+	margin-top: -1px;
+	margin-right: 5px;
+	background-image: url("images/gear.png");
+	background-position: 0px -14px;
+	background-repeat: no-repeat;
+}
+
+.actions-options {
+	visibility: hidden;
+	opacity: 0;
+	position: absolute;
+	z-index: 1;
+	margin-top: 13px;
+	margin-left: -94px;
+	width: 180px;
+	/*
+	height: 100px;
+	*/
+	background-color: #fff;
+	box-shadow: 1px 1px 1px #f0f0f0;
+	font-size: 13px;
+}
+
+.actions-reject { 
+	margin-left: 20px; 
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+.actions-reject:hover { color: #F04F35; }
+.actions-reject:hover .actions-reject-icon { background-position: 0px -20px; }
+
+.actions-reject-icon {
+	float: left;
+	width: 20px;
+	height: 20px;
+	margin-top: -2px;
+	margin-right: 10px;
+	background-image: url("images/remove.png");
+	background-position: 0px 0px;
+	background-repeat: no-repeat;
+}
+
+.actions-winner {
+	margin-top: 20px;
+	/*
+	margin-bottom: 20px;
+	*/
+	margin-left: 20px;
+}
+
+.actions-winner:hover { color: #F04F35; }
+.actions-winner:hover .actions-winner-icon { background-position: 0px -18px; }
+
+.actions-winner-icon {
+	float: left;
+	width: 20px;
+	height: 18px;
+	margin-top: -2px;
+	margin-right: 10px;
+	background-image: url("images/small-cup.png");
+	background-position: 0px 0px;
+	background-repeat: no-repeat;
+}
+
+.actions-remove { 
+	margin-left: 10px; 
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+.actions-remove:hover { color: #F04F35; }
+.actions-remove:hover .actions-remove-icon { background-position: 0px -20px; }
+
+.actions-remove-icon {
+	float: left;
+	width: 20px;
+	height: 20px;
+	margin-top: -2px;
+	margin-right: 10px;
+	background-image: url("images/remove.png");
+	background-position: 0px 0px;
+	background-repeat: no-repeat;
+}
+
+.credit-edit-button {
+	margin-top: 25px;
+	margin-bottom: 20px;
+	margin-left: 25px;
+}
+
+.credit-edit-button:hover { color: #e74c3c; }
+.credit-edit-button:hover .credit-edit-icon{
+	background-image: url("images/pen_hover.png");
+}
+
+.credit-edit-icon {
+	float: left;
+	background:url("images/pen.png") no-repeat;
+	width: 16px;
+	height: 16px;
+	margin-right: 10px;
+	margin-top: -4px;
+}
+
+.credit-details-container {
+	display: inline-block;
+	padding-top: 25px;
+	padding-bottom: 20px;
+	width: 100%;
+	color: #3b3b3b;
+	font-family: "helveticaneuemedium";
+	font-size: 14px;
+}
+
+.credit-roles-container {
+	float: left;
+	margin-right: 30px;
+	width: 30%;
+}
+
+.credit-roles-tag {
+	float: left;
+	background:url("images/tag-dark.png") no-repeat;
+	width: 16px;
+	height: 16px;
+	margin-right: 10px;
+	margin-top: -2px;
+	padding-bottom: 60px;
+}
+
+.credit-description-container {
+	float: left;
+	width: 64%;
+}
+
+.credit-description-tag {
+	float: left;
+	background:url("images/info-i-dark.png") no-repeat;
+	width: 9px;
+	height: 16px;
+	margin-right: 10px;
+	margin-top: -2px;
+	padding-bottom: 60px;
+}
+
+.credit-details-text {
+	margin-left: 4px;
+	color: #999;
+	font-size: 13px;
+}
+
+.player-middle {
+	width: 100%;
+	height: 20px;
+}
+
+.player-middle-scrub {
+	float: left;
+	height: 100%;
+	font-size: 16px;
+	color: #3B3B3B;
+}
+
+.player-bottom {
+	cursor: pointer;
+	width: 100%;
+	position:relative;
+}
+
+.player-waveform {
+	position: absolute;
+}
+.outer-waveform-played-part{
+	overflow:hidden;
+	width:0px;
+}
+.waveform-played-part{
+	height: 100px;
+	width:100%;
+	position: relative;
+}
+.player-waveform-skipTo {
+	position: absolute;
+	-webkit-clip-path: rectangle(0px, 0px, .1px, 100px);
+	-moz-clip-path: rectangle(0px, 0px, .1px, 100px);
+	-o-clip-path: rectangle(0px, 0px, .1px, 100px);
+	clip-path: rectangle(0px, 0px, .1px, 100px);
+	/* clip: rect(top, right, bottom, left); */
+}
+
+.player-waveform-played {
+	position: absolute;
+	-webkit-clip-path: rectangle(0px, 0px, .1px, 100px);
+	-moz-clip-path: rectangle(0px, 0px, .1px, 100px);
+	-o-clip-path: rectangle(0px, 0px, .1px, 100px);
+	clip-path: rectangle(0px, 0px, .1px, 100px);
+}
+
+.player-scrubber-bar {
+	cursor: pointer;
+	position: absolute;
+	visibility: hidden;
+	width: 1px;
+	height: 80px;
+	top:3px;
+	background: url("images/scrub-bar.png") no-repeat;
+	background-position: 0px 0px;
+}
+.scrub-bar-circle {
+	background-position: -2px 0px;
+	width: 13px;
+}
+
+.player-playback-time {
+	position: absolute;
+	float: left;
+	margin-top: 30px;
+	font-size: 16px;
+	z-index: 5;
+	color: #fff;
+	font-family:'brandongrotesquebold';
+}
+
+/* Team Comments CSS Rules */
+
+.team-comments-cont {
+	display: inline-block;
+	width: 100%;
+	margin-top: 20px;
+}
+.team-comments-header {
+	display: inline-block;
+	width: 100%;
+	padding-top: 10px;
+}
+.team-comments-expander {
+	float: left;
+	cursor: pointer;
+	color: #999;
+	font-family: "brandongrotesqueregular";
+}
+.team-comments-expander:hover .team-comments-icon {background-position: 0px -16px;}
+.team-comments-expander:hover {color: #3c3c3c;}
+.team-comments-icon {
+	float: left;
+	background: url("images/project/project-submission-footer-sprite-all.png") no-repeat;
+	background-position: 0px 0px;
+	width: 16px;
+	height: 16px;
+	margin-right: 10px;
+}
+.team-comments-count {
+	float: left;
+	color: inherit;
+	margin-top: -4px;
+	margin-right: 20px;
+}
+.team-comments-state {
+	float: left;
+	color: inherit;
+	font-size: 14px;
+	margin-right: 10px;
+}
+.team-comments-content {
+	display: none; /* Normally inline-block */
+	width: 100%;
+}
+.team-comments-old {
+	display: inline-block;
+	width: 100%;
+}
+.team-comments-new {
+	display: inline-block;
+	width: 100%;
+	padding-top: 20px;
+}
+.team-comments-new-top {
+	display: inline-block;
+	width: 100%;
+	padding-bottom: 20px;
+}
+.team-comments-user-pic {
+	float: left;
+	width: 32px;
+	height: 32px;
+	margin-right: 10px;
+	border-radius: 3px;
+}
+.team-comments-new-text {
+	float: left;
+	width: 708px;
+}
+.team-comments-new-bottom {
+	display: inline-block;
+	width: 100%;
+}
+.team-comments-new-submit {
+	cursor: pointer;
+	padding: 10px 20px 10px 20px;
+	background-color: #CCC;
+	color: #FFF;
+	font-size: 14px;
+	border-radius: 5px;
+	margin-left: 42px;
+}
+.team-comments-new-submit:hover {
+	background-color: #BBB;
+}
+
+/* Team Comment CSS Rules */
+
+.team-comment-cont {
+	display: inline-block;
+	width: 100%;
+}
+.team-comment-content {
+	display: inline-block;
+	width: 100%;
+	padding-top: 20px;
+}
+.team-comment-replies {
+	padding-left: 42px;
+	display: inline-block;
+	width: 100%;
+}
+.team-comment-picture {
+	float: left;
+	width: 32px;
+	height: 32px;
+	border-radius: 3px;
+	margin-top: 3px;
+}
+.team-comment-right {
+	margin-left: 42px;
+}
+.team-comment-top {
+	display: inline-block;
+	width: 100%;
+}
+.team-comment-text {
+	font-size: 13px;
+	color: #A3A3A3;
+	font-family: "helveticaneuemedium";
+	padding-bottom: 5px;
+}
+.team-comment-name {
+	float: left;
+	font-size: 14px;
+	font-family: "helveticaneuemedium";
+	color: #3c3c3c;
+}
+.comment-reply {
+	cursor: pointer;
+	float: right;
+	color: #CCC;
+	font-size: 12px;
+	font-family: "helveticaneuemedium";
+	padding-bottom: 10px;
+	display:none;
+}
+.comment-reply-icon {
+	float: left;
+	margin-right: 8px;
+	background: url("images/reply.png") no-repeat;
+	background-position: 0px 0px;
+	width: 13px;
+	height: 12px;
+}
+.comment-reply:hover { color: #e74c3c; }
+.comment-reply:hover .comment-reply-icon { background-position: 0px -12px; }
+
+.team-comment-new-reply {
+	display: none;
+}
+
+/* Wave Comments CSS Rules */
+.wave-comments-cont {
+	position: absolute;
+	width: 740px;
+	margin-top: 30px;
+}
+.wave-comments-top {
+	width: 100%;
+	height: 30px;
+}
+.wave-comments-bottom {
+	display: none;
+	outline: none;
+	position: absolute;
+	z-index: 5;
+	opacity: 0;
+	margin-top: 40px;
+	width: 334px;
+	max-height: 400px;
+}
+.wave-comments-bottom .slimScrollBar{
+	width:2px !important;
+	right:10px !important;
+}
+.wave-comments-arrow {
+	background: url("images/wave-comments-arrow.png") no-repeat;
+	width: 11px;
+	height: 7px;
+	margin-left: 50px;
+	margin-top: -6px;
+	margin-bottom: -1px;
+}
+.wave-comments-header {
+	width: 100%;
+	height: 40px;
+	background-color: #FAFAFA;
+	border-top: solid 1px #DDD;
+	border-left: solid 1px #DDD;
+	border-right: solid 1px #DDD;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+}
+.wave-comments-clock {
+	float: left;
+	margin-left: 20px;
+	margin-right: 10px;
+	margin-top: 10px;
+	background: url("images/clock.png") no-repeat;
+	width: 20px;
+	height: 20px;
+}
+.wave-comments-time {
+	float: left;
+	font-size: 16px;
+	font-family: "brandongrotesqueregular";
+	margin-top: 8px;
+	color: #787878;
+}
+.wave-comments-nav-next {
+	cursor: pointer;
+	float: right;
+	width: 40px;
+	height: 100%;
+	border-left: solid 1px #DDD;
+}
+.wave-comments-nav-next-icon {
+	float: left;
+	margin-top: 12px;
+	margin-left: 16px;
+	background: url("images/right.png") no-repeat;
+	background-position: 0px -24px;
+	height: 12px;
+	width: 8px;
+}
+.wave-comments-nav-next-icon.allowed {background-position: 0px 0px;}
+.wave-comments-nav-next:hover .wave-comments-nav-next-icon.allowed {background-position: 0px -12px;}
+
+.wave-comments-nav-back {
+	cursor: pointer;
+	float: right;
+	width: 40px;
+	height: 100%;
+	border-left: solid 1px #DDD;
+}
+.wave-comments-nav-back-icon {
+	float: left;
+	margin-top: 12px;
+	margin-left: 16px;
+	background: url("images/left.png") no-repeat;
+	background-position: 0px -24px;
+	height: 12px;
+	width: 8px;
+}
+.wave-comments-nav-back-icon.allowed {background-position: 0px 0px;}
+.wave-comments-nav-bakc:hover .wave-comments-nav-back-icon.allowed {background-position: 0px -12px;}
+
+.wave-comments {
+	width: 100%;
+	max-height: 200px;
+	background-color: #FFF;
+	border-top: solid 1px #EBEBEB;
+	border-right: solid 1px #DDD;
+	border-left: solid 1px #DDD;
+}
+.wave-comments-new {
+	width: 100%;
+	height: 88px;
+	background-color: #FAFAFA;
+	border-top: solid 1px #EBEBEB;
+	border-left: solid 1px #DDD;
+	border-right: solid 1px #DDD;
+	border-bottom: solid 1px #DDD;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+}
+.wave-comments-new-text {
+	float: left;
+	width: 236px;
+	height: 58px;
+	margin-left: 19px;
+	margin-top: 14px;
+}
+.wave-comments-new-submit {
+	cursor: pointer;
+	margin-top: 14px;
+	float: left;
+	padding: 20px 10px 20px 10px;
+	color: #999;
+	font-size: 14px;
+	font-family: "helveticaneuemedium";
+}
+.wave-comments-new-submit:hover { color: #3c3c3c; }
+
+/* Wave Comment CSS Rules */
+
+.wave-comment-dot {
+	position: absolute;
+	cursor: pointer;
+	z-index: 1;
+	width: 7px;
+	height: 7px;
+	background-color: #FFF;
+	opacity: .6;
+	border-radius: 4px;
+	margin-top: 9px;
+}
+.wave-comment-dot:hover {
+	opacity: .7;
+	width: 10px;
+	height: 10px;
+	border-radius: 6px;
+	margin-top: 9px;
+	margin-left: 19px;
+}
+
+.wave-comment-dot.unread{
+	background-color:#2ecc71;
+	opacity: 1;
+}
+
+.wave-new-thread-button {
+	visibility: hidden;
+	cursor: pointer;
+	position: absolute;
+	z-index: 1;
+	float: left;
+	top:85px;
+	margin-left: 100px;
+	background: url("images/new-wave-comment.png") no-repeat;
+	background-position: 0px 0px;
+	width: 22px;
+	height: 19px;
+}
+.wave-new-thread-button:hover {
+	background-position: 0px -19px;
+}
+.wave-temp-thread-dot {
+	position: absolute;
+	cursor: pointer;
+	z-index: 1;
+	width: 7px;
+	height: 7px;
+	background-color: #FFF;
+	opacity: .6;
+	border-radius: 4px;
+	margin-top: -54px;
+	margin-left: 2px;
+}
+
+.wave-comment-cont {
+	display: inline-block;
+	width: 100%;
+	padding-left: 15px;
+	padding-right: 15px;
+	padding-bottom: 15px;
+}
+.wave-comment-content {
+	display: inline-block;
+	width: 100%;
+	padding-top: 20px;
+}
+.wave-comment-replies {
+	padding-left: 42px;
+	display: inline-block;
+	width: 100%;
+}
+.wave-comment-picture {
+	float: left;
+	width: 32px;
+	height: 32px;
+	border-radius: 3px;
+}
+.wave-comment-right {
+	margin-left: 42px;
+}
+.wave-comment-top {
+	display: inline-block;
+	width: 100%;
+	margin-bottom: 3px;
+}
+.wave-comment-text {
+	font-size: 13px;
+	color: #A3A3A3;
+	font-family: "helveticaneuemedium";
+	padding-bottom: 5px;
+}
+.wave-comment-name {
+	float: left;
+	height:15px;
+}
+
+.wave-comment-name a{
+	font-size: 14px;
+	font-family: "helveticaneuemedium";
+	color: #3c3c3c;
+	text-transform: none;
+}
+
+.wave-comment-new-reply {
+	display: none;
+	margin-top: 15px;
+}
+
+.wave-comment-new-reply-text {
+	float: left;
+	width: 236px;
+	height: 58px;
+}
+
+.wave-comment-new-reply-submit {
+	cursor: pointer;
+	float: left;
+	padding: 20px 0px 20px 10px;
+	color: #999;
+	font-size: 14px;
+	font-family: "helveticaneuemedium";
+}
+.wave-comment-new-reply-submit:hover { color: #3c3c3c;}

@@ -1,0 +1,816 @@
+@font-face{font-family:'BrandonGrotesqueBold';src:url("fonts/brandon_bld.eot");src:url("fonts/brandon_bld.eot") format('embedded-opentype'),url("fonts/brandon_bld.woff") format('woff'),url("fonts/brandon_bld.ttf") format('truetype'),url("fonts/brandon_bld.svg#BrandonGrotesqueBold") format('svg')}
+@font-face{font-family:'helveticaneuemedium';src:url("fonts/fontscore.com_h_helveticaneue-medium-webfont.eot");src:url("fonts/fontscore.com_h_helveticaneue-medium-webfont.eot?#iefix") format('embedded-opentype'),url("fonts/fontscore.com_h_helveticaneue-medium-webfont.woff") format('woff'),url("fonts/fontscore.com_h_helveticaneue-medium-webfont.ttf") format('truetype'),url("fonts/fontscore.com_h_helveticaneue-medium-webfont.svg#helveticaneuemedium") format('svg');font-weight:normal;font-style:normal}
+@font-face{font-family:'brandongrotesqueregular';src:url("fonts/brandon_re-webfont.eot");src:url("fonts/brandon_re-webfont.eot?#iefix") format('embedded-opentype'),url("fonts/brandon_re-webfont.woff") format('woff'),url("fonts/brandon_re-webfont.ttf") format('truetype'),url("fonts/brandon_re-webfont.svg#brandon_grotesqueregular") format('svg');font-weight:normal;font-style:normal}
+
+/*START Sharie STYLES*/
+body {
+    margin:0 auto;
+    font-family:'brandongrotesqueregular';
+    color:#7d7d7d;
+    -webkit-font-smoothing: antialiased;
+
+}
+.account-settings{
+	padding-top:80px;
+	position: static;
+}
+.hide {
+	display:none;
+}
+.content-wrapper {
+	width: 1020px;
+}
+
+#account-content {
+	float: right;
+	width: 745px;
+}
+
+#left-sidebar {
+	float: left;
+	width: 175px;
+	font-size:13px;
+}
+
+#progressbar {
+	width:175px;
+	height:6px;
+	background-color:#e8e8e8;
+	border-radius:3px;
+}
+
+.sidebar-section-completion {
+	color: #e74c3c;
+	font-size: 14px;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	border-bottom: solid 1px #f5f5f5;
+	-webkit-font-smoothing: antialiased;
+	font-family:'BrandonGrotesqueBold';
+	text-transform:uppercase;
+}
+
+#side-percent {
+	margin:10px 0;
+	font-size:24px;
+	color:#595959;
+}
+
+.side-link{
+	cursor: pointer;
+	letter-spacing:.025em;
+	padding:5px 0;
+}
+.side-link.active, .side-link:hover{
+	color:#e74c3c;
+
+}
+
+#side-basic {
+	letter-spacing:.025em;
+	padding:25px 0 5px 0;
+}
+/*
+#side-password {
+	letter-spacing:.025em;
+	padding:5px 0;
+}
+
+#side-email {
+	letter-spacing:.025em;
+	padding:5px 0;
+}
+
+#side-notif {
+	letter-spacing:.025em;
+	padding:5px 0;
+	color:#e74c3c;
+}
+
+#side-paypal {
+	letter-spacing:.025em;
+	padding:5px 0;
+	color:#e74c3c;
+}
+*/
+/**************GENERAL***************/
+
+
+#your-account {
+	padding-bottom: 25px;
+	font-family: "brandongrotesqueregular";
+	font-size: 20px;
+	color: #e74c3c;
+	width:740px;
+	border-bottom: solid 1px #f5f5f5;
+}
+
+#account-submenu {
+	font-size: 15px;
+	-webkit-font-smoothing: antialiased;
+	width:740px;
+	padding:30px 7px 30px 0;
+	/*
+	font-family: "BrandonGrotesqueBold";
+	*/
+	padding-bottom: 13px;
+	border-bottom: solid 1px #e74c3c;
+	text-transform:uppercase;
+}
+
+#account-submenu a {
+	margin-right:20px;
+	padding:0 15px;
+	color:#7d7d7d;
+}
+
+#account-submenu a:hover, #account-submenu a:active, #account-submenu .active{
+	color:#e74c3c;
+	padding-bottom:10px;
+	border-bottom:3px solid #e74c3c;
+}
+
+#account-photo-box {
+	margin:20px auto;
+	width:745px;
+	height:170px;
+	border: dashed 2px #CCC;
+	cursor: pointer;
+	border-radius: 5px;
+	float: left;
+}
+
+.account-photo-text {
+	font-size:14px;
+	line-height:17px;
+	margin-left:250px;
+	margin-top:70px;
+}
+
+
+.account-photo {
+	float:left;
+	display:block;
+	margin:auto;
+	width:220px;
+	height:220px;
+	margin-top:-90px;
+	background: url("images/prof.png") no-repeat;
+}
+
+.account-photo:hover {
+	background: url("images/prof-photo-hover.png") no-repeat;
+}
+
+.account-general {
+	width:745px;
+	height:380px;
+}
+
+.account-general2 {
+	width:745px;
+	height:260px;
+	border-bottom:1px solid #f5f5f5;
+}
+
+.account-general3 {
+	width:745px;
+	height:210px;
+	border-bottom:1px solid #f5f5f5;
+}
+
+.account-subheader {
+	text-transform:uppercase;
+	font-size:14px;
+	color:#e74c3c;
+	margin:35px 0;
+}
+
+.account-subheader img {
+	padding-right:10px;
+	margin-bottom:-7px;
+}
+
+.account-subheader img:last-child {
+	padding-right:10px;
+	margin-bottom:-4px;
+}
+
+.left-text-content {
+	float:left;
+	width:353px;
+}
+
+.right-text-content {
+	float:right;
+	width:353px;
+}
+
+.padding {
+	width:745px;
+	height:80px;
+	margin-bottom:10px;
+	float:left;
+}
+
+.form-firstname {
+	padding:20px 0 5px 0;
+}
+
+.form-box-firstname {
+
+}
+
+.form-lastname {
+	padding:20px 0 5px 0;
+}
+
+.form-box-lastname {
+
+}
+
+.form-location {
+	padding:20px 0 5px 0;
+}
+
+.form-box-location {
+
+}
+
+.form-job {
+	padding:20px 0 5px 0;
+	float:left;
+}
+
+.form-box-job {
+
+}
+
+.form-alias {
+	padding:20px 0 5px 0;
+}
+
+.form-box-alias {
+
+}
+
+.form-pw-new {
+	padding:20px 0 5px 0;
+}
+
+.form-box-pw-new {
+
+}
+
+.form-pw-confirm {
+	padding:20px 0 5px 0;
+}
+
+.form-box-pw-confirm {
+
+}
+
+.form-pw-current {
+	padding:20px 0 5px 0;
+}
+/*
+.form-box-pw-current {
+	margin-bottom:38px;
+}
+*/
+.confirm {
+	float:left;
+	margin-top:20px;
+	cursor: pointer;
+	padding: 10px 17px 10px 15px;
+	color: #FFF;
+	background-color: #CCC;
+	border-radius: 5px;
+	font-size: 14px;
+	display:inline;
+	text-transform:uppercase;
+	font-family:'BrandonGrotesqueBold';
+}
+.confirm input{
+	border:none;
+	font:inherit;
+	color:inherit;
+	background:transparent;
+}
+
+.confirm:hover {
+	background-color: #BBB;
+}
+
+.confirm img {
+	padding-right:7px;
+}
+
+.form-em-new {
+	padding:20px 0 5px 0;
+}
+
+.form-box-em-new {
+
+}
+
+/**************NOTIFICATIONS***************/
+
+#account-title {
+	text-transform:uppercase;
+	font-size: 14px;
+	color:#e74c3c;
+	margin:35px 0;
+	padding-left:10px;
+}
+
+#account-title img {
+	margin-bottom:-7px;
+	padding-right:10px;
+}
+
+.email-notification {
+	width:650px;
+	padding-left:13px;
+}
+
+.custom-checkbox {
+	display:block;
+	padding-bottom:10px;
+}
+/**************PRIVACY***************/
+
+.account-content {
+	padding:15px 10px;
+	color:#e74c3c;
+}
+
+.custom-radio {
+	margin:35px 0;
+	padding-left:10px;
+	text-transform:uppercase;
+	float:left;
+}
+
+#delete-confirm {
+	float:left;
+	margin-left:-500px;
+	margin-top:85px;
+	cursor: pointer;
+	width:155px;
+	padding: 10px 17px 10px 15px;
+	color: #FFF;
+	background-color: #CCC;
+	border-radius: 5px;
+	font-size: 14px;
+	text-transform:uppercase;
+	font-family:'BrandonGrotesqueBold';
+	border:none;
+	outline:none;
+}
+
+#delete-confirm:hover {
+	background-color: #BBB;
+}
+
+.delete-confirm-box {
+	margin-left:20px;
+	margin-top:30px;
+	width:500px;
+	height:150px;
+}
+
+.delete-confirm-box-text {
+	font-size:15px;
+	margin:22px 22px 40px 22px;
+}
+
+.delete-confirm-box-yes {
+	cursor: pointer;
+	margin:50px 0;
+	padding: 10px 17px 10px 15px;
+	color: #FFF;
+	background-color: #00ca78;
+	border-radius: 5px;
+	font-size: 14px;
+	display:inline;
+	text-transform:uppercase;
+	font-family:'BrandonGrotesqueBold';
+}
+
+.delete-confirm-box-yes img {
+	margin-bottom:-5px;
+	padding-right:7px;
+}
+
+.delete-confirm-box-yes:hover {
+	background-color:#00b169;
+}
+
+.delete-confirm-box-no {
+	cursor: pointer;
+	margin:30px 30px 0;
+	padding: 10px 17px 10px 15px;
+	color: #FFF;
+	background-color: #CCC;
+	border-radius: 5px;
+	font-size: 14px;
+	display:inline;
+	text-transform:uppercase;
+	font-family:'BrandonGrotesqueBold';
+}
+
+.delete-confirm-box-no img {
+	margin-bottom:-2px;
+	padding-right:7px;
+}
+
+.delete-confirm-box-no:hover {
+	background-color:#BBB;
+}
+
+.blackout {
+	background-color:#000;
+	opacity:.75;
+	filter:alpha(opacity=75);
+	height:100%;
+	width:100%;
+	position:fixed;
+	top:0;
+	left:0;
+	z-index:100;
+	display:none;
+	cursor:pointer;
+	margin:auto;
+}
+
+.msgbox {
+	background-color:#fff;
+	color:#3c3c3c;
+	width:450px;
+	height:150px;
+	position:fixed;
+	margin-top:-220px;
+	margin-left:auto;
+	margin-right:auto;
+	border-radius:5px;
+	padding:10px;
+	z-index:101;
+	display:none;
+}
+
+.closeBox {
+	float:right;
+}
+
+
+
+/**************PAYMENTS***************/
+
+.padding2 {
+	width:745px;
+	height:80px;
+	margin-bottom:10px;
+	float:left;
+	padding-left:10px;
+}
+
+
+.padding3 {
+	margin-top:20px;
+	float:left;
+	padding-left:10px;
+}
+
+
+.form-paypal-email {
+	padding-bottom:10px;
+}
+
+.form-paypal-pw {
+	padding-bottom:10px;
+}
+
+#link-paypal {
+	cursor: pointer;
+	padding: 10px 17px 10px 15px;
+	color: #FFF;
+	background-color: #CCC;
+	border-radius: 5px;
+	font-size: 14px;
+	display:inline;
+	text-transform:uppercase;
+	font-family:'BrandonGrotesqueBold';
+}
+
+#link-paypal img {
+	padding-right:9px;
+	margin-bottom:-4px;
+}
+
+#link-paypal:hover {
+	background-color:#BBB;
+}
+
+#userfile {
+	float:left;
+	margin-bottom: 30px;
+}
+
+.dz-default, .dz-message, .dz-preview {
+	display: none;
+}
+
+#userfile-inner-cont {
+	margin: auto;
+	width: 500px;
+	height: 40px;
+	margin-top: 100px;
+}
+
+#userfile-inner-instructions {
+	font-family: "helveticaneuemedium";
+	float: left;
+	width: 220px;
+	text-align: center;
+	font-size: 16px;
+	color: #888;
+}
+
+#userfile-inner-or {
+	margin-left: 40px;
+	padding-top: 10px;
+	float: left;
+	color: #3b3b3b;
+	font-size: 14px;
+}
+
+#userfile-inner-browse-button {
+	float: left;
+	color: #FFF;
+	font-family: "brandongrotesqueregular";
+	font-size: 14px;
+	background-color: #CCC;
+	border-radius: 5px;
+	margin-left: 50px;
+	padding: 10px 15px 10px 15px;
+}
+
+#userfile-inner-browse-button:hover {
+	background-color: #BBB;
+}
+
+#userfile-accepted-types {
+	font-family: "helveticaneuemedium";
+	width: 100%;
+	margin-top: 40px;
+	color: #CCC;
+	text-align: center;
+	font-size: 14px;
+}
+
+#userfile-errors {
+	font-family: "helveticaneuemedium";
+	width: 100%;
+	margin-top: 30px;
+	color: #e74c3c;
+	text-align: center;
+	font-size: 14px;
+}
+
+#remove-account-icon {
+	float: left;
+	width: 20px;
+	height: 20px;
+	margin-right: 10px;
+	background: url("images/remove.png") 0px 0px no-repeat;
+}
+
+#payment-account-icon {
+	float: left;
+	width: 16px;
+	height: 12px;
+	margin-right: 10px;
+	margin-top: 3px;
+	background: url("images/money-sprite.png") 0px 0px no-repeat;
+}
+
+.form-field-label {
+	font-size: 16px;
+}
+
+.form-field.street-address {
+	width: 470px;
+	display: inline-block;
+	margin-right: 20px;
+	margin-bottom: 20px;
+}
+
+.form-field.city {
+	width: 260px;
+	display: inline-block;
+	margin-right: 20px;
+	margin-bottom: 20px;
+}
+
+.form-field.state {
+	width: 60px;
+	display: inline-block;
+	margin-right: 20px;
+}
+
+.form-field.zip-code {
+	width: 100px;
+	display: inline-block;
+}
+
+.form-field.date-of-birth {
+	display: inline-block;
+	margin-bottom: 40px;
+}
+
+.form-field.routing-number {
+	width: 440px;
+	display: inline-block;
+	margin-bottom: 20px;
+}
+
+.form-field.account-number {
+	width: 440px;
+	display: inline-block;
+}
+
+#routing-image {
+	width: 284px;
+	height: 180px;
+	background-image: url("images/account-routing.png");
+	background-repeat: no-repeat;
+	background-position: 0px 0px;
+	margin-top: -170px;
+	margin-left: 470px;
+}
+
+#info-box {
+	width: 200px;
+	height: 200px;
+	position: absolute;
+	margin-top: -350px;
+	margin-left: 510px;
+}
+
+.selector {
+	width:140px;
+	border-radius:3px;
+	display:inline-block;
+	vertical-align:top;
+	background:url("images/input_select_btn.png") no-repeat top right;
+	color:#787878;
+	font-family:'helveticaneuemedium';
+	font-size:13px;
+	border:2px solid #ebebeb;
+	cursor:pointer;
+	margin-right:20px
+}
+
+.selector li {
+	z-index: 3;
+}
+
+.selector-input {
+	height: 40px;
+	line-height: 40px;
+	border: none !important;
+	padding-left: 13px;
+	width: 100px !important;
+	cursor: pointer;
+}
+
+.selector ul {
+	display: block;
+	padding: 0px;
+	cursor: pointer;
+	width: 136px;
+	background: #FFF;
+	margin: 0;
+	margin-left: -2px;
+}
+
+.scroll-cont {
+	display: none;
+	position: absolute;
+	margin-left: -2px;
+	overflow: hidden;
+	height: 200px;
+	width: 140px;
+	border: 2px solid #ebebeb;
+}
+
+.selector.active .scroll-cont {
+	display: block;
+}
+
+.selector ul li {
+	border-bottom: 1px dashed #ebebeb;
+	display: block;
+	min-height: 30px;
+	line-height: 30px;
+	text-indent: 13px;
+	cursor: pointer;
+}
+
+.selector ul li.last {
+	border-bottom: none;
+}
+
+.selector.birth-day, .selector.birth-day .scroll-cont {
+	width: 100px; 
+}
+
+.selector.birth-day ul {
+	width: 96px;
+}
+
+.selector.birth-day .selector-input {
+	width: 60px !important;
+}
+
+.selector.birth-year, .selector.birth-year .scroll-cont {
+	width: 120px;
+}
+
+.selector.birth-year .selector-input {
+	width: 80px !important;
+}
+
+.selector.birth-year ul {
+	width: 116px;
+}
+
+.overlay {
+	left: 0;
+}
+
+.popup {
+	width: 680px;
+	height: 540px;
+	margin-top: -270px;
+	margin-left: -320px;
+}
+
+#link-account-btn {
+	cursor: pointer;
+}
+
+#tos-container {
+	position: relative;
+	margin: auto;
+	margin-top: 40px;
+	margin-bottom: 20px;
+	overflow: hidden;
+	width: 600px;
+	height: 400px;
+}
+
+#tos-contents {
+	padding-right: 10px;
+}
+
+#tos-actions {
+	width: 100%;
+	display: inline-block;
+	padding-right: 50px;
+}
+
+.tos-button{
+	cursor: pointer; 
+	font-family: 'brandongrotesqueregular';
+	float:right; 
+	margin-right: 20px; 
+	margin-top: 10px; 
+	border-radius: 5px;
+}
+#tos-decline{
+	border: 2px solid #bec3c7;
+	color: #787878;
+	padding: 0px 20px;
+	padding-top: 7px;
+	text-align: center;
+	vertical-align: middle;
+	text-transform: uppercase;
+	height: 40px;
+	margin-right: 0px;
+}
+#tos-decline:hover{
+	border-color: #666; 
+	color: #666;
+}
+
+.hasError {
+	border: solid #e74c3c !important;
+}
+
+#basicSettings{
+    border-bottom: 1px solid #F5F5F5;
+    float: left;
+    padding-bottom: 5px;
+}

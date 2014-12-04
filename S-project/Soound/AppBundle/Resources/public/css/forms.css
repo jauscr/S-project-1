@@ -1,0 +1,108 @@
+/* CSS Document */
+* {
+	box-sizing:border-box;
+	-webkit-box-sizing:border-box;
+	-ms-box-sizing:border-box;
+	-moz-box-sizing:border-box;
+}
+body {
+	margin:0 auto;
+	font-size:1em;
+}
+span {
+	display:inline-block;
+}
+#page-sign-up, #page-pw-reset, #page-reg-confirm {
+	width: 600px;
+	margin:0 auto;
+	color:#acacac;
+}
+#page-sign-up .fb-signup, #page-sign-up .gplus-signup {
+	width:48.5%;
+	margin-right:13px;
+}
+#page-sign-up .gplus-signup {
+	margin-right:0px;
+}
+#page-sign-up span.hr {
+	height:1px;
+	background-color:#ddd;
+	display:inline-block;
+	width:48%;
+	line-height:1em;
+}
+.block-margin {
+	display:block;
+	margin:20px 0;
+	width:100%
+}
+button {
+	color:#fff;
+	font-size:1.125em;
+}
+#page-sign-up form input, #page-pw-reset form input, #page-reg-confirm form input {
+	display:block;
+	width:100%;
+	height:3em !important;
+	margin-bottom:30px;
+	height:3.5em;
+	font-size:14px;
+	/* line-height:3.5em; */
+}
+#page-sign-up form button, #page-pw-reset form button, #page-reg-confirm form button {
+	font-size:1.125em;
+	width:100%;
+	font-family:'brandongrotesqueregular';
+}
+input[type='password']:focus, input[type='text']:focus, input[type='email']:focus  {
+	border-color:#fff;
+	border-radius:0;
+}
+.highlight-input--wicon .icon--small {
+	top:17px;
+}
+#page-sign-up form button#oo-signup-btn {
+	text-transform:uppercase;
+}
+.txt-spacer .txt {
+	padding-top:2px;
+	position:relative;
+	top:4px;
+	font-size:1.125em;
+}
+#soound-logo {
+	text-align:center;
+	margin-bottom:63px;
+}
+.col {
+	display:inline-block;
+	width:48%;
+	margin-right:20px;
+}
+.col.coltwo {
+	margin-right:0px;
+}
+
+#signin-popup form input {
+	line-height:2.5em;
+	margin-bottom:20px;
+}
+#signin-popup form input[type='submit']{
+margin-bottom:0px;
+}
+#signin-popup .highlight-input--wicon .icon--small {
+	top:12px;
+}
+#signin-popup {
+	max-width:610px;
+	border-radius:5px;
+	background:#fff;
+}
+#signin-popup .fgt_passwd {
+	position:absolute;
+	right:13px;
+	top:6px;
+}
+#signin-popup .highlight-input_deco:before {
+	height:40px;
+}

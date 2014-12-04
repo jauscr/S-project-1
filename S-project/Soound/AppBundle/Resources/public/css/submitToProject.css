@@ -1,0 +1,352 @@
+.content-wrapper {
+	margin-top: 0px;
+	padding-top: 80px;
+}
+#center-content {
+	float: left;
+	width: 780px;
+}
+
+#project-type {
+	text-transform: capitalize;
+	font-size: 20px;
+	color: #787878;
+	padding-bottom: 10px;
+}
+
+#project-title {
+	padding-bottom: 20px;
+	font-size: 30px;
+	color: #e74c3c;
+}
+
+#project-description {
+	padding-bottom: 10px;
+	font-size: 14px;
+	color: #666;
+}
+
+#project-genres {
+	text-transform: capitalize;
+	padding-bottom: 10px;
+	font-size: 14px;
+	color: #999;
+}
+
+#project-references {
+	padding-bottom: 20px;
+}
+
+
+#userfile {
+	cursor: pointer;
+	height: 280px;
+	width: 100%;
+	border: dashed 2px #CCC;
+	border-radius: 6px;
+	margin-bottom: 30px;
+}
+
+#hqUploader {
+	cursor: pointer;
+	height: 280px;
+	width: 100%;
+	border: dashed 2px #CCC;
+	border-radius: 6px;
+	margin-bottom: 30px;
+}
+
+.dz-default, .dz-message, .dz-preview {
+	display: none;
+}
+
+#userfile-inner-cont {
+	margin: auto;
+	width: 500px;
+	height: 40px;
+	margin-top: 100px;
+}
+
+#userfile-inner-instructions {
+	font-family: "helveticaneuemedium";
+	float: left;
+	width: 220px;
+	text-align: center;
+	font-size: 16px;
+	color: #888;
+}
+
+#userfile-inner-or {
+	margin-left: 40px;
+	padding-top: 10px;
+	float: left;
+	color: #3b3b3b;
+	font-size: 14px;
+}
+
+#userfile-inner-browse-button {
+	float: left;
+	color: #FFF;
+	font-family: "brandongrotesquebold";
+	font-size: 14px;
+	background-color: #CCC;
+	border-radius: 5px;
+	margin-left: 50px;
+	margin-top: -5px;
+	padding: 10px 15px 10px 15px;
+}
+
+#userfile-inner-browse-button:hover {
+	background-color: #BBB;
+}
+
+#userfile-accepted-types {
+	font-family: "helveticaneuemedium";
+	width: 100%;
+	margin-top: 40px;
+	color: #BBB;
+	text-align: center;
+	font-size: 14px;
+}
+
+#userfile-errors {
+	font-family: "helveticaneuemedium";
+	width: 100%;
+	margin-top: 30px;
+	color: #e74c3c;
+	text-align: center;
+	font-size: 14px;
+}
+
+#upload-progress-cont {
+	display: none;
+	border: solid 2px #DDD;
+	border-radius: 5px;
+	width: 100%;
+	height: 40px;
+	margin-bottom: 20px;
+}
+
+#upload-progress-current {
+	position: relative;
+	border-top-left-radius: 4px;
+	border-bottom-left-radius: 4px;
+	background-color: #f5f5f5;
+	height: 36px;
+	width: 1%;
+	opacity: 0;
+}
+
+#upload-progress-top {
+	position: relative;
+	margin-top: -36px;
+}
+
+#upload-progress-title {
+	float: left;
+	margin-left: 10px;
+	margin-top: 11px;
+	color: #777;
+	font-size: 13px;
+	font-family: "helveticaneuemedium";
+	width:80%;
+}
+
+#upload-progress-status {
+	float: right;
+	margin-right: 15px;
+	margin-top: 10px;
+	color: #CCC;
+	font-style: italic;
+	font-size: 13px;
+	font-family: sans-serif;
+}
+
+#upload-progress-action {
+	visibility: hidden;
+	cursor: pointer;
+	float: right;
+	background:url("images/trash.png") no-repeat;
+	width:9px;
+	height:12px;
+	margin-top: 12px;
+	margin-right: 10px;
+}
+
+#upload-progress-action:hover {
+	background-image: url("images/trash_hover.png");
+}
+
+#right-content {
+	float: left;
+	padding-top: 40px;
+	margin-top: -40px;
+	margin-left: 20px;
+	color: #e74c3c;
+}
+
+#project-poster-info {
+	margin-top: 30px;
+	height: 40px;
+	display: inline-block;
+	line-height: 20px !important;
+}
+
+#project-poster-pic {
+	float: left;
+	border-radius: 5px;
+	width: 40px;
+	height: 40px;
+	background-size: 40px 40px;
+	line-height: 20px !important;
+}
+
+#project-poster-name {
+	float: left;
+	font-family: "helveticaneuemedium";
+	font-size: 13px;
+	height: 40px;
+	padding-left: 10px;
+	color: #787878;
+	line-height: 20px !important;
+}
+
+#project-budget { background-image: url("images/budget.png"); }
+#project-submissions { background-image: url("images/submissions.png"); }
+#project-deadline { background-image: url("images/deadline.png"); }
+
+.project-field {
+	background-repeat: no-repeat;
+	color: #000;
+	font-size: 24px;
+	font-family: "brandongrotesqueregular";
+	margin-top: 20px;
+	height: 40px;
+	padding-left: 50px;
+	line-height: 20px !important;
+}
+
+.project-sub-field {
+	font-size: 13px;
+	font-family: "helveticaneuemedium";
+	color: #bec3c7;
+	display: block;
+	line-height: 20px !important;
+}
+
+#project-picture {
+	width: 100%;
+	height: 200px;
+	border-radius: 5px;
+}
+
+#project-details {
+	width: 100%;
+	margin-top: 30px;
+}
+
+#project-poster {
+	width: 100%;
+	margin-top: 30px;
+}
+
+#winner-announcement {
+	color: #e74c3c;
+	font-size: 16px;
+	font-family: 'brandongrotesquebold';
+	text-align: center;
+	margin-top: 40px;
+	margin-bottom: -40px;
+}
+
+#winner-next-step {
+	margin-top: 40px;
+	margin-bottom: 40px;
+	font-size: 20px;
+	color: #666;
+	text-align: center;
+}
+
+#uploaded-files {
+	padding-top: 40px;
+	padding-bottom: 40px;
+	display: inline-block;
+}
+
+.hqFile-cont {
+	float: left;
+	text-align: center;
+}
+
+.hqFile-status {
+	text-transform: capitalize;
+	font-size: 20px;
+	padding: 10px;
+}
+
+.hqFile-status.pending {
+	color: #AAA;
+}
+
+.hqFile-img {
+	background: url('images/hqFile.png') 0px 0px no-repeat;
+	width: 80px;
+	height: 80px;
+	margin: auto;
+}
+
+.hqFile-name {
+	max-width: 200px;
+	padding-top: 20px;
+	padding-left: 10px;
+	padding-right: 10px;
+	color: #666;
+}
+
+#complaint-cont {
+	display: inline-block;
+	width: 100%;
+	background-color: #f5f5f5;
+	border-radius: 10px;
+	padding: 20px;
+	margin-bottom: 40px;
+}
+
+#complaint-arrow {
+	position: absolute;
+	margin-top: -30px;
+	margin-left: 370px;
+	width: 0px;
+	height: 0px;
+	border-left: 10px solid transparent;
+	border-right: 10px solid transparent;
+	border-bottom: 10px solid #f5f5f5;
+}
+
+#complaint-title {
+	margin-bottom: 10px;
+	color: #e74c3c;
+}
+
+#complaint-text {
+	background-color: #FFF;
+	border-radius: 4px;
+	padding: 10px;
+	padding-left: 20px;
+	padding-right: 20px;
+	color: #666;
+	margin-bottom: 20px;
+}
+
+#complaint-fixed-button {
+	font-size: 16px;
+}
+.success-message{
+    color: #E74B3C;
+    line-height: 40px;
+    margin-left: 10px;	
+    display: none;
+}
+.success-message img{
+	margin-right:3px;
+}

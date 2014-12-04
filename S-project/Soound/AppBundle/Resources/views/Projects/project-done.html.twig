@@ -1,0 +1,29 @@
+{% set step = 5 %}
+{% extends "SooundAppBundle:Projects:steps.html.twig" %}
+{% block step_content %}
+    <h3>Congratulations! Your Project has been posted.</h3>
+    <br />
+    {% if app.user is empty %}
+        <h4>While you're here, choose a password</h4>
+        <form novalidate id="step_form_step6" action="{{ path("projects_projectDone") }}" method="post" {{ form_enctype(form) }} class="step_form" enctype="multipart/form-data">
+            {% form_theme form 'SooundAppBundle:Form:fields.html.twig' %}
+            <div class="form_field">
+                <div class="form_password">
+                    <div class="form_field_title">PASSWORD</div>
+                    {{ form_widget(form.plainPassword.first) }}
+                    <div class="highlight-input_deco"></div>
+                </div>
+
+                <div class="form_password go-left">
+                    <div class="form_field_title">CONFIRM PASSWORD</div>
+                        {{ form_widget(form.plainPassword.second) }}
+                    <div class="highlight-input_deco"></div>
+                    </div>
+                </div>
+                {{ form_errors(form.plainPassword.first) }}
+                {{ form_rest(form) }}
+                <input type="submit" name="project_submit" value="SAVE PASSWORD" class="project_submit green-button step6" />
+            </div>
+        </form>
+    {% endif %}
+{% endblock %}

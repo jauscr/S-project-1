@@ -1,0 +1,23 @@
+h1 { font-size: 25px; font-weight: inherit; }
+h2 { font-size: 20px; font-weight: inherit; }
+ 
+label { font-size: 12px; display: block; }
+input { padding: 3px 5px; width: 250px; }
+input[type="file"] { padding-left: 0; }
+input[type="submit"] { width: auto; }
+ 
+#files { font-size: 11px; }
+
+.no-select {
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	-o-user-select: none;
+	user-select: none;
+}
+
+.song {
+	margin: auto;
+	width: 600px;
+	margin-bottom: 20px;
+}

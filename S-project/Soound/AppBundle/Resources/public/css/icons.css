@@ -1,0 +1,178 @@
+@font-face {
+	font-family: 'icomoon';
+	src:url('fonts/icomoon.eot?6lg1xj');
+	src:url('fonts/icomoon.eot?#iefix6lg1xj') format('embedded-opentype'),
+		url('fonts/icomoon.woff?6lg1xj') format('woff'),
+		url('fonts/icomoon.ttf?6lg1xj') format('truetype'),
+		url('fonts/icomoon.svg?6lg1xj#icomoon') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+	font-family: 'icomoon';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.icon-browse:before {
+	content: "\e600";
+}
+.icon-calendar-input:before {
+	content: "\e601";
+}
+.icon-calendar-large:before {
+	content: "\e602";
+}
+.icon-card:before {
+	content: "\e603";
+}
+.icon-cd-large:before {
+	content: "\e604";
+}
+.icon-close:before {
+	content: "\e605";
+}
+.icon-cog-small:before {
+	content: "\e606";
+}
+.icon-credits:before {
+	content: "\e607";
+}
+.icon-details:before {
+	content: "\e608";
+}
+.icon-exchange:before {
+	content: "\e609";
+}
+.icon-eye:before {
+	content: "\e60a";
+}
+.icon-flame:before {
+	content: "\e60b";
+}
+.icon-followers:before {
+	content: "\e60c";
+}
+.icon-hourglass:before {
+	content: "\e60d";
+}
+.icon-lock:before {
+	content: "\e60e";
+}
+.icon-mail-small:before {
+	content: "\e60f";
+}
+.icon-money-large:before {
+	content: "\e610";
+}
+.icon-next:before {
+	content: "\e611";
+}
+.icon-people:before {
+	content: "\e612";
+}
+.icon-plus:before {
+	content: "\e613";
+}
+.icon-plus-solid:before {
+	content: "\e614";
+}
+.icon-prev:before {
+	content: "\e615";
+}
+.icon-profile:before {
+	content: "\e616";
+}
+.icon-psw-key:before {
+	content: "\e617";
+}
+.icon-save:before {
+	content: "\e618";
+}
+.icon-search:before {
+	content: "\e619";
+}
+.icon-sign-out:before {
+	content: "\e61a";
+}
+.icon-sign-up:before {
+	content: "\e61b";
+}
+.icon-small-calendar:before {
+	content: "\e61c";
+}
+.icon-submissions:before {
+	content: "\e61d";
+}
+.icon-person:before {
+	content: "\e61e";
+}
+.icon-star:before {
+	content: "\e61f";
+}
+.icon-submission-new:before {
+	content: "\e620";
+}
+.icon-submission-notrated:before {
+	content: "\e621";
+}
+.icon-submission-rated:before {
+	content: "\e622";
+}
+.icon-tag:before {
+	content: "\e623";
+}
+.icon-tick:before {
+	content: "\e624";
+}
+.icon-trash:before {
+	content: "\e625";
+}
+.icon-upload:before {
+	content: "\e626";
+}
+
+/*Custom CSS*/
+
+.icon-browse{
+	margin-right:10px;
+	margin-top:2px;
+	font-size:16px;
+}
+.icon-plus-solid{
+	margin-top:2px;
+	margin-right:10px;
+	font-size:16px;
+}
+.icon-credits{
+	font-size:14px;
+	margin-right:10px;
+}
+.icon-profile{
+	margin-right:10px;
+}
+.icon-exchange{
+	margin-right:8px;
+}
+.icon-details{
+	margin-right:8px;
+}
+.icon-submissions{
+	margin-right:8px;
+}
+.icon-person{
+	margin-right:8px;
+}
+.icon-save{
+	font-size: 15px;
+	margin-right: 10px;
+}

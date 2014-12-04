@@ -1,0 +1,173 @@
+{% extends "SooundAppBundle::layout.html.twig" %}
+{% block title %}{{fullName}}{% endblock title %}
+{% block content %}
+{% include "SooundAppBundle:blocks:player.html.twig" %}
+{% if walkthrough is defined and walkthrough %}
+	{% include "SooundAppBundle:blocks:walkthrough.html.twig" %}
+{% endif %}
+{% include "SooundAppBundle:blocks:header.html.twig" %}
+<script type="text/javascript">var profilePublicId = "{{ publicId }}"</script>
+{% javascripts
+'@SooundAppBundle/Resources/public/js/submission.js'
+'@SooundAppBundle/Resources/public/js/userProfile.js'
+%}
+<script src="{{ asset_url }}"></script>
+{% endjavascripts %}
+
+{% stylesheets 
+	'bundles/sooundapp/css/submission.css' filter="cssrewrite"
+	'bundles/sooundapp/css/userProfile.css' filter="cssrewrite"
+    'bundles/sooundapp/css/browseProjects.css' filter="cssrewrite"
+%}
+<link rel="stylesheet" href="{{ asset_url }}" />
+{% endstylesheets %}
+
+<div class="container user-profile" style="padding-top: 75px;">
+	<div class="profile">
+		<img src="{{userPic}}" class="profile_image">
+		<div class="profile_credits">{{numCredits + numWinner}}<span>CREDITS</span></div>
+		<div class="profile_name">{{fullName}}</div>
+		<div class="profile_artist_type">{{userTypes}}</div>
+		<div class="profile_user_location">{{userLocation}}</div>
+		<div id="profile-share-button"><span class="share-profile-icon"></span>SHARE PROFILE</div>
+		{#
+		<div id="profile-completion-title">PROFILE COMPLETION</div>
+		<div id="profile-completion-cont">
+			<div id="profile-completion-percentage">25%</div>
+			<div id="profile-completion-total">
+				<div id="profile-completion-current"></div>
+			</div>
+		</div>
+		<div id="update-profile-button">Update Profile</div>
+		#}
+	</div>
+
+	<div class="browse_projects">
+
+		<span class="page-title">Credits</span>
+
+		<div class="main-content_section credits">
+			<span class="section-title">
+				<span class="section-title_icon icon--credits"></span>
+				Uploaded Credits ({{numCredits}})
+				<span>
+					<span class="browse_projects_left_btn" data-section="credits"></span>
+					<span class="browse_projects_right_btn" data-section="credits"></span>
+				</span>
+			</span>
+
+			<div class="browse-container credits">
+			{% if numCredits == 0 %}
+				<div class="no-results-cont">
+					<a href="{{ path('uploadCredits')}}" class="green-button no-credits-button"><span class="plus-icon"></span>ADD CREDITS TO YOUR PORTFOLIO</a>
+				</div>
+			{% endif %}
+			</div>
+		</div>
+
+		<div class="main-content_section winner">
+			<span class="section-title">
+				<span class="section-title_icon icon--big-cup"></span>
+				Soound Credits ({{numWinner}})
+				<span>
+					<span class="browse_projects_left_btn" data-section="winner"></span>
+					<span class="browse_projects_right_btn" data-section="winner"></span>
+				</span>
+			</span>
+
+			<div class="browse-container winner">
+			{% if numWinner == 0 %}
+				<div class="no-results-cont">
+					<a href="{{ path('browse') }}" class="green-button no-credits-button"><span class="search-icon"></span>FIND PROJECTS TO WIN</a>
+				</div>
+			{% endif %}
+			</div>
+		</div>
+
+		<span class="page-title">Your Projects</span>
+
+		<div class="main-content_section open">
+			<span class="section-title">
+				<span class="section-title_icon icon--locker"></span>
+				Open ({{numOpen}})
+				<span>
+					<span class="browse_projects_left_btn" data-section="open"></span>
+					<span class="browse_projects_right_btn" data-section="open"></span>
+				</span>
+			</span>
+			<div class="browse-container open">
+			{% if numOpen == 0 %}
+				<div class="no-results-cont">
+					<a href="{{ path('projects_addGeneralInformation') }}" class="green-button no-credits-button"><span class="plus-icon"></span>START A PROJECT</a>
+				</div>
+			{% endif %}
+			</div>
+		</div>
+
+		<div class="main-content_section closed">
+			<span class="section-title">
+				<span class="section-title_icon icon--locked-locker"></span>
+				Closed ({{numClosed}})
+				<span>
+					<span class="browse_projects_left_btn" data-section="closed"></span>
+					<span class="browse_projects_right_btn" data-section="closed"></span>
+				</span>
+			</span>
+			<div class="browse-container closed">
+			{% if numClosed == 0 %}
+				<div class="no-results-cont">
+					<span class="none-available">NONE AVAILABLE</span>
+				</div>
+			{% endif %}
+			</div>
+		</div>
+
+		<div class="main-content_section memberOf">
+			<span class="section-title">
+				<span class="section-title_icon icon--members"></span>
+				Member ({{numMemberOf}})
+				<span>
+					<span class="browse_projects_left_btn" data-section="memberOf"></span>
+					<span class="browse_projects_right_btn" data-section="memberOf"></span>
+				</span>
+			</span>
+			<div class="browse-container memberOf">
+			{% if numMemberOf == 0 %}
+				<div class="no-results-cont">
+					<a href="{{ path('browse') }}" class="green-button no-credits-button"><span class="search-icon"></span>FIND PROJECTS TO JOIN</a>
+				</div>
+			{% endif %}
+			</div>
+		</div>
+
+		<div class="main-content_section following">
+			<span class="section-title">
+				<span class="section-title_icon icon--watcher"></span>
+				Following ({{numFollowing}})
+				<span>
+					<span class="browse_projects_left_btn" data-section="following"></span>
+					<span class="browse_projects_right_btn" data-section="following"></span>
+				</span>
+			</span>
+			<div class="browse-container following">
+			{% if numFollowing == 0 %}
+				<div class="no-results-cont">
+					<a href="{{ path('browse') }}" class="green-button no-credits-button"><span class="search-icon"></span>FIND PROJECTS TO FOLLOW</a>
+				</div>
+			{% endif %}
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<div class="overlay">
+	<div class="popup">
+		<div id="popup-title">Link to your profile</div>
+		<input id="popup-link" type="text" value="http://soound.com/profile/{{ publicId }}" readonly/>
+		<div id="popup-share-btn" class="green-button">COPY LINK</div>
+	</div>
+</div>
+
+{% endblock %}
+

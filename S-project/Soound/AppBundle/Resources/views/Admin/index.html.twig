@@ -1,0 +1,67 @@
+{% extends "SooundAppBundle:Admin:admin-layout.html.twig" %}
+
+{% block content %}
+
+{% stylesheets 
+    'bundles/sooundapp/css/admin/index.css' filter="cssrewrite"
+%}
+<link rel="stylesheet" href="{{ asset_url }}" />
+{% endstylesheets %}
+
+{% javascripts
+    '@SooundAppBundle/Resources/public/js/admin/index.js'
+%}
+<script src="{{ asset_url }}"></script>
+{% endjavascripts %}
+
+<div id="left-column">
+    Total Users:<br>
+    <span>{{ numUsers }}</span><br>
+    Total Projects:<br>
+    <span>{{ numProjects }}</span><br>
+    <div id="projects">GET PROJECTS</div>
+    <div id="users">GET USERS</div>
+</div>
+<div id="right-column">
+    <div id="actions">
+        <span id="create" class="action"><span id="create-icon" class="action-icon">+</span> CREATE</span>
+        <span id="remove" class="action"><span id="remove-icon" class="action-icon">X</span> DELETE SELECTED</span>
+    </div>
+    <div id="documents">
+        <div class="document">
+            <div class="select"></div>
+            <span class="property">
+                <span class="property-name">id: </span>
+                <span class="property-value">52f48441359035d41b000001</span>
+            </span>
+            <span class="property">
+                <span class="property-name">title: </span>
+                <span class="property-value">Test</span>
+            </span>
+            <span class="property">
+                <span class="property-name">budget: </span>
+                <span class="property-value">200</span>
+            </span>
+            <span class="property">
+                <span class="property-name">type: </span>
+                <span class="property-value">production</span>
+            </span>
+            <span class="property">
+                <span class="property-name">start: </span>
+                <span class="property-value">02/07/2014</span>
+            </span>
+            <span class="property">
+                <span class="property-name">end: </span>
+                <span class="property-value">02/20/2014</span>
+            </span>
+            <div class="document-details">
+                <div class="project-img"></div>
+                <div class="project-owner"></div>
+                <div class="project-submissions"></div>
+                <textarea class="project-description">Project description Project description Project description Project description Project description Project description Project description Project description Project description Project description.</textarea>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

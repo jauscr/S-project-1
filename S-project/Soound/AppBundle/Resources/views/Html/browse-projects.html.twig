@@ -1,0 +1,213 @@
+{% extends "SooundAppBundle::layout.html.twig" %}
+{% block title %}Browse Projects{% endblock title %}
+{% block content %}
+
+	{% include "SooundAppBundle:blocks:player.html.twig" %}
+	{% include "SooundAppBundle:blocks:header.html.twig" %}
+
+	{% javascripts
+	'@SooundAppBundle/Resources/public/js/browseProjects.js'
+	%}
+	<script src="{{ asset_url }}"></script>
+	{% endjavascripts %}
+	{% if publicId is not empty %}
+		<script type="text/javascript">
+			$(function() {
+				viewProject({id:'{{publicId}}'});
+			});
+		</script>
+	{% endif %}
+
+	{% stylesheets 
+	    'bundles/sooundapp/css/browseProjects.css' filter="cssrewrite"
+	%}
+	<link rel="stylesheet" href="{{ asset_url }}" />
+	{% endstylesheets %}
+
+	<div class="container">
+		<div class="browse_projects">	
+			<span class="page-title">Open Projects</span>
+				
+
+			<div class="main-content_section featured">
+				<span class="section-title">
+					<span class="section-title_icon icon--star"></span>
+					Featured
+					
+					<span class="btn-container">
+						<span class="browse_projects_left_btn" data-section="featured"></span>
+						<span class="browse_projects_right_btn" data-section="featured"></span>
+					</span>
+					
+					<a class="browse_view-all-btn green-button--small" href="#" data-section="featured">View all</a>
+				</span>
+
+				<div class="browse-container featured">
+				</div>
+			</div>
+
+			<div class="main-content_section ending">
+				<span class="section-title">
+					<span class="section-title_icon icon--hourglass"></span>
+					Ending Soon
+					
+					<span class="btn-container">
+						<span class="browse_projects_left_btn" data-section="ending"></span>
+						<span class="browse_projects_right_btn" data-section="ending"></span>
+
+					</span>
+					
+					<a class="browse_view-all-btn green-button--small" href="#" data-section="ending">View all</a>
+				</span>
+
+				<div class="browse-container ending">
+				</div>
+			</div>
+			
+			<div class="main-content_section popular">
+				<span class="section-title">
+					<span class="section-title_icon icon--popular"></span>
+					Popular
+				
+					<span class="btn-container">
+						<span class="browse_projects_left_btn" data-section="popular"></span>
+						<span class="browse_projects_right_btn" data-section="popular"></span>
+					</span>
+				
+					<a class="browse_view-all-btn green-button--small" href="#" data-section="popular">View all</a>
+				</span>
+				<div class="browse-container popular">
+				</div>
+			</div>
+
+			<div class="main-content_section more">
+				<span class="section-title">
+					<span class="section-title_icon icon--more"></span>
+					More
+				
+					<span class="btn-container">
+						<span class="browse_projects_left_btn" data-section="more"></span>
+						<span class="browse_projects_right_btn" data-section="more"></span>
+					</span>
+				
+					<a class="browse_view-all-btn green-button--small" href="#" data-section="more">View all</a>
+				</span>
+				<div class="browse-container more">
+				</div>
+			</div>
+		</div>
+	  	<div class="sidebar sidebar--right">
+			<div class="sidebar_section">
+				<span class="small-section-title">Categories</span>
+				<div class="sidebar_types">
+					<a>All</a>
+					<a>Featured</a>
+					<a>Ending Soon</a>
+					<a>Popular</a>
+					<a>More</a>
+				</div>
+			</div>
+				
+			<div class="sidebar_section">
+				<span class="small-section-title">filter projects</span>
+				
+				<span class="sidebar_slider_text">Budget bigger than <label for="amount"></label></span>
+
+				<div class="sidebar_slider">
+					<div class="sidebar_slider_handle">
+						<span class="sidebar_slider_value">$0</span>
+					</div>
+				</div>
+
+		 		<span class="sidebar_project_type">Project type</span>
+				
+				<div class="sidebar_checkbox">
+					<div class="custom-checkbox">
+						<input class="custom-checkbox_input" id="checkbox1" type="checkbox">
+						<label class="custom-checkbox_label" for="checkbox1">Complete Song</label>
+						<input class="custom-checkbox_input" id="checkbox2" type="checkbox">
+						<label class="custom-checkbox_label" for="checkbox2">Production</label>
+						<input class="custom-checkbox_input" id="checkbox3" type="checkbox">
+						<label class="custom-checkbox_label" for="checkbox3">Songwriting</label>
+						<input class="custom-checkbox_input" id="checkbox4" type="checkbox">
+						<label class="custom-checkbox_label" for="checkbox4">Engineering</label>
+						<input class="custom-checkbox_input" id="checkbox5" type="checkbox">
+						<label class="custom-checkbox_label" for="checkbox5">Musician</label>
+						<input class="custom-checkbox_input" id="checkbox6" type="checkbox">
+						<label class="custom-checkbox_label" for="checkbox6">Vocal</label>
+					</div>
+				</div>
+				
+				<span class="sidebar_project_type genre">Genre</span>
+				<ul class="tagit genre_filters"></ul>
+				<div class="sidebar_genre_filter">
+			        <div class="highlight-input step_three_input" style="margin-top:0px">
+			        	<input type="text" id="filter_genre" placeholder="Add genre" />
+			        </div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="overlay">
+		<div class="popup">
+			<div class="tab-container">
+				<div class="browse_project_tablet_container">
+					<div class="tablet_pic"></div>
+						<div class="tablet_info">
+						<div class="tablet_title_new"><div class="tablet_top_space"></div></div>
+						<div class="tablet_description"></div>
+					</div>
+				</div>
+				<div class="tablet_references">
+					<div class="table_title_second">REFERENCES
+						<div class="left_btn_container"><span class="popup_left_btn"></span></div>
+						<div class="right_btn_container"><span class="popup_right_btn"></span></div>
+					</div>
+					<div class="tablet_player"></div>
+					<div class="tablet_info_container">
+						<div class="tablet_pic--second"></div>
+						<div class="tablet_info tablet_info--second">
+							<div class="tablet_description"></div>
+						</div>
+					</div>
+					<div class="tablet_label">Join the project in order to be able to download project files and submit entries.</div>
+				</div>
+				<div id="join-project-nda">
+					<div id="nda-container">
+						<b>Non-Disclosure Agreement</b><br><br>
+						A Non-Disclosure Agreement is an agreement under which a party (the "Recipient") agrees not to disclose proprietary and confidential information ("Confidential Information") that it receives from another party (the "Owner"). This type of agreement may be useful in a variety of circumstances. For example, a company might choose to share information with a web marketing consultant for the purpose improving its on-line sales through its web site. In such a situation, the company would probably be sharing product and customer information with the marketing consultant and would want to protect this information from disclosure by the consultant to third parties.<br><br>
+
+						Some typical provisions that are included for the protection of the Owner include the following: 
+						<ul>
+						<li><b>No Warranty.</b> There is a possibility that the Confidential Information could contain mistakes or errors, or be based on assumptions that later prove to be incorrect. Therefore, it is common for Owners to include a "no warranty" provision that specifies that the Owner will not be responsible for any damages that the Recipient might incur from using the Confidential Information.</li><br>
+						<li>
+						<b>Risk of Disclosure.</b> In addition to the "No Warranty" provision, the Owner may also want to provide that any disclosure made by the Recipient of any information is at the Recipient's risk. Because the Owner has already stated that it will not warrant the accuracy of the information, the Owner can further provide that the Recipient will bear the risk of using the information in violation of the agreement. For example, if the Recipient acts on some of the information and the information was inaccurate, the Recipient cannot hold the Owner responsible for the harm caused by the inaccurate information.</li><br>
+						<li>
+						<b>Limited License.</b> Generally, the Owner and the Recipient intend that the Confidential Information will only be used by the Recipient for the limited purpose of reviewing the information and becoming familiar with the Owner's business to determine whether the parties might have interest in future transactions (based on some additional agreement). A "limited license" provision makes it clear that the Recipient is not acquiring the right to use the Confidential Information on a general basis.</li><br>
+						<li>
+						<b>General Provisions.</b> A Non-Disclosure Agreement should include provisions that (i) require amendments (changes) to the agreement to be in writing and signed by both parties, (ii) specify the state whose laws will govern and interpret disputes between the parties regarding the matters covered by the agreement, and (iii) prohibit the parties from assigning their obligations under the agreement to third parties.Generally, the state whose laws should govern the agreement should be the state of the Owner or the Recipient.</li><br></ul>
+					</div>
+					<div id="nda-actions">
+						<div id="nda-decline" class="nda-button">Decline</div>
+						<div id="nda-accept" class="nda-button green-button">Accept</div>
+					</div>
+				</div>
+			</div>
+			<div class="tab-second-container">
+				<div class="tab-second-containe--title-label">POSTED BY</div>
+				<div class="tab-second-containe--avatar">
+					<div class="tab-second-containe--avatar-pic"></div>
+					<div class="tab-second-containe--avatar-name"></div>
+				</div>
+				<div class="tab-second-containe--details">DETAILS</div>
+				<div class="tab-second-containe budget">$1400<span class="tab-second-containe---sub-bugdet">budget</span></div>
+				<div class="tab-second-containe submission">23<span class="tab-second-containe---sub-bugdet">submissions</span></div>
+				<div class="tab-second-containe deadline">12 Days<span class="tab-second-containe---sub-bugdet">deadline</span></div>
+				<div id="overlay-buttons">
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends "SooundAppBundle:Mail:emailLayout.html.twig" %}
+
+{% block subject %}{{ownerName}} invited you to collaborate on Soound{% endblock %}
+{% block content %}
+
+<div>
+Hi there!
+
+{{ownerName}} invited you to become a collaborator on a project: {{projectName}}.
+Please click this link to accept the invitation: <a href="{{ acceptURL }}">Accept Invitation</a>
+
+Best Regards,
+
+the Soound team
+</div>
+
+{% endblock %}

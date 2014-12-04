@@ -1,0 +1,129 @@
+{% trans_default_domain 'FOSUserBundle' %}
+{# 
+<div class="fullwidth">
+    <div id="page-sign-up" class="fullwidth-content">
+        <button class="fb-signup" onclick="location.replace('{{ path('hwi_oauth_service_redirect', {'service': 'facebook' }) }}')"><span class="btn-icon"></span>Sign-Up with Facebook</button>
+        <button class="gplus-signup" onclick="location.replace('{{ path('hwi_oauth_service_redirect', {'service': 'google' }) }}')"><span class="btn-icon"></span>Sign-Up with Google +</button>
+        <div class="block-margin txt-spacer">
+            <span class="hr"></span><span class="txt"> &nbsp;or&nbsp; </span><span class="hr"></span>
+        </div>
+        <form novalidate action="{{ path('fos_user_registration_register') }}" {{ form_enctype(form) }} method="POST" class="fos_user_registration_register">
+                {{ form_widget(form.username,{'attr': {'class': 'oo-signup', 'value' : 'Guest-'~random(99999999999)}}) }}
+            <div class="highlight-input--wicon">
+                {{ form_widget(form.email,{'attr': {'class': 'oo-signup', 'placeholder': 'Email Address'}}) }}
+                <div class="highlight-input_deco"></div>
+                <div class="icon--small icon--envelope"></div>
+            </div>
+            <div class="alert alert-danger global-alert1" style="display:none"></div>
+            <div class="highlight-input--wicon">
+                {{ form_widget(form.plainPassword,{'attr': {'class': 'oo-signup', 'placeholder': 'Password'}}) }}
+                <div class="highlight-input_deco"></div>
+                <div class="icon--small icon--key"></div>
+            </div>
+            <div class="alert alert-danger global-alert2" style="display:none"></div>
+            <input type="submit" class="green-button register_submit" value="Create My Account!" style="width: 100% !important;" />
+            {{ form_errors(form) }}
+            {{ form_rest(form) }}
+
+        </form>
+    </div>
+</div>
+<div id="body-btm-wave"></div>
+<script>
+    OO.Layouts.fullWidthCenter('#page-sign-up');
+</script>
+#}
+
+<style type="text/css">
+    #page-sign-up {
+        margin-top: 100px;
+        color: #888;
+    }
+    #beta-title {
+        margin: auto;
+        font-size: 40px;
+        color: #666;
+    }
+    #beta-email {
+        margin-top: 40px;
+        text-transform: none;
+    }
+    ::-webkit-input-placeholder {
+        color: #AAA;
+    }
+    :-moz-placeholder {
+        color: #AAA;
+    }
+    ::-moz-placeholder {
+        color: #AAA;
+    }
+    :-ms-input-placeholder {
+        color: #AAA;
+    }
+    #beta-submit {
+        float: right;
+        margin-top: 40px;
+    }
+    #beta-errors {
+        margin-top: 20px;
+        margin-bottom: -20px;
+        height: 20px;
+        color: #e74c3c;
+    }
+    .grey-button {
+        background-color: #CCC;
+        color: #FFF;
+        cursor: default;
+        border-radius: 4px;
+        font-size: 14px;
+        height: 40px;
+        line-height: 40px;
+        padding: 0 20px 0 20px;
+    }
+</style>
+
+<script type="text/javascript">
+    $(function(){
+        $('#beta-submit').click(function(e){
+            if( $(this).hasClass('green-button') ){
+                var val = $('#beta-email').val();
+                if( val === ""){
+                    $('#beta-errors').text('Please enter an email.');
+                }
+                else if( /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i.test(val)){
+
+                    $('#beta-submit').text('SUBMITTING').removeClass('green-button').addClass('grey-button');
+                    $('#beta-errors').text('');
+
+                    $.post('beta', {'email': val}, function(data){
+                        //var msg = $.parseJSON(data);
+                        var msg = data;
+                        if(msg === 'Success'){
+                            $('#beta-submit').text('SUBMITTED');
+                        }
+                        else {
+                            $('#beta-submit').text('SUBMIT').removeClass('grey-button').addClass('green-button');
+                            $('#beta-errors').text(msg);
+                        }
+
+                    });
+                    
+                }
+                else {
+                    $('#beta-errors').text('Please enter a valid email.');
+                    console.log("is not an email");
+                }
+            }
+        });
+    });
+</script>
+
+<div class="fullwidth">
+    <div id="page-sign-up" class="fullwidth-content">
+    <div id="beta-title">Request An Invite:</div>
+        We're in a private beta right now. Enter your email below to request an invite:
+        <div id="beta-errors"></div>
+        <input id="beta-email" type="email" placeholder="email@gmail.com"/>
+        <div id="beta-submit" class="green-button">SUBMIT</div>
+    </div>
+</div>

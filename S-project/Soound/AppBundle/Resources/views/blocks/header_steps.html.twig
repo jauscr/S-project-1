@@ -1,0 +1,63 @@
+
+{% if app.user is defined %}
+<div class="navigation-bar ">
+	<div class="navigation-bar_container">
+		<span class="navigation-bar_logo">
+			<img src="{{ asset('bundles/sooundapp/css/images/logo.png') }}">
+		</span>	
+		<span class="navigation-bar_links">
+			<a class="start-btn-brs navi-btn browse_start_btn selected-bottom" href="{{ path('projects_addGeneralInformation')) }}"><span class="icon icon-cross-new"></span>Start a Project</a><!--
+		 --><a class="browse-btn navi-btn" href="{{ path('html_display', {page: 'browse'}) }}"><span class="icon icon-browse"></span>Browse projects</a><!--
+
+		 --><form class="navi-btn"><input type="text" name="search" class="search_text">
+		 		<input type="submit" name="search_submit" value="" class="icon-search">
+		 	</form>
+
+		 --><a class="navi-btn" href="#"><span class="icon icon-activity">0</span>Activity</a><!--
+		 --><a href="{{ path('html_display', {page: 'user-profile'}) }}" class="navi-btn">
+		 		<img src="{{ asset('bundles/sooundapp/css/images/profile_image.jpg') }}" class="user_thumb" />
+		 		<span class="user_name">YOU</span></a>
+		</span>
+		
+	</div>
+</div>
+{% else %}
+
+<div class="navigation-bar steps-header">
+	<div class="navigation-bar_container">
+		<a href="{{ path('html_display', {page: 'index'}) }}" class="navigation-bar_logo">
+			<img src="{{ asset('bundles/sooundapp/css/images/logo.png') }}">
+		</a>	
+		<span class="navigation-bar_links">
+			<a class="start-btn-brs navi-btn browse_start_btn selected-bottom" href="{{ path('projects_addGeneralInformation') }}"><span class="icon icon-cross-new"></span>Start a Project</a><!--
+		 --><a class="browse-btn navi-btn" href="{{ path('html_display', {page: 'browse'}) }}"><span class="icon icon-browse"></span>Browse projects</a><!--
+		 --><a class="sign-in-btn navi-btn" href="#"><span class="icon icon-sign-in"></span>Sign up</a><!--
+		 --><a class="log-in-btn navi-btn"><span class="icon icon-log-in"></span>log in</a>
+		</span>
+
+		<form method="post" action="{{ path('login_check') }}" class="login_popup steps_popup">
+			<div class="login_input">
+				<div class="highlight-input--wicon first">
+					<input name="_username" type="text" placeholder="EMAIL"/>
+					<div class="highlight-input_deco"></div>
+					<div class="icon--small icon--envelope"></div>
+				</div><div class="highlight-input--wicon">
+					<input name="_password" type="password" placeholder="PASSWORD"/>
+					<div class="highlight-input_deco"></div>
+
+					<div class="icon--small icon--key"></div>
+				</div>
+				<span class="fgt_passwd"><a class="login_popup--a" href="#">Forgot your password ? </a></span>
+			</div>
+			<div class="submit_popup ">
+				<input  value="submit" type="submit" class="submit_btn login_popup--a"/>
+				<span>or use</span>
+				<a class="google_btn login_popup--a"> </a>
+				<a class="facebook_btn login_popup--a"> </a>
+			</div>
+		</form>
+
+	</div>
+</div>
+
+{% endif %}

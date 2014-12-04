@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <div>
+            {% block subject %}{% endblock %}
+        </div>
+        {% block content %}{% endblock %}
+        {% include 'SooundAppBundle:Mail:emailFooter.html.twig' %}
+    </body>
+</html>

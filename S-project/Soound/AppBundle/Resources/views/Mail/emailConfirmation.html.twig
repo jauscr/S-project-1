@@ -1,0 +1,16 @@
+{% extends "SooundAppBundle:Mail:emailLayout.html.twig" %}
+
+{% block subject %}Confirm your email{% endblock %}
+{% block content %}
+
+<div>
+Welcome to Soound!
+
+Please confirm your email by clicking this link: <a href="{{ confirmationUrl }}">Confirm Email Address</a>
+
+Best Regards,
+
+the Soound team
+</div>
+
+{% endblock %}

@@ -1,0 +1,117 @@
+{% set step = 1 %}
+{% extends "SooundAppBundle:Projects:steps.html.twig" %}
+{% block title %}Start A Project - General Information{% endblock title %}
+{% block step_content %}
+
+
+{% set filter = app.session.get('project_draft') %}
+{% if filter[2]['form'] is defined %}
+    {% set data = filter[2]['form'] %}
+{% endif %}
+
+
+
+{# Underscore templates for the uploader #}
+{% javascripts
+'@SooundAppBundle/Resources/public/js/dropzone.min.js'
+'@SooundAppBundle/Resources/public/js/upload.js'
+'@SooundAppBundle/Resources/public/js/add-general-information.js'
+%}
+<script src="{{ asset_url }}"></script>
+{% endjavascripts %}
+<h3>Tell us a little bit about your project</h3>
+
+<form name="form_general_information" novalidate id="step_form_step1" action="{{ app.request.getBaseURL() }}/projects/new" method="post" {{ form_enctype(form) }} class="lightForm">
+    {% form_theme form 'SooundAppBundle:Form:fields.html.twig' %}
+    <div class="form_field">
+        <div class="form_field_title">WHAT TYPE OF PROJECT IS IT?</div>
+        <div class="project_type">
+            {% for checkbox in form.projectchecktype %}
+                <div class="custom-radio">
+                    {% if data['projectchecktype'] is defined %}
+                        <input {% if data['projectchecktype'] == checkbox.vars.value %} checked="checked" {% endif %}type="radio" id="{{ checkbox.vars.id }}" name="{{ checkbox.vars.full_name }}" required="required" class="custom-radio_input" value="{{ checkbox.vars.value }}">
+                    {% else %}
+                        <input type="radio" id="{{ checkbox.vars.id }}" name="{{ checkbox.vars.full_name }}" required="required" class="custom-radio_input" value="{{ checkbox.vars.value }}">
+                    {% endif %}
+                    <label class="custom-radio_label" style=" padding-left: 8px !important;" for="{{ checkbox.vars.id }}">{{ checkbox.vars.label }}</label>
+                </div>
+            {% endfor %}
+            <div class="highlight-input_deco">Project description.</div>
+            {{ form_widget(form.projectchecktype,{'style':'display:none'}) }}
+        </div>
+    </div>
+    <div class="alert alert-danger global-alert3" style="display:none">
+
+    </div>
+    {{ form_errors(form.projectchecktype) }}
+
+	<div class="form_field project_name_wrapper">
+		<div class="form_field_title"><div class="form_title_text">WHAT IS IT CALLED</div></div>
+
+		<div class="highlight-input step_one_input">
+            {% if data['projectname'] is defined %}
+                {{ form_widget(form.projectname, {value :  data['projectname']}) }}
+            {% else %}
+                {{ form_widget(form.projectname) }}
+            {% endif %}
+
+            <div class="highlight-input_deco"></div>
+		</div>
+	</div>
+    <div class="alert alert-danger global-alert1" style="display:none">
+
+    </div>
+        {{ form_errors(form.projectname) }}
+    <div class="form_field">
+        <div class="form_field_title">WHAT DOES IT LOOK LIKE</div>
+        <div id="userfile-dropzone" class="dz-clickable">
+            {% if filter[2] is defined %}
+                {% if filter[2]['projectImageBase64'] is not defined %}
+                    <div id="project-picture-thumb" class="dz-clickable">
+                        <div id="project-picture-plus"></div>
+                    </div>
+                {% else %}
+                    <div id="project-picture-thumb" class="dz-clickable" style="background:url({{ filter[2]['projectImageBase64'] }}) no-repeat;border:none;">
+                    </div>
+                {% endif %}
+            {% else %}
+                <div id="project-picture-thumb" class="dz-clickable">
+                    <div id="project-picture-plus"></div>
+                </div>
+            {% endif %}
+            <div class="project_img_content">
+                <div class="project_img_details">
+                    Upload an image that best represents your project. Accepted files include .jpg, .jpeg, .png & .gif images smaller than 5MB
+                </div>
+            </div>
+            <div class="project_input_img gray-button provide-details-grey dz-clickable">
+                <img class="upload_logo" src="{{asset('bundles/sooundapp/css/images/upload_img.png') }}" >
+                <span>Upload Cover Art</span>
+            </div>
+            <div id="project-upload-preview" style="display:none"></div>
+        </div>
+    </div>
+    <br />
+    <div class="form_field project_genre_wrapper">
+        <div class="form_field_title">WHAT TYPE OF SOUND/GENRE SHOULD IT BE?</div>
+        <div class="highlight-input step_three_input">
+            {% if data['projectgenre'] is defined %}
+                {{ form_widget(form.projectgenre, {value :  data['projectgenre']}) }}
+            {% else %}
+                {{ form_widget(form.projectgenre) }}
+            {% endif %}
+            <div class="highlight-input_deco">Tag with different genres that make up the sound you're looking for.</div>
+        </div>
+    </div>
+    <div class="alert alert-danger global-alert4" style="display:none;"></div>
+    {{ form_errors(form.projectgenre) }}
+
+    {{ form_errors(form) }}
+    {{ form_rest(form) }}
+	<input type="submit" name="project_submit" value="DONE HERE" class="project_submit green-button uploader-submit">
+</form>
+
+
+
+
+{% endblock %}

@@ -1,0 +1,186 @@
+{% extends "SooundAppBundle::layout.html.twig" %}
+{% block title %}Music Crowdsourcing - create music with the world{% endblock title %}
+{% block content %}
+{% include "SooundAppBundle:blocks:header.html.twig" %}
+<script type="text/javascript">
+    $(function(){
+        sooundLive.addChannel("notification/public", function(uri, payload){
+            if(payload){
+                var firstDiv = $(".timelime-content > div:first");
+                var second = '';
+                var x=0;
+
+                if(firstDiv.length){
+                    $(".timelime .no-results-cont").remove();    
+                    second = firstDiv.hasClass("second") ? '' : 'second';
+                }
+
+                var activity = $('<div class="timeline_element '+second+'"></div>');
+                    activity.hide();
+                    activity.append('<span class="timeline_clock"></span>'
+                                 + '<span class="timeline_time">'+payload.date+'</span>'
+                                 + '<hr class="timeline_element_hr">');
+
+                for(x in payload.content){
+                    if(typeof payload.content[x]['ref'] != 'undefined' && typeof payload.content[x]['ref']['picture'] != 'undefined'){
+                        activity.append('<a class="timeline_avatar_link" href="'+payload.content[x]['ref']['link']+'"><img src="'+payload.content[x]['ref']['picture']+'" class="timeline_avatar"/></a>');
+                        break;
+                    }
+                }
+
+                var activityTextContainer = $('<div class="timeline_text_container"></div>');
+                var textHtml = "";
+
+                if(payload.type=='new-project'){
+                    textHtml += '<div>'+
+                                    '<span class="timeline_avatar_title">'+
+                                        '<a class="" href="'+payload.content[0]['ref']['link']+'">'+payload.content[0]['ref']['name']+'</a>'+
+                                    '</span>'+
+                                    '<span class="timeline_text ">'+payload.content[0]['text']+'</span>'+
+                                    '<span class="timeline_avatar_title">'+
+                                        '<a class="inner" href="'+payload.content[1]['ref']['link']+'">'+payload.content[1]['ref']['name']+'</a>'+
+                                    '</span>'+
+                                '</div>'+
+                                '<span class="timeline_text inner">'+payload.content[0]['ref']['desc']+'</span><br/>'+
+                                '<a class="timeline_view_project" href="'+payload.content[0]['ref']['link']+'">'+
+                                    '<img src="/bundles/sooundapp/css/images/view-project.png">'+
+                                    '<span>View Project</span>'+
+                                '</a>';
+                }
+                else{
+                    for(x in payload.content){
+                        if(x==0){textHtml+="<div>";}
+                        if(payload.content[x]['ref']){
+                            textHtml+='<span class="timeline_avatar_title"><a '+(x > 0 ? 'class="inner"' : '')+' href="'+payload.content[x]['ref']['link']+'">'+payload.content[x]['ref']['name']+'</a></span>';
+                            if(x == 1 && (typeof payload.content[(x+1)] != 'undefined') && payload.content[(x+1)]['ref']=='')
+                                { textHtml+='</div>';}
+                        }
+
+                        if(payload.content[x]['text']){
+                            textHtml+='<span class="timeline_text '+(x > 0 ? 'inner' : '')+'">'+payload.content[x]['text']+'</span>';
+                        }
+                        if(x == 0 && (typeof payload.content[(x+1)] != 'undefined') && payload.content[x+1]['ref']==''){textHtml+="</div>";}
+                    }
+                }
+                activityTextContainer.append(textHtml);
+                activity.append(activityTextContainer);
+                timelimeContent.prepend(activity);
+
+                activity.fadeIn();
+
+                $('html, body').animate({
+                    scrollTop: activity.offset().top
+                }, 500);
+
+                if($(".timeline_element").length>8)
+                    $(".timeline_element").last().fadeOut();
+            }
+        });
+    });
+</script>
+<div class="hero">
+    <div class="middle" id="middle">
+        <h1>A music crowdsourcing platform for the entertainment industry</h1>
+        <h3>We enable music producers, songwriters and musicians around the world to help you create the perfect sound for your next project</h3>
+        <p><input class="start_proj" type="submit" value="start a project" onclick="location.replace('{{ path('projects_addGeneralInformation') }}')"/></p>
+    </div>
+</div>
+<!-- CONTENT -->
+<div class="container">
+    <div class="main_container">
+        <span class="how_bg"></span>
+        <span class="how">HOW IT WORKS</span>
+        <div class="how-explanation">
+            <span class="explanation-item first">
+                <div class="explanation-item_icon"></div>
+                <span class="explanation-item_title">Start your project</span>
+                <span class="explanation-item_description">Tell us what you're looking for creatively</span>
+            </span><!--
+
+            --><span class="first_line"></span><!--
+
+            --><span class="explanation-item second">
+                <div class="explanation-item_icon"></div>
+                <span class="explanation-item_title">Receive Submissions</span>
+                <span class="explanation-item_description">tailored to your request, from creatives around the world</span>
+            </span><!--
+
+            --><span class="second_line"></span><!--
+
+            --><span class="explanation-item third">
+                <div class="explanation-item_icon"></div>
+                <span class="explanation-item_title">Manage Submissions</span>
+                <span class="explanation-item_description">Rate & leave comments, to dial in that perfect sound</span>
+            </span><!--
+
+            --><span class="third_line"></span><!--
+
+            --><span class="explanation-item fourth">
+                <div class="explanation-item_icon"></div>
+                <span class="explanation-item_title">Find Your Sound</span>
+                <span class="explanation-item_description">with guaranteed satisfaction of the end result</span>
+            </span>
+        </div>
+    </div>
+</div>
+<hr class="timelime-hr">
+<div class="timelime">
+    <span class="timeline_title">Recent Activity</span>
+    {% if activities %}
+    <div class="timelime-content">
+        {% for i,activity in activities %}
+            {% set done = false %}
+            <div class="timeline_element {{i is even ? '' : 'second'}}">
+                <span class="timeline_clock"></span>
+                <span class="timeline_time">{{activity.date}}</span>
+                <hr class="timeline_element_hr">
+                {% for content in activity.content %}
+                    {% if content.ref.picture is defined and done == false %}
+                        <a class="timeline_avatar_link" href="{{content.ref.link}}"><img src="{{content.ref.picture}}" class="timeline_avatar"/></a>
+                        {% set done = true %}
+                    {% endif %}
+                {% endfor %}
+                {% set done = false %}
+                <div class="timeline_text_container">
+                {% if activity.type == 'new-project' %}
+                    <div>
+                        <span class="timeline_avatar_title">
+                            <a class="" href="{{activity.content[0].ref.link}}">{{activity.content[0].ref.name}}</a>
+                        </span>
+                        <span class="timeline_text ">{{activity.content[0].text}}</span> 
+                        <span class="timeline_avatar_title">
+                            <a class="inner" href="{{activity.content[1].ref.link}}">{{activity.content[1].ref.name}}</a>
+                        </span>
+                    </div>
+                    <span class="timeline_text inner">{{activity.content[0].ref.desc}}</span><br/>
+                    <a class="timeline_view_project" href="{{activity.content[0].ref.link}}">
+                        <img src="/bundles/sooundapp/css/images/view-project.png">
+                        <span>View Project</span>
+                    </a>
+                {% else %}
+                    {% for key,content in activity.content %}
+                        {% if content.ref %}
+                            {% if key == 0 %}<div>{% endif %}
+                            {# we are using this to tell html when line-break should come #}
+                            <span class="timeline_avatar_title"><a class="{{ key > 0 ? 'inner' : ''}}" href="{{content.ref.link}}">{{content.ref.name}}</a></span>
+                            {% if (key == 1 and activity.content[key+1] is defined and activity.content[key+1].ref is empty)%}</div>{% endif %}
+                        {% endif %}
+                        {% if content.text %}
+                            <span class="timeline_text {{ key > 0 ? 'inner' : ''}}">{{content.text}}</span>
+                            {% if (key == 0 and activity.content[key+1].ref is empty) %}</div>{% endif %}
+                            {# we are using this to tell html when line-break should come #}
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+        <div style="clear:both"></div>
+    </div>
+    {% else %}
+        <div class="no-results-cont">
+            <span class="none-available">NONE AVAILABLE</span>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,131 @@
+{% set step = 3 %}
+{% extends "SooundAppBundle:Projects:steps.html.twig" %}
+{% block title %}Start A Project - Review & Confirm{% endblock title %}
+{% block step_content %}
+
+{% set filter = app.session.get('project_draft') %}
+{% if filter[4]['form'] is defined %}
+    {% set data = filter[4]['form'] %}
+{% endif %}
+
+{% javascripts
+'@SooundAppBundle/Resources/public/js/budget-and-deadline.js'
+%}
+<script src="{{ asset_url }}"></script>
+{% endjavascripts %}
+<!--
+<script src="{{ asset('js/budget-and-deadline.js') }}" type="text/javascript"></script>
+-->
+<h3>Set the Project’s Budget & Deadline</h3>
+<form novalidate id="step_form_step3" action="{{ app.request.getBaseURL() }}/projects/new/budget" method="post" {{ form_enctype(form) }} class="step_form" enctype="multipart/form-data">
+    {% form_theme form 'SooundAppBundle:Form:fields.html.twig' %}
+	<div class="form_field price_field">
+		<div class="form_field_title">USUAL PRICE RANGE?</div>
+		<div id="tempo_wrapper"></div>
+		<div class="price_details">
+            For <span id="project_type"></span> projects our suggested budget range for the best results is as shown. Regardless, on Soound, you're always in the drivers seat so you get to decide what your projects' budget and deadlines are.
+		</div>
+		<div id="tempo"></div>
+		<div id="amount1"></div>
+  		<div id="amount2"></div>
+	</div>
+
+	<div class="form_field project_budget">
+		<div class="form_budget">
+			<div class="form_field_title"><div class="form_title_text">BUDGET</div></div>
+			<div class="highlight-input">
+                {% if data['budget'] is defined %}
+                    {{ form_widget(form.budget, {value : data['budget']}) }}
+                {% else %}
+                    {{ form_widget(form.budget) }}
+                {% endif %}
+				<div class="highlight-input_deco">How much are you willing to spend?</div>
+			</div>
+		</div>
+		<div class="form_deadline">
+			<div class="form_field_title"><div class="form_title_text">DEADLINE</div></div>
+			<div class="highlight-input">
+                {% if data['deadLine'] is defined %}
+                    {{ form_widget(form.deadLine, {'id': 'deadline', value : data['deadLine']}) }}
+                {% else %}
+                    {{ form_widget(form.deadLine,{ 'id': 'deadline' }) }}
+                {% endif %}
+
+				<div class="highlight-input_deco">When do you want it done by?</div>
+				<div class="calendar_delimiter"></div>
+                <img class="ui-datepicker-trigger" src="/bundles/sooundapp/css/images/calendar.png" />
+			</div>
+		</div>
+	</div>
+    <div class="alert alert-danger global-alert1" style="display:none"></div>
+    <div class="alert alert-danger global-alert2" style="display:none"></div>
+    {{ form_errors(form.budget) }}
+    {{ form_errors(form.deadLine) }}
+
+    <div class="form_field project_extras">
+        <div class="form_field_title">PROJECT EXTRAS</div>
+        {% for checkbox in form.isFeatured %}
+            {% if data['isFeatured'] is defined %}
+                {% if checkbox.vars.value == 'private' %}
+                    <div class="extras first">
+                        <div class="custom-checkbox">
+                            <input {% if data['isFeatured'] == checkbox.vars.value %} checked="checked" {% endif %} type="checkbox" id="{{ checkbox.vars.id }}" name="{{ checkbox.vars.full_name }}" required="required" class="custom-checkbox_input" value="{{ checkbox.vars.value }}">
+                            <label class="custom-checkbox_label" for="{{ checkbox.vars.id }}">Private / Invite only project +$25</label>
+                        </div>
+                        <div class="extras_details">
+                            Invite only the people that you want to work on your project. It will not show up in searches or projects listings.
+                        </div>
+                    </div>
+                {% elseif checkbox.vars.value == 'featured' %}
+                    <div class="extras">
+                        <div class="custom-checkbox">
+                            <input {% if data['isFeatured'] == checkbox.vars.value %} checked="checked" {% endif %} type="checkbox" id="{{ checkbox.vars.id }}" name="{{ checkbox.vars.full_name }}" required="required" class="custom-checkbox_input" value="{{ checkbox.vars.value }}">
+                            <label class="custom-checkbox_label" for="{{ checkbox.vars.id }}">Featured project +$25</label>
+                        </div>
+                        <div class="extras_details">
+                            Get more visibility by having your project featured. More visibility = better chances of finding the sound you’re looking for.
+                        </div>
+                    </div>
+                {% endif %}
+            {% else %}
+                {% if checkbox.vars.value == 'private'%}
+                    <div class="extras first">
+                        <div class="custom-checkbox">
+                            <input type="checkbox" id="{{ checkbox.vars.id }}" name="{{ checkbox.vars.full_name }}" required="required" class="custom-checkbox_input" value="{{ checkbox.vars.value }}">
+                            <label class="custom-checkbox_label" for="{{ checkbox.vars.id }}">Private / Invite only project +$25</label>
+                        </div>
+                        <div class="extras_details">
+                            Invite only the people that you want to work on your project. It will not show up in searches or projects listings.
+                        </div>
+                    </div>
+                {% elseif checkbox.vars.value == 'featured' %}
+                    <div class="extras">
+                        <div class="custom-checkbox">
+                            <input type="checkbox" id="{{ checkbox.vars.id }}" name="{{ checkbox.vars.full_name }}" required="required" class="custom-checkbox_input" value="{{ checkbox.vars.value }}">
+                            <label class="custom-checkbox_label" for="{{ checkbox.vars.id }}">Featured project +$25</label>
+                        </div>
+                        <div class="extras_details">
+                            Get more visibility by having your project featured. More visibility = better chances of finding the sound you’re looking for.
+                        </div>
+                    </div>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+        {{ form_widget(form.isFeatured,{'style':'display:none'}) }}
+    </div>
+    <br />
+    <div class="alert alert-danger global-alert3" style="display:none"></div>
+    {{ form_errors(form.isFeatured) }}
+    {{ form_errors(form) }}
+    {{ form_rest(form) }}
+	<input type="submit" name="project_submit" value="DONE HERE" class="project_submit green-button">
+	<div class="gobackbtn">
+		<a href="{{ path('projects_provideDetails') }}">Go back</a>
+	</div>
+</form>
+<script>
+    $(function(){
+        priceRange('{{filter[2]['form']['projectchecktype']}}');
+    });
+</script>
+{% endblock %}

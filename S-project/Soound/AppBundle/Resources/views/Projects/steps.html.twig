@@ -1,0 +1,52 @@
+{% extends "SooundAppBundle::layout.html.twig" %}
+{% block content %}
+
+{% set filter = app.session.get('project_draft') %}
+{% if filter[4]['form'] is defined %}{% endif %}
+
+{% include "SooundAppBundle:blocks:header.html.twig" %}
+
+
+<div class="steps">
+	<div class="progress">
+		<h2>YOUR PROJECT'S PROGRESS</h2>
+		<div class="steps_container">
+			<a {% if filter[2]['form'] is defined %}href="{{ path('projects_addGeneralInformation') }}"{% endif %} class="step {% if step == 1 %} step--edit {% endif %} {% if step > 1 %} step--done {% endif %}">
+				<div class="step_icon">1</div>
+				<div class="step_name">GENERAL INFORMATION</div>
+				<div class="step_progress"></div>
+				{% if step == 1 %}<div class="middlearrow"></div>{% endif %}
+			</a>
+			<a {% if filter[3]['form'] is defined %}href="{{ path('projects_provideDetails') }}"{% endif %} class="step {% if step == 2 %} step--edit {% endif %} {% if step > 2 %} step--done {% endif %}">
+				<div class="step_icon">2</div>
+				<div class="step_name">PROVIDE DETAILS</div>
+				<div class="step_progress"></div>
+				{% if step == 2 %}<div class="middlearrow"></div>{% endif %}
+			</a>
+			<a {% if filter[4]['form'] is defined %}href="{{ path('projects_setBudgetAndDeadline') }}"{% endif %} class="step {% if step == 3 %} step--edit {% endif %} {% if step > 3 %} step--done {% endif %}">
+				<div class="step_icon">3</div>
+				<div class="step_name">SET BUDGET/DEADLINE</div>
+				<div class="step_progress"></div>
+				{% if step == 3 %}<div class="middlearrow"></div>{% endif %}
+			</a>
+			<a {% if filter[5]['form'] is defined %}href="{{ path('projects_reviewAndConfirm') }}"{% endif %} class="step {% if step == 4 %} step--edit {% endif %} {% if step > 4 %} step--done {% endif %}">
+				<div class="step_icon">4</div>
+				<div class="step_name">REVIEW/CONFIRM</div>
+				{% if step == 4 %}<div class="middlearrow"></div>{% endif %}
+			</a>
+			<!--
+            <a {% if filter[5]['form'] is defined %}href="{{ path('projects_projectDone') }}" {% endif %} class="step {% if step == 5 %} step--edit {% endif %} {% if step > 5 %} step--done {% endif %}">
+				<div class="step_icon">6</div>
+				<div class="step_name">DONE</div>
+                {% if step == 5 %}<div class="middlearrow"></div>{% endif %}
+			</a>
+			-->
+		</div>
+	</div>
+	<div class="fields">
+		{% block step_content %}
+		{% endblock %}
+		
+	</div>
+</div>
+{% endblock %}

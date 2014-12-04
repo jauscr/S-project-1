@@ -1,0 +1,65 @@
+Soound\AppBundle\Document\ProjectDetails:
+    properties:
+        file:
+            - File:
+                maxSize: 50000
+
+
+Soound\AppBundle\Document\User:
+    properties:
+        plainPassword:
+            - NotBlank: { message: "Insert valid password", groups: [Registration] }
+            - Length:
+                min: 6
+                minMessage: "Your password must be at least {{ limit }} characters"
+                groups: [Registration]
+        email:
+            - Email: { message: "Insert valid email", groups: [Registration] }
+
+Soound\AppBundle\Document\Project:
+    properties:
+        projectname:
+            - NotBlank:
+                  message: "Please write the project title"
+                  groups: [step2]
+        projectdetails:
+            - NotBlank: { message: "Please write more details about project", groups: [step3] }
+            - Length: { min: 100, minMessage: "Your project description must have at least {{ limit }} characters.", groups: [step3] }
+        projectchecktype:
+            - NotBlank: { message: "Please select what type of project is ...", groups: [step2] }
+        projectgenre:
+            - NotBlank: { message: "Please write what type of Sound/Genre should it be.", groups: [step2] }
+        budget:
+            - NotBlank: { message: "Please write how much are you willing to spend.", groups: [step4] }
+        deadLine:
+            - NotBlank: { message: "Please select the project deadline ", groups: [step4] }
+        payMethod:
+            - NotBlank: { message: "Please select the payment method you will use ...", groups: [step5] }
+        #creditCard:
+        #    - NotBlank: { message: "Please write a valid card number", groups: [step5] }
+        #    - CardScheme:
+        #        schemes: [VISA,DISCOVER,MASTERCARD]
+        #        message: Your credit card number is invalid.
+        #        groups: [step5]
+        #    - Length: { max: 16, maxMessage: "Insert valid card number", groups: [step5] }
+        #cvc:
+        #    - NotBlank: { message: "Please insert 3 digit back to card", groups: [step5] }
+        #    - Length: { max: 3, maxMessage: "CVC field must have 3 numbers", groups: [step5] }
+        #expirationMonth:
+        #    - NotBlank: { message: "Insert valid expiration month", groups: [step5] }
+        #    - Length: { max: 2, maxMessage: "Insert valid expiration month .i.e 06", groups: [step5] }
+        #expirationYear:
+        #    - NotBlank: { message: "Insert valid expiration year", groups: [step5] }
+        #    - Length: { max: 2, maxMessage: "Insert valid expiration year .i.e 13", groups: [step5] }
+        #cardName:
+        #    - NotBlank: { message: "Insert Cardholder name", groups: [step5] }
+        #billingZip:
+        #    - NotBlank: { message: "Insert billing zip code", groups: [step5] }
+        #    - Length: { max: 9, maxMessage: "Please insert billing zip code", groups: [step5] }
+        #    - MinLength: { limit: 4, message: "Please insert valid zip code", groups: [step5] }
+        #emailAddress:
+        #   - NotBlank: { message: "Insert a valid email.", groups: [step5] }
+        #    - Email:
+        #        message: The email "{{ value }}" is not a valid email.
+        #        checkMX: true
+        #        groups: [step5]

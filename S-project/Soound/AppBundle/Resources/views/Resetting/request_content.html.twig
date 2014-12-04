@@ -1,0 +1,38 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+    <div id="page-pw-reset" class="fullwidth-content">
+        <form id="resetting-form" action="{{ path('fos_user_resetting_send_email') }}" method="POST" class="fos_user_resetting_request">
+            <div class="highlight-input--wicon">
+                <input type="text" placeholder="{{ 'resetting.request.username'|trans }}" id="username" name="username" required="required" />
+                <div class="highlight-input_deco">
+                </div>
+                <div class="icon--small icon--envelope">
+                </div>
+            </div>
+            <input id="oo-pw-reset" class="green-button" type="submit" style="width: 100% !important" value="{{ 'resetting.request.submit'|trans }}" />
+
+            <p class="msg msg-invalid-username" style="display:none">{{ 'resetting.request.invalid_username'|trans() }}</p>
+            <p class="msg msg-already-requested" style="display:none">{{ 'resetting.password_already_requested'|trans() }}</p>
+            <p class="msg msg-check-email"  style="display:none">{{ 'resetting.check_email'|trans()}}</p>
+
+        </form>
+    </div>
+<div id="body-btm-wave"></div>
+<script>
+    OO.Layouts.fullWidthCenter('#page-pw-reset');
+    $(function() {
+        $("#resetting-form").on("submit", function(){
+            $(this).ajaxSubmit({
+                dataType:  'json',
+                success: function(resp){
+                    $(".msg").hide();
+                    var msg = $(".msg-"+resp.tag);
+                    msg.text(msg.text().replace("%username%", resp.username));
+                    msg.text(msg.text().replace("%email%", resp.username));
+                    msg.show();
+                }
+            });
+            return false;
+        });
+    });
+</script>

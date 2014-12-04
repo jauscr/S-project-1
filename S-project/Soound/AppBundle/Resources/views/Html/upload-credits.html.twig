@@ -1,0 +1,77 @@
+{% extends "SooundAppBundle::layout.html.twig" %}
+{% block title %}Credits{% endblock title %}
+{% block content %}
+
+{% include "SooundAppBundle:blocks:header.html.twig" %}
+{% include "SooundAppBundle:blocks:player.html.twig" %}
+
+{% javascripts
+'@SooundAppBundle/Resources/public/js/jquery.easing.js'
+'@SooundAppBundle/Resources/public/js/dropzone.min.js'
+'@SooundAppBundle/Resources/public/js/uploadCredits.js'
+%}
+<script src="{{ asset_url }}"></script>
+{% endjavascripts %}
+
+{% stylesheets 
+    'bundles/sooundapp/css/submission.css' filter="cssrewrite"
+    'bundles/sooundapp/css/uploadCredits.css' filter="cssrewrite"
+    'bundles/sooundapp/css/uploadCredits.css' filter="cssrewrite"
+%}
+<link rel="stylesheet" href="{{ asset_url }}" />
+{% endstylesheets %}
+
+<div class="container upload-credits">
+	<div class="page-title">Your Credits ({{numCredits}})</div>
+
+	<div id="main-content">
+		<form id="userfile" action="uploadCredits/upload" class="dropzone dz-clickable">
+			<div id="userfile-inner-cont" class="dz-clickable">
+				<div id="userfile-inner-instructions">
+					Drag & drop files in this area to add a new credit
+				</div>
+				<div id="userfile-inner-or">OR</div>
+				<div id="userfile-inner-browse-button">BROWSE COMPUTER</div>
+			</div>
+			<div id="userfile-accepted-types" class="dz-clickable">*accepted file types are WAV, MP3, M4A & AAC</div>
+			<div id="userfile-errors"></div>
+		</form>
+		<div id="upload-progress-cont">
+			<div id="upload-progress-current"></div>
+			<div id="upload-progress-top">
+				<div id="upload-progress-title"></div>
+				<div id="upload-progress-action"></div>
+				<div id="upload-progress-status"></div>
+			</div>
+		</div>
+		<div class="upload-details-cont">
+			<div class="upload-details-arrow"></div>
+			<div class="upload-details-left">
+				<div class="upload-details-title">WHAT WORK DID YOU DO FOR THE PROJECT?</div>
+				<input type="text" class="upload-details-input upload-details-roles" placeholder="Mixing, Production, Background Vocals" maxlength="80" />
+				<div class="upload-details-submit">ADD CREDIT</div>
+			</div>
+			<div class="upload-details-right">
+				<div>
+					<div class="upload-details-title">SHORT CREDIT DESCRIPTION</div>
+					<div class="upload-details-characters-used">0 / 200 characters used</div>
+				</div>
+				<textarea class="upload-details-input upload-details-description" placeholder="Short project description" maxlength="200"></textarea>
+			</div>
+		</div>
+		<div id="uploaded-credits">
+		</div>
+	</div>
+
+	<div id="side-content">
+		<div class="side-section">
+			<div class="section-title">CREDIT SOURCES</div>
+			<div class="section-credit-source">SoundCloud</div>
+			<div class="section-credit-source">Bandcamp</div>
+			<div class="section-credit-source">Reverbnation</div>
+			<div class="section-credit-source">SOOUND</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}

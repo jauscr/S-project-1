@@ -1,0 +1,375 @@
+{% extends "SooundAppBundle::layout.html.twig" %}
+{% block title %}Submissions - {{projectTitle}}{% endblock title %}
+{% block content %}
+{% include "SooundAppBundle:blocks:player.html.twig" %}
+{% include "SooundAppBundle:blocks:header.html.twig" %}
+
+{% javascripts
+'@SooundAppBundle/Resources/public/js/submission.js'
+'@SooundAppBundle/Resources/public/js/dropzone.min.js'
+'@SooundAppBundle/Resources/public/js/jquery.scrollTo.min.js'
+'@SooundAppBundle/Resources/public/js/svg.js'
+'@SooundAppBundle/Resources/public/js/easyPieChart.js'
+'@SooundAppBundle/Resources/public/js/submitToProject.js'
+%}
+<script src="{{ asset_url }}"></script>
+{% endjavascripts %}
+<script type="text/javascript">
+    $(function() {
+        var references = {{references|json_encode()|raw }};
+        var x;
+        setTimeout(function() {
+            for(x in references){
+                if(references[x].isAudio){    
+                    var refer = new Reference({
+                        container: $(".reference"+x+" .tablet_player"),
+                        id: references[x].id,
+                        audioURL: references[x].audioURL,
+                        waveURL: references[x].waveURL,
+                        title: references[x].title,
+                        sooundPlayer: sooundPlayer,
+                        duration: references[x].duration,
+                        commentsOn : {
+                            waveform: false,
+                            team: false
+                        }
+                    });
+                    refer.draw();
+                    $(".reference"+x+" .tablet_player").append("<div>"+references[x].description+"</div>")
+                    $(".reference"+x+" .tablet_info_container").hide();
+                    $(".reference"+x+" .tablet_player").fadeIn();
+                }
+                else{
+                    embedReference(references[x].link, $('.reference'+x+' .tablet_pic--second'))
+                    $('.reference'+x+' .tablet_info--second').find('.tablet_description').text(references[x].description);
+                }
+            }
+        }, 1000);            
+    });
+</script>
+{% stylesheets
+    'bundles/sooundapp/css/submission.css' filter="cssrewrite"
+    'bundles/sooundapp/css/submitToProject.css' filter="cssrewrite"
+    'bundles/sooundapp/css/project.css' filter="cssrewrite"
+%}
+<link rel="stylesheet" href="{{ asset_url }}" />
+{% endstylesheets %}
+
+<div class="container">
+<div class="content-wrapper">
+	<div id="left-content">
+	    <div id="project-title">{{projectTitle}}</div>
+        <div id="project-photo">
+            <img src="{{projectPicture}}" width="130px">
+        </div>
+        <div id="project-des">{{projectDescription}}</div>
+	</div>
+	<div id="right-content">
+		<div id="project-status" class="sidebar-section">
+            <div class="sidebar-section-title">PROJECT STATUS</div>
+        </div>
+        <div id="sidebar-section-status" class="sidebar-section-status">
+            <span class="chart" data-percent="{{daysPercent}}" data-days-total="{{daysTotal}}" data-days-left="{{daysLeft}}">
+                <span class="chart-wrapper">
+                    <span class="percent">{{daysLeft}}</span><br/>
+                    <span class="days">days left</span>
+                </span>
+            </span>
+            <span class="sidebar-section-status-title">
+                {% if alreadySubmitted %}
+                    Waiting on project owner to rate your submission.
+                {% else %}
+                    Waiting for you to submit a song.
+                {% endif %}
+            </span>
+        </div>
+        <div id="project-metrics" class="sidebar-section">
+            <div class="sidebar-section-title">PROJECT METRICS</div>
+            <div id="sidebar-section-budget" class="sidebar-section-metric">
+                ${{projectBudget}}<span class="sidebar-section-metric-title">budget</span>
+            </div>
+            <div id="sidebar-section-deadline" class="sidebar-section-metric">
+                {{projectDeadline}}<span class="sidebar-section-metric-title">deadline</span>
+            </div>
+            <div id="sidebar-section-submissions" class="sidebar-section-metric">
+                {{submissions}}<span class="sidebar-section-metric-title">submissions</span>
+            </div>
+            <div id="sidebar-section-creatives" class="sidebar-section-metric">
+                {{members}}<span class="sidebar-section-metric-title">creatives</span>
+            </div>
+            <div id="sidebar-section-followers" class="sidebar-section-metric">
+                {{watchers}}<span class="sidebar-section-metric-title">followers</span>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="project-submenu">
+        <a href="#details" class="active"><span class="icon-details"></span>PROJECT DETAILS</a>
+        <a href="#submissions"><span class="icon-submissions"></span>SUBMISSIONS</a>
+        <a {% if isWinner %} href="#exchange" {% else %} class="passive" {% endif %}><span class="icon-exchange"></span>EXCHANGE</a>
+    </div>
+    <div class="tab-content active" id="details">
+        <div class="project-details">
+            <div class="general container">
+                <div class="main title">GENERAL</div>
+                <div class="detail-container">
+                    <span class="title gray">TYPE:</span>
+                    <span class="value title">{{projectDetails.type}}</span>
+                </div>
+                <div class="detail-container">
+                    <span class="title gray">GENRE:</span>
+                    <input type="hidden" id="form_projectgenre" class="project-edit" name="genre" required="required" placeholder = 'i.e. Rock, Pop'>
+                    <span class="value genre title project-nonedit">{{projectGenres|join(' ')}}</span>
+                </div> 
+            </div>
+            {% set count = 0 %}
+            {% if references[0].isAudio or references[0].link is not empty %}
+                <div class="references container gray">
+                    <div class="title">REFERENCES</div>
+                    <div id="add-reference" class="project-edit gray-square"><span class="triangle"></span><span class="icon-plus"></span></div>
+                    {% for key, reference in references %}
+                        <div class="reference-container reference{{key}} pull-left">
+                            <div class="number pull-left">{{(key+1)}}</div>
+                            <div style="clear:both"></div>
+                            <div class="tablet_player"></div>
+                            <div class="tablet_info_container">
+                                <div class="tablet_pic--second"></div>
+                                <div class="tablet_info tablet_info--second">
+                                    <div class="tablet_description"></div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                {% set count = count + 1 %}
+            {% endif %}
+            {% if projectDetails.technical is defined %}
+                {% set technical = projectDetails.technical %}
+                <div class="technical container project-nonedit {{ count is odd ? 'gray' : ''}}">
+                    <div class="main title">TECHNICAL</div>
+                    {% if technical.tempo is not empty %}
+                    <div class="detail-container">
+                        <span class="title gray">TEMPO:</span>
+                        <span class="value title">{{technical.tempo}}</span>
+                    </div>
+                    {% endif %}
+                    {% if technical.key is not empty %}
+                    <div class="detail-container">
+                        <span class="title gray">KEY:</span>
+                        <span class="value title">{{technical.key}}</span>
+                    </div> 
+                    {% endif %}
+                    {% if technical.mood is not empty %}
+                    <div class="detail-container">
+                        <span class="title gray">MOOD:</span>
+                        <span class="value title">{{technical.mood}}</span>
+                    </div>
+                    {% endif %}
+                    {% if technical.style is not empty %}
+                    <div class="detail-container">
+                        <span class="title gray">STYLE:</span>
+                        <span class="value title">{{technical.style}}</span>
+                    </div> 
+                    {% endif %}
+                </div>
+                {% set count = count + 1 %}
+            {% endif %}
+            {% if projectDetails.instrumental is defined %}
+                {% set instrumental = projectDetails.instrumental %}
+                <div class="instrumental container project-nonedit {{ count is odd ? 'gray' : ''}}">
+                    <div class="main title">INSTRUMENTAL</div>
+                    {% if instrumental.drumsPreference is not empty %}
+                    <div class="detail-container">
+                        <span class="title gray">DRUMS:</span>
+                        <span class="value title">{{instrumental.drumsPreference}}</span>
+                    </div>
+                    {% endif %}
+                    {% if instrumental.instrumentPreference is not empty %}
+                    <div class="detail-container">
+                        <span class="title gray">INSTRUMENT:</span>
+                        <span class="value title">{{instrumental.instrumentPreference}}</span>
+                    </div> 
+                    {% endif %}
+                    {% if instrumental.dominantSounds is not empty %}
+                    <div class="detail-container">
+                        <span class="title gray">DOMINANT SOUND:</span>
+                        <span class="value title">{{instrumental.dominantSounds|join(',')}}</span>
+                    </div>
+                    {% endif %}
+                </div>
+                {% set count = count + 1 %}
+            {% endif %}
+
+            {% if projectDetails.theme is defined %}
+                {% set theme = projectDetails.theme %}
+                <div class="theme container project-nonedit {{ count is odd ? 'gray' : ''}}">
+                    <div class="main title">THEME</div>
+                    {% if theme.topic is not empty %}
+                    <div class="detail-container">
+                        <span class="title gray">TOPIC:</span>
+                        <span class="value title">{{theme.topic}}</span>
+                    </div>
+                    {% endif %}
+                    {% if theme.topic is not empty %}
+                    <div class="detail-container">
+                        <span class="title gray">MENTION:</span>
+                        <span class="value title">{{theme.topic}}</span>
+                    </div>
+                    {% endif %}
+                </div>
+                {% set count = count + 1 %}
+            {% endif %}
+            {% if projectDetails.musician is defined %}
+                {% set musician = projectDetails.musician %}
+                <div class="musician container project-nonedit {{ count is odd ? 'gray' : ''}}">
+                    <div class="main title">MUSICIAN</div>
+                    {% if musician.musicianType is not empty %}
+                    <div class="detail-container">
+                        <span class="title gray">MUSICIAN TYPE:</span>
+                        <span class="value title">{{musician.musicianType}}</span>
+                    </div>
+                    {% endif %}
+                    {% if musician.musicianTech is not empty %}
+                    <div class="detail-container">
+                        <span class="title gray">MUSICIAN TECHNIQUE:</span>
+                        <span class="value title">{{musician.musicianTech}}</span>
+                    </div>
+                    {% endif %}
+                </div>
+                {% set count = count + 1 %}
+            {% endif %}
+
+            {% if projectDetails.vocal is defined %}
+                {% set vocal = projectDetails.vocal %}
+                <div class="vocal container project-nonedit {{ count is odd ? 'gray' : ''}}">
+                    <div class="main title">VOCAL</div>
+                    {% if vocal.vocalGender is not empty %}
+                    <div class="detail-container">
+                        <span class="title gray">VOCAL GENDER:</span>
+                        <span class="value title">{{vocal.vocalGender}}</span>
+                    </div>
+                    {% endif %}
+                    {% if vocal.vocalRange is not empty %}
+                    <div class="detail-container">
+                        <span class="title gray">VOCAL RANGE:</span>
+                        <span class="value title">{{vocal.vocalRange}}</span>
+                    </div>
+                    {% endif %}
+                    {% if vocal.vocalRange is not empty %}
+                    <div class="detail-container">
+                        <span class="title gray">VOCAL LANGUAGES:</span>
+                        <span class="value title">{{vocal.vocalLanguages}}</span>
+                    </div>
+                    {% endif %}
+                </div>
+                {% set count = count + 1 %}
+            {% endif %}
+        </div>
+    </div>
+    <div id="submissions" class="tab-content hide" style="padding-top:40px">
+        {% if alreadySubmitted == false %}
+            <div id="project-content">
+                Waiting on you to make a submission
+            </div>
+        {% endif %}
+        {% if hasWinner == false %}
+            <form id="userfile" action="{{path('uploadSubmission')}}" class="dropzone dz-clickable">
+                <div id="userfile-inner-cont" class="dz-clickable">
+                    <div id="userfile-inner-instructions" class="drop-file-text">
+                        Drag & drop files in this area to add a new credit
+                    </div>
+                    <div id="userfile-inner-or" class="bold-text"><b>OR</b></div>
+                    <div id="userfile-inner-browse-button" class="browse-file">BROWSE COMPUTER</div>
+                </div>
+                <div id="userfile-accepted-types" class="dz-clickable accepted-files">*accepted file types are WAV, MP3 & ACC</div>
+                <div id="userfile-errors"></div>
+            </form>
+            <div id="upload-progress-cont">
+                <div id="upload-progress-current"></div>
+                <div id="upload-progress-top">
+                    <div id="upload-progress-title"></div>
+                    <div id="upload-progress-action"></div>
+                    <div id="upload-progress-status"></div>
+                </div>
+            </div>
+            <div id="uploaded-song"></div>
+        {% else %}
+            <div>A winning submission was selected.</div>
+        {% endif %}
+        <div id="players"></div>
+    </div>
+    <div id="exchange" class="tab-content hide" style="width:740px;">
+        {% if isWinner %}
+        <script type="text/javascript">
+            $(function(){
+                $.post("{{ path('getWinningSubmission') }}").done(function(data){
+                    var response = $.parseJSON(data);
+                    winningSubmission = new Submission({
+                        role: "none",
+                        publicId: 'w'+response.publicId,
+                        cont: $('#winning-submission'),
+                        sooundPlayer: sm,
+                        submitable: false,
+                        top: false,
+                        commentsOn: {
+                            waveform: false,
+                            team: false
+                        },
+                        revisions: response.revisions
+                    });
+                });
+                $.post("{{ path('getUploadedHqFiles') }}").done(function(data){
+                    var response = $.parseJSON(data);
+                    for(var i=0; i<response.length; i++){
+                        var file = response[i];
+                        hqFiles.push( new hqFile( {
+                            "id": file.id,
+                            "name": file.name,
+                            "extension": file.extension,
+                            "status": file.status,
+                            "cont": $('#uploaded-files')
+                        } ));
+                    }
+                });
+            });
+        </script>
+        <div id="winner-announcement">CONGRATULATIONS! YOUR SUBMISSION BELOW HAS WON!</div>
+        <div id="winning-submission" style="width:730px;margin-top:50px;padding-left:10px;border-bottom:solid 1px #DDD;"></div>
+        <div id="winner-next-step"><span style="color:#e74c3c;">*</span>In order to complete the exchange and get paid,<br> please submit high quality files to the project owner as soon as possible.</div>
+        <div id="uploaded-files">
+        </div>
+        {% if complaint is defined %}
+            <div id="complaint-cont">
+                <span id="complaint-arrow"></span>
+                <div id="complaint-title">THE PROJECT OWNER HAD THIS COMPLAINT: (You must resolve it in order to be paid)</div>
+                <div id="complaint-text">{{complaint}}</div>
+                <div id="complaint-fixed-button" class="green-button">OK, I'VE FIXED IT</div>
+            </div>
+        {% endif %}
+        <form id="hqUploader" action="{{path('uploadHQFile')}}" class="dropzone dz-clickable">
+            <div id="userfile-inner-cont" class="dz-clickable">
+                <div id="userfile-inner-instructions" class="drop-file-text">
+                    Drag & drop a high quality file here to submit for approval
+                </div>
+                <div id="userfile-inner-or" class="bold-text"><b>OR</b></div>
+                <div id="userfile-inner-browse-button" class="browse-file">BROWSE COMPUTER</div>
+            </div>
+            <div id="userfile-accepted-types" class="dz-clickable accepted-files">*accepted file types are WAV, MP3, ACC & FLAC</div>
+            <div id="userfile-errors"></div>
+        </form>
+        <div id="upload-progress-cont">
+            <div id="upload-progress-current"></div>
+            <div id="upload-progress-top">
+                <div id="upload-progress-title"></div>
+                <div id="upload-progress-status"></div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+
+</div>
+</div>
+{% endblock %}

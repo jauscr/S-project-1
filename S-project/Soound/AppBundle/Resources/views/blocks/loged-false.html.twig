@@ -1,0 +1,22 @@
+{% set activePage = app.request.attributes.get('_route')%}
+<div id="navigation-bar">
+    <div id="navigation-bar-content">
+        <a href="{{ path('index_display')}}" class="oo-logo"> <img src="{{ asset('bundles/sooundapp/css/images/logo.png') }}"> </a>
+        <ul id="nav">
+            <li style="display:none;">
+                <a class="start-btn navi-btn {{ 'projects' in activePage ? 'active' : '' }}" href="{{ path('projects_addGeneralInformation') }}"><span class="icon-plus-solid"></span>Start a Project</a>
+            </li>
+            {% if 'register' not in activePage %}
+            <li>
+                <a class="browse-btn navi-btn {{ activePage ==  'browse' ? 'active' : '' }}" href="{{ path('browse') }}"><span class="icon icon-browse"></span>Browse projects</a>
+            </li>
+            <li>
+                <a class="sign-in-btn navi-btn oo-ui-signup" href="{{ path('fos_user_registration_register') }}"><span class="icon icon-sign-in"></span>Sign up</a>
+            </li>
+            {% endif %}
+            <li>
+                <a class="log-in-btn navi-btn oo-ui-login"><span class="icon icon-log-in"></span>log in</a>
+            </li>
+        </ul>
+    </div>
+</div>

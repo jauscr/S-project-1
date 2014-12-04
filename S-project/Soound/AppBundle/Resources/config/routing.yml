@@ -1,0 +1,575 @@
+#register:
+#    pattern: /register
+#    defaults: { _controller: SooundAppBundle:Users:register}
+
+#Project Owner Submissions View Page
+
+topSubmissions:
+    pattern: /submissions/topSubmissions
+    defaults: {_controller: SooundAppBundle:ProjectSubmissions:topSubmissions}
+
+projectOwnerSubmissions:
+    pattern: /submissions/projectOwnerSubmissions
+    defaults: {_controller: SooundAppBundle:ProjectSubmissions:projectOwnerSubmissions}
+
+projectOwnerPeople:
+    pattern: /submissions/projectOwnerPeople
+    defaults: {_controller: SooundAppBundle:ProjectSubmissions:projectOwnerPeople}
+
+rejectSubmission:
+    pattern: /submissions/reject
+    defaults: {_controller: SooundAppBundle:ProjectSubmissions:rejectSubmission}
+    requirements:
+        _method: POST
+
+winnerSubmission:
+    pattern: /submissions/winner
+    defaults: {_controller: SooundAppBundle:ProjectSubmissions:winnerSubmission}
+    requirements:
+        _method: POST
+
+getProjectWinningSubmission:
+    pattern: /submissions/getWinner
+    defaults: {_controller: SooundAppBundle:ProjectSubmissions:winningSubmission}
+    requirements:
+        _method: POST
+
+downloadHQFile:
+    pattern: /submissions/downloadHQFile/{fileId}
+    defaults: { _controller: SooundAppBundle:ProjectSubmissions:downloadHQFile }
+
+sendComplaint:
+    pattern: /submissions/sendComplaint
+    defaults: { _controller: SooundAppBundle:ProjectSubmissions:sendComplaint }
+    requirements:
+        _method: POST
+
+acceptFiles:
+    pattern: /submissions/acceptFiles
+    defaults: { _controller: SooundAppBundle:ProjectSubmissions:acceptFiles }
+    requirements:
+        _method: POST
+
+sendTeamInvite:
+    pattern: /submissions/teamInvite
+    defaults: { _controller: SooundAppBundle:ProjectSubmissions:inviteTeam }
+    requirements: { _method: POST }
+removeTeamMember:
+    pattern: /submissions/removeTeam
+    defaults: { _controller: SooundAppBundle:ProjectSubmissions:removeTeam }
+    requirements: { _method: POST }
+editProjectPicture:
+    pattern: /submissions/uploadPic
+    defaults: { _controller: SooundAppBundle:ProjectSubmissions:uploadPic }
+    requirements: { _method: POST }
+uploadReference:
+    pattern: /submissions/uploadReference
+    defaults: { _controller: SooundAppBundle:ProjectSubmissions:uploadReference }
+    requirements: { _method: POST }
+uploadProcFile:
+    pattern: /submissions/uploadFile
+    defaults: { _controller: SooundAppBundle:ProjectSubmissions:uploadFile }
+    requirements: { _method: POST }
+updateProject:
+    pattern: /submissions/updateProject
+    defaults: { _controller: SooundAppBundle:ProjectSubmissions:updateProject }
+    requirements: { _method: POST }
+
+saveProjectField:
+    pattern: /submissions/saveField
+    defaults: { _controller: SooundAppBundle:ProjectSubmissions:saveField }
+    requirements: { _method: POST }
+
+acceptTeamInvite:
+    pattern: /submissions/{publicId}/teamInvite/{key}
+    defaults: { _controller: SooundAppBundle:ProjectSubmissions:acceptTeam }
+
+projectSubmissions:
+    pattern: /submissions/{publicId}
+    defaults: {_controller: SooundAppBundle:ProjectSubmissions:index}
+
+
+#User Submit to Project Page
+
+removeSubmission:
+    pattern: /submit/remove
+    defaults: {_controller: SooundAppBundle:Submit:removeSubmission}
+    requirements:
+        _method: POST
+
+uploadSubmission:
+    pattern: /submit/submission
+    defaults: {_controller: SooundAppBundle:Submit:uploadSubmission}
+    requirements:
+        _method: POST
+
+uploadRevision:
+    pattern: /submit/revision
+    defaults: {_controller: SooundAppBundle:Submit:uploadRevision}
+    requirements:
+        _method: POST
+
+uploadHQFile:
+    pattern: /submit/hqfile
+    defaults: {_controller: SooundAppBundle:Submit:uploadHQFile}
+    requirements:
+        _method: POST
+
+getUploadedHqFiles:
+    pattern: /submit/uploadedHqFiles
+    defaults: {_controller: SooundAppBundle:Submit:getUploadedHqFiles}
+    requirements:
+        _method: POST
+
+getUserProjectSubmissions:
+    pattern: /submit/getSubmissions
+    defaults: {_controller: SooundAppBundle:Submit:getSubmissions}
+    requirements:
+        _method: POST
+
+getWinningSubmission:
+    pattern: /submit/winningSubmission
+    defaults: {_controller: SooundAppBundle:Submit:getWinningSubmission}
+    requirements:
+        _method: POST
+
+complaintFixed:
+    pattern: /submit/complaintFixed
+    defaults: { _controller: SooundAppBundle:Submit:complaintFixed }
+    requirements:
+        _method: POST
+
+submit:
+    pattern: /submit/{publicId}
+    defaults: {_controller: SooundAppBundle:Submit:index}
+
+#Index Display (is this really needed?)
+
+index_display:
+  defaults:
+    _controller: "SooundAppBundle:Html:displayIndex"
+  pattern: /
+
+#User Profile Page
+
+profileProject:
+    pattern: /profile/project
+    defaults: {_controller: SooundAppBundle:UserProfile:goToProject }
+    requirements:
+        _method: POST
+
+profileCredits:
+    pattern: /profile/credits
+    defaults: {_controller: SooundAppBundle:UserProfile:getCredits}
+    requirements:
+        _method: POST
+
+profileWinnerProjects:
+    pattern: /profile/winner
+    defaults: {_controller: SooundAppBundle:UserProfile:getWinnerProjects}
+    requirements:
+        _method: POST
+
+profileOpenProjects:
+    pattern: /profile/open
+    defaults: {_controller: SooundAppBundle:UserProfile:getOpenProjects}
+    requirements:
+        _method: POST
+
+profileClosedProjects:
+    pattern: /profile/closed
+    defaults: {_controller: SooundAppBundle:UserProfile:getClosedProjects}
+    requirements:
+        _method: POST
+
+profileFollowingProjects:
+    pattern: /profile/following
+    defaults: {_controller: SooundAppBundle:UserProfile:getFollowingProjects}
+    requirements:
+        _method: POST
+
+profileMemberOfProjects:
+    pattern: /profile/memberOf
+    defaults: {_controller: SooundAppBundle:UserProfile:getMemberOfProjects}
+    requirements:
+        _method: POST
+
+userProfile:
+    pattern: /profile/{publicId}
+    defaults: {_controller: SooundAppBundle:UserProfile:index }
+
+#User Account Settings
+accountSettings:
+    pattern: /accountSettings
+    defaults: {_controller: SooundAppBundle:UserProfile:accountSettings }
+
+saveBasicAccountSettings:
+    pattern: /accountSettings/saveBasic
+    defaults: {_controller: SooundAppBundle:UserProfile:saveBasicAccountSettings }
+saveAvatar:
+    pattern: /accountSettings/saveAvatar
+    defaults: {_controller: SooundAppBundle:UserProfile:saveAvatar }
+saveEmail:
+    pattern: /accountSettings/saveEmail
+    defaults: {_controller: SooundAppBundle:UserProfile:saveEmail }
+saveNotificationPreferences:
+    pattern: /accountSettings/saveNotificationPreferences
+    defaults: {_controller: SooundAppBundle:UserProfile:saveNotificationPreferences }
+changePassword:
+    pattern: /accountSettings/changePassword
+    defaults: {_controller: SooundAppBundle:UserProfile:changePassword }
+deleteAccount:
+    pattern: /accountSettings/deleteAccount
+    defaults: { _controller: SooundAppBundle:UserProfile:deleteAccount }
+
+linkPaypalAccount:
+    pattern: /accountSettings/linkPaypalAccount
+    defaults: { _controller: SooundAppBundle:UserProfile:linkPaypalAccount }
+    requirements: { _method: POST }
+
+linkBankAccount:
+    pattern: /accountSettings/linkBankAccount
+    defaults: { _controller: SooundAppBundle:UserProfile:linkBankAccount }
+    requirements: { _method: POST }
+
+subMerchantApproved:
+    pattern: /webhook/subMerchantApproved
+    defaults: { _controller: SooundAppBundle:UserProfile:subMerchantApproved }
+
+subMerchantDenied:
+    pattern: /webhook/subMerchantDenied
+    defaults: { _controller: SooundAppBundle:UserProfile:subMerchantDenied }
+
+#User Upload Credits Page
+uploadCredits:
+    pattern: /uploadCredits
+    defaults: {_controller: SooundAppBundle:UploadCredits:index}
+
+uploadCreditsList:
+    pattern: /uploadCredits/list
+    defaults: {_controller: SooundAppBundle:UploadCredits:pastCredits}
+
+uploadCreditsUpdate:
+    pattern: /uploadCredits/update
+    defaults: {_controller: SooundAppBundle:UploadCredits:updateCredit}
+    requirements:
+        _method: POST
+
+uploadCreditsAudio:
+    pattern: /uploadCredits/upload
+    defaults: {_controller: SooundAppBundle:UploadCredits:uploadAudio}
+
+createCredit:
+    pattern: /uploadCredits/create
+    defaults: {_controller: SooundAppBundle:UploadCredits:createCredit}
+
+deleteUploadedCredit:
+    pattern: /uploadCredits/delete
+    defaults: {_controller: SooundAppBundle:UploadCredits:deleteCredit}
+
+#User View Past Transactions and Earnings History Page
+
+transactionsHistory:
+    pattern: /transactions
+    defaults: {_controller: SooundAppBundle:TransactionsHistory:index}
+
+transactionsBetween:
+    pattern: /transactions/between
+    defaults: {_controller: SooundAppBundle:TransactionsHistory:getTransactions}
+    requirements:
+        _method: POST
+
+#User View Past Activity
+
+activity:
+    pattern: /activity
+    defaults: {_controller: SooundAppBundle:Activity:index}
+
+activityBetween:
+    pattern: /activity/between
+    defaults: {_controller: SooundAppBundle:Activity:getActivity}
+    requirements:
+        _method: POST
+
+activityDismiss:
+    pattern: /activity/dismiss
+    defaults: {_controller: SooundAppBundle:Activity:dismissActivity}
+    requirements:
+        _method: POST
+
+#Browse Projects Page
+
+browse:
+    pattern: /browse
+    defaults: {_controller: SooundAppBundle:BrowseProjects:index, publicId: null}
+
+browsePublicProject:
+    pattern: /browse/project/{publicId}
+    defaults: {_controller: SooundAppBundle:BrowseProjects:index}
+
+browseFeatured:
+    pattern: /browse/featured
+    defaults: { _controller: SooundAppBundle:BrowseProjects:browseFeatured }
+    requirements:
+        _method: POST
+
+browsePopular:
+    pattern: /browse/popular
+    defaults: { _controller: SooundAppBundle:BrowseProjects:browsePopular }
+    requirements:
+        _method: POST
+
+browseEnding:
+    pattern: /browse/ending
+    defaults: { _controller: SooundAppBundle:BrowseProjects:browseEnding }
+    requirements:
+        _method: POST
+
+browseMore:
+    pattern: /browse/more
+    defaults: { _controller: SooundAppBundle:BrowseProjects:browseMore }
+    requirements:
+        _method: POST
+
+joinProject:
+    pattern: /browse/join
+    defaults: { _controller: SooundAppBundle:BrowseProjects:joinProject }
+    requirements:
+        _method: POST
+
+followProject:
+    pattern: /browse/follow
+    defaults: { _controller: SooundAppBundle:BrowseProjects:followProject }
+    requirements:
+        _method: POST
+
+unfollowProject:
+    pattern: /browse/unfollow
+    defaults: { _controller: SooundAppBundle:BrowseProjects:unfollowProject }
+    requirements:
+        _method: POST
+
+viewProject:
+    pattern: /browse/viewProject
+    defaults: { _controller: SooundAppBundle:BrowseProjects:getViewProject}
+    requirements:
+        _method: POST
+
+#HTML Display (this should be removed, along with it's dependencies)
+
+html_display:
+  defaults:
+    _controller: "SooundAppBundle:Html:display"
+  pattern: /{page}
+  requirements:
+    page: index|player|project-owner|user-profile
+
+insert_song:
+  defaults:
+    _controller: "SooundAppBundle:Player:insertSong"
+  pattern: /insert_song
+
+#player
+
+rateSong:
+  defaults:
+    _controller: "SooundAppBundle:Player:rateSong"
+  pattern: /player/rating
+  requirements:
+    _method: POST
+
+comment:
+    pattern: /player/comment
+    defaults: { _controller: "SooundAppBundle:Player:comment" }
+    requirements: { _method: POST }
+readThread:
+    pattern: /player/readThread
+    defaults: { _controller: "SooundAppBundle:Player:readThread" }
+    requirements: { _method: POST }
+#Start a Project Page
+
+projects_addGeneralInformation:
+    pattern: /projects/new
+    defaults: { _controller: SooundAppBundle:Projects:addGeneralInformation}
+
+projects_provideDetails:
+    pattern: /projects/new/details
+    defaults: { _controller: SooundAppBundle:Projects:provideDetails}
+
+projects_setBudgetAndDeadline:
+    pattern: /projects/new/budget
+    defaults: { _controller: SooundAppBundle:Projects:setBudgetAndDeadline }
+
+projects_reviewAndConfirm:
+    pattern: /projects/new/confirm
+    defaults: { _controller: SooundAppBundle:Projects:reviewAndConfirm }
+
+projects_projectDone:
+    pattern: /projects/new/done
+    defaults: { _controller: SooundAppBundle:Projects:projectDone }
+
+projects_uploadPic:
+    pattern: /projects/new/upload
+    defaults: {_controller: SooundAppBundle:Projects:uploadPicture}
+
+projects_uploadFile:
+    pattern: /projects/new/uploadProjectFile
+    defaults: {_controller: SooundAppBundle:Projects:uploadFile}
+
+uploadAndEditFiles:
+    pattern: /files/manage
+    defaults: { _controller: SooundAppBundle:ProjectsController:uploadAndEditFiles}
+    requirements:
+        _method: POST
+
+user_userHome:
+    pattern: /home
+    defaults: { _controller: SooundAppBundle:User:userHome}
+
+sendEmails:
+    pattern: /send/arrayEmails/{emails}
+    defaults: { _controller: SooundAppBundle:User:sendEmails }
+    requirements:
+        _method: POST
+
+verifyEmail:
+    pattern: /verifyEmail
+    defaults: { _controller: SooundAppBundle:User:verifyEmail }
+    requirements: { _method: POST }
+
+closeNotConfirmed:
+    pattern: /closeNotConfirmed
+    defaults: { _controller: SooundAppBundle:User:closeNotConfirmed}
+    requirements: { _method: POST }
+#verifyEmail:
+#    pattern: /email/{email}
+#    defaults: { _controller: SooundAppBundle:User:verifyEmail }
+#    requirements:
+#        _method: POST
+
+sendTemplateEmails:
+    pattern: /send/template/emails
+    defaults: { _controller: SooundAppBundle:User:sendTemplateEmails }
+    requirements:
+        _method: POST
+
+activityUserEmail:
+    pattern: /send/activity/email
+    defaults: { _controller: SooundAppBundle:User:activityUserEmail }
+    requirements:
+        _method: POST
+
+redirectTo:
+    pattern: /redirectTo
+    defaults: { _controller: SooundAppBundle:Default:redirectTo }
+    requirements:
+        _method: POST
+
+startNewUser:
+    pattern: /startNewUser
+    defaults: { _controller: SooundAppBundle:User:startNewUser }
+    requirements:
+        _method: POST
+
+resend_confirmation:
+    pattern: /register/resend
+    defaults: { _controller: SooundAppBundle:Registration:resend }
+
+fos_user_security:
+    resource: "@FOSUserBundle/Resources/config/routing/security.xml"
+
+fos_user_profile:
+    resource: "@FOSUserBundle/Resources/config/routing/profile.xml"
+    prefix: /profile
+
+fos_user_register:
+    resource: "@FOSUserBundle/Resources/config/routing/registration.xml"
+    prefix: /register
+
+fos_user_resetting:
+    resource: "@FOSUserBundle/Resources/config/routing/resetting.xml"
+    prefix: /resetting
+
+fos_user_change_password:
+    resource: "@FOSUserBundle/Resources/config/routing/change_password.xml"
+    prefix: /profile
+
+#HWIOAuthBundle routes
+hwi_oauth_security:
+    resource: "@HWIOAuthBundle/Resources/config/routing/login.xml"
+    prefix: /login
+
+hwi_oauth_connect:
+    resource: "@HWIOAuthBundle/Resources/config/routing/connect.xml"
+    prefix: /login
+
+hwi_oauth_redirect:
+    resource: "@HWIOAuthBundle/Resources/config/routing/redirect.xml"
+    prefix: /login
+
+facebook_login:
+    pattern: /login/check-facebook
+
+google_login:
+    pattern: /login/check-google
+
+#Terms Of Service
+terms:
+    pattern: /terms
+    defaults: 
+        _controller: FrameworkBundle:Template:template
+        template: SooundAppBundle:Html:terms.html.twig
+        maxAge: 86400
+        sharedMaxAge: 86400
+
+#Privacy Policy
+privacy:
+    pattern: /privacy
+    defaults:
+        _controller: FrameworkBundle:Template:template
+        template: SooundAppBundle:Html:privacy.html.twig
+        maxAge: 86400
+        sharedMaxAge: 86400
+
+#About Us
+about:
+    pattern: /about
+    defaults: 
+        _controller: FrameworkBundle:Template:template
+        template: SooundAppBundle:Html:about.html.twig
+        maxAge: 86400
+        sharedMaxAge: 86400
+
+#Private Beta Login
+#betaInviteCheck:
+#    pattern: /beta_invite_check
+#    defaults: { _controller: SooundAppBundle:Html:betaInviteCheck }
+#    requirements: { _method: POST }
+
+beta:
+    pattern: /register/beta
+    defaults: { _controller: SooundAppBundle:Html:betaInvite }
+    requirements: { _method: POST }
+
+#Launch Beta
+betaLaunch:
+    pattern: /launchBeta
+    defaults: { _controller: SooundAppBundle:Html:launchBeta }
+
+#Admin routes
+admin:
+    pattern: /admin
+    defaults: { _controller: SooundAppBundle:Admin:index }
+
+adminGetProjects:
+    pattern: /admin/projects
+    defaults: { _controller: SooundAppBundle:Admin:getProjects }
+
+adminGetUsers:
+    pattern: /admin/users
+    defaults: { _controller: SooundAppBundle:Admin:getUsers }
+
+adminGet:
+    pattern: /admin/get
+    defaults: { _controller: SooundAppBundle:Admin:query }
+    requirements: { _method: POST }

@@ -1,0 +1,32 @@
+{% for project in projectInfo %}
+	<div class="browse-container_project {{type}}" data-id="{{project.id}}">
+		<div class="browse-container_project_header">
+			<span class="browse-container_project_title">{{project.type}}<span class="label">Project</span></span>
+			<span class="browse-container_project_budget">${{project.budget}}<span class="label">Budget</span></span>
+		</div>
+		<div class="browse-container_project_pic">
+			<div class="browse-container_project_pic_hover"><span></span>VIEW PROJECT DETAILS</div>
+			<img src="{{project.picture}}">
+		</div>
+		<div class="browse-container_project_name">{{project.title}}</div>
+		<div class="browse-container_project_tags">
+			<div class="icon--small icon--tag"></div>
+			{% for j,genre in project.genre %}
+				<span class="browse-container_project_tag">
+					{{genre|title}}{{ (j+1) < project.genre|length ? ',' : '' }}
+				</span>
+			{% endfor %}
+		</div>
+		<div class="browse-container_project_footer">
+			<div class="project-stat entries" data-tooltip="{{project.numEntries}} entries">
+				<div class="icon--small icon--cd"></div>{{project.numEntries}}<span class="label">Entries</span>
+			</div>
+			<div class="project-stat deadline" data-tooltip="Deadline in {{project.daysLeft}} days">
+				<div class="icon--small icon--calendar"></div>{{project.daysLeft}}<span class="label">days</span>
+			</div>
+			<div class="project-stat watchers" data-tooltip="{{project.followers}} followers">
+				<div class="icon--small icon--pwatchers"></div>{{project.followers}}<span class="label">Followers</span>
+			</div>
+		</div>
+	</div>
+{% endfor %}

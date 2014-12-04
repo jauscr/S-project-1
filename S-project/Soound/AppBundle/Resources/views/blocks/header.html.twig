@@ -1,0 +1,5 @@
+{% if app.user %}
+    {% include "SooundAppBundle:blocks:loged-true.html.twig" %}
+{% else %}
+    {% include "SooundAppBundle:blocks:loged-false.html.twig" %}
+{% endif %}

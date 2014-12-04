@@ -1,0 +1,433 @@
+{% set step = 2 %}
+{% extends "SooundAppBundle:Projects:steps.html.twig" %}
+{% block title %}Start A Project - Provide Details{% endblock title %}
+{% block step_content %}
+
+{% set filter = app.session.get('project_draft') %}
+{% if filter[3]['form'] is defined %}
+    {% set data = filter[3]['form'] %}
+{% endif %}
+    {% set proyect = filter[2]['form']['projectchecktype'] %}
+
+{% javascripts
+'@SooundAppBundle/Resources/public/js/dropzone.min.js'
+'@SooundAppBundle/Resources/public/js/upload_multi.js'
+'@SooundAppBundle/Resources/public/js/provide-details.js'
+%}
+<script src="{{ asset_url }}"></script>
+{% endjavascripts %}
+<h3>A slightly closer look</h3>
+
+<form novalidate name="step_form_step2" id="step_form_step2" action="{{ path('projects_provideDetails') }}" method="post" {{ form_enctype(form) }} class="lightForm" enctype="multipart/form-data">
+    {% form_theme form 'SooundAppBundle:Form:fields.html.twig' %}
+    <div class="form_field form-genre-step1" style="padding-bottom:15px !important">
+        <div class="form_field_title">
+            <a>SOME MORE DETAILS PLEASE</a> 
+        </div>
+        <div class="highlight-textarea step_two_input">
+            {% if data['projectdetails'] is defined %}
+                {{ form_widget(form.projectdetails, {value :  data['projectdetails']}) }}
+            {% else %}
+                {{ form_widget(form.projectdetails) }}
+            {% endif %}
+            <div class="highlight-input_deco" style="float:left">
+                Tell us everything about what you're looking for
+                <span class="alert alert-danger global-alert2" style="display:none"></span>
+            </div>
+            <div class="form_field_title uppercase"><span id="characterUsed"> 0</span></div>
+        </div>
+    </div>
+    {{ form_errors(form.projectdetails) }}
+
+    <div class="form_field references">
+        <div class="form_field_title"><a>PROJECT REFERENCES</a><span class="form_field_category_description">What kind of sound do you want your creatives to refer to?</span></div>
+        <div class="prod-references"></div>
+        <!-- -->
+            <div class="highlight-input input-provide-details">
+                <input type="text" name="project_reference[1][link]" id="link_preference_1" class="link_preference" placeholder="i.e. http://myLinkReference"  onfocus="this.placeholder = ''" onblur="this.placeholder = 'i.e. http://myLinkReference'"/>
+                <div class="highlight-input_deco highlight-reference" style="float:left">Enter a SoundCloud or YouTube link or upload a reference</div>
+                <div class="project_input_img gray-button upload_reference" style="width:35px !important;"> 
+                    <img class="upload_logo" src="/bundles/sooundapp/css/images/upload_img.png">
+                </div>
+                <input type="file" class="reference_file"  name="project_reference[1]" style="visibility:hidden"/>
+            </div>
+            <div id="ref_description_1" style="display:none" class="desc_container">
+                <div class="link-box-arrow"></div>
+                <div class="link-box">
+                    <div class="link-description">
+                        <textarea onblur="this.placeholder = 'Point out the things you like in this reference that could help create your sound'" onfocus="this.placeholder = ''" placeholder="Point out the things you like in this reference that could help create your sound" rows="5" class="reference_text" id="reference_text_1" name="project_reference[1][desc]"></textarea>
+                    </div>
+                </div>
+            </div>
+        <!-- -->
+        <div style="clear:both"></div>
+        <div class="project_reference_content gray-button">
+            <div class="project_input_reference"><img class="upload_plus_logo" src="{{asset('bundles/sooundapp/css/images/reference_plus.png') }}">ADD A NEW REFERENCE</span><input type="hidden"></div>
+        </div>
+    </div>
+
+    <div class="form_field project_files">
+        <div class="form_field_title"><a>PROJECT FILES</a><span class="form_field_category_description">Add project files</span></div>
+        <div class="prod-project_files"></div>
+        <!-- -->
+            <div class="highlight-input input-provide-details">
+                <input type="text" name="project_files[1][link]" id="link_files_1" class="link_project_file" placeholder="i.e. http://myLinkProjectFile"  onfocus="this.placeholder = ''" onblur="this.placeholder = 'i.e. http://myLinkProjectFile'"/>
+                <div class="highlight-input_deco highlight-reference" style="float:left">Upload a file you'd like to be used in the production of your project</div>
+                <div class="project_input_img gray-button upload_project_file project-file-clickable1" id="project-files-dropzone1" style="width:35px !important;"> 
+                    <img class="upload_logo project-file-clickable1" src="/bundles/sooundapp/css/images/upload_img.png">
+                </div>
+                <input type="hidden" id="files_hasfile1" name="project_files[1][hasFile]" value="0">
+            </div>
+            <div id="file_description_1" style="display:none" class="desc_container">
+                <div class="link-box-arrow"></div>
+                <div class="link-box">
+                    <div class="link-description">
+                        <textarea onblur="this.placeholder = 'Point out the things you like in this reference that could help create your sound'" onfocus="this.placeholder = ''" placeholder="Point out the things you like in this reference that could help create your sound" rows="5" class="file_text" id="file_text_1" name="project_files[1][desc]"></textarea>
+                    </div>
+                </div>
+            </div>
+        <!-- -->
+        <div style="clear:both"></div>
+        <div class="project_file_content gray-button">
+            <div class="project_input_files"><img class="upload_plus_logo" src="{{asset('bundles/sooundapp/css/images/reference_plus.png') }}">ADD A NEW PROJECT FILE</span><input type="hidden"></div>
+        </div>
+    </div>
+
+    {% if proyect == 'Production' or proyect == 'CompleteSongs' %}
+        <div style="margin: 20px 0 20px 0;" class="separator"></div>
+        <div class="form_field_category">
+            <div class="form_field_title">
+                <a href="#" class="section_title" id="technical"><span>+</span> THE TECHNICAL</a>
+                <span class="form_field_category_description">Choose the tempo, key and the style of the project.</span>
+            </div>
+            <div class="technical" style="display:none">
+                <div class="form_field project_budget">
+                    <div class="form_budget">
+                        <div class="form_field_title"><div class="form_title_text">WHAT TEMPO SHOULD IT BE?</div></div>
+                        <div class="project_properties_2 properties">
+                            {% if data['projecttempo'] is defined %}
+                                {{ form_widget(form.projecttempo, {value :  data['projecttempo']}) }}
+                            {% else %}
+                                {{ form_widget(form.projecttempo) }}
+                            {% endif %}
+                            <ul>
+                                <li {% if data['projecttempo'] is not defined or data['projecttempo'] == 'Select option'  %}class="selected"{% endif %}>Select option</li>
+                                <li {% if data['projecttempo'] is defined and data['projecttempo'] == 'Ballad'  %}class="selected"{% endif %}>Ballad</li>
+                                <li {% if data['projecttempo'] is defined and data['projecttempo'] == 'Mid-Tempo'  %}class="selected"{% endif %}>Mid-Tempo</li>
+                                <li {% if data['projecttempo'] is defined and data['projecttempo'] == 'Up-Tempo'  %}class="selected"{% endif %}>Up-Tempo</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="form_deadline">
+                        <div class="form_field_title">WHAT KEY SHOULD THE SONG BE IN ?</div>
+                        <div class="project_properties_5 properties">
+                            {% if data['keysong'] is defined %}
+                                {{ form_widget(form.keysong, {value :  data['keysong']}) }}
+                            {% else %}
+                                {{ form_widget(form.keysong) }}
+                            {% endif %}
+                            <ul style="left:320px">
+                                {% for key in ["Select option", "C", "Db / C#", "D", "Eb", "E", "F", "Gb / F#", "G", "Ab", "A", "Bb", "B / Cb"] %}
+                                    <li class="{{data['keysong'] is defined and data['keysong'] == key ? 'selected' : data['keysong'] is not defined and loop.index == 1 ? 'selected' : ''}}">{{key}}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form_field project_budget">
+                    <div class="form_budget">
+                        <div class="form_field_title"><div class="form_title_text">WHAT MOOD SHOULD THE SONG HAVE</div></div>
+                        <div class="project_properties_1 properties">
+                            {% if data['moodsong'] is defined %}
+                                {{ form_widget(form.moodsong, {value :  data['moodsong']}) }}
+                            {% else %}
+                                {{ form_widget(form.moodsong) }}
+                            {% endif %}
+                            <ul>
+                                <li {% if data['moodsong'] is not defined or data['moodsong'] == 'Select option'  %}class="selected"{% endif %}>Select option</li>
+                                <li {% if data['moodsong'] is defined and data['moodsong'] == 'Happy'  %}class="selected"{% endif %}>Happy</li>
+                                <li {% if data['moodsong'] is defined and data['moodsong'] == 'Sad'  %}class="selected"{% endif %}>Sad</li>
+                                <li {% if data['moodsong'] is defined and data['moodsong'] == 'Celebration'  %}class="selected"{% endif %}>Celebration</li>
+                                <li {% if data['moodsong'] is defined and data['moodsong'] == 'Fun/Party'  %}class="selected last" {% else %}class="last"{% endif %}>Fun/Party</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="form_deadline">
+                        <div class="form_field_title">PROJECT STYLE ?</div>
+                        <div class="project_type">
+                            {% for checkbox in form.projectstyle %}
+                                <div class="custom-checkbox">
+                                    {% if data['projectstyle'] is defined %}
+                                        <input {% if data['projectstyle'] == checkbox.vars.value %} checked="checked" {% endif %}type="checkbox" id="{{ checkbox.vars.id }}" name="{{ checkbox.vars.full_name }}" required="required" class="custom-checkbox_input" value="{{ checkbox.vars.value }}">
+                                    {% else %}
+                                        <input type="checkbox" id="{{ checkbox.vars.id }}" name="{{ checkbox.vars.full_name }}" required="required" class="custom-checkbox_input" value="{{ checkbox.vars.value }}">
+                                    {% endif %}
+                                    <label class="custom-checkbox_label" for="{{ checkbox.vars.id }}">{{ checkbox.vars.label }}</label>
+                                </div>
+                            {% endfor %}
+                            {{ form_widget(form.projectstyle,{'style':'display:none'}) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form_field_category">
+            <div class="form_field_title">
+                <a href="#" id="instrumental" class="section_title"><span>+</span> THE INSTRUMENTAL</a>
+                <span class="form_field_category_description"></span>
+            </div>
+            <div class="instrumental" style="display:none">
+                <div class="form_field project_budget">
+                    <div class="form_budget">
+                        <div class="form_field_title"><div class="form_title_text">DRUMS PREFERENCES ?</div></div>
+                        <div class="project_properties_3 properties">
+                            {% if data['drumspref'] is defined %}
+                                {{ form_widget(form.drumspref, {value :  data['drumspref']}) }}
+                            {% else %}
+                                {{ form_widget(form.drumspref) }}
+                            {% endif %}
+                            <ul>
+                                <li {% if data['drumspref'] is not defined or data['drumspref'] == 'Select option'  %}class="selected"{% endif %}>Select option</li>
+                                <li {% if data['drumspref'] is defined and data['drumspref'] == 'Drum Machine'  %}class="selected"{% endif %}>Drum Machine</li>
+                                <li {% if data['drumspref'] is defined and data['drumspref'] == 'Live Drums'  %}class="selected"{% endif %}>Live Drums</li>
+                                <li {% if data['drumspref'] is defined and data['drumspref'] == 'Combinations of the two'  %}class="selected last" {% else %}class="last"{% endif %}>Combinations of the two</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="form_deadline">
+                        <div class="form_field_title"><div class="form_title_text">INSTRUMENT PREFERENCES ?</div></div>
+                        <div class="project_properties_4 properties float-right">
+                            {% if data['instrumentRef'] is defined %}
+                                {{ form_widget(form.instrumentRef, {value :  data['instrumentRef']}) }}
+                            {% else %}
+                                {{ form_widget(form.instrumentRef) }}
+                            {% endif %}
+                            <ul>
+                                <li {% if data['instrumentRef'] is not defined or data['instrumentRef'] == 'Select option'  %}class="selected"{% endif %}>Select option</li>
+                                <li {% if data['instrumentRef'] is defined and data['instrumentRef'] == 'Synthetic/Midi Instruments'  %}class="selected"{% endif %}>Synthetic/Midi Instruments</li>
+                                <li {% if data['instrumentRef'] is defined and data['instrumentRef'] == 'Live Instruments'  %}class="selected"{% endif %}>Live Instruments</li>
+                                <li {% if data['instrumentRef'] is defined and data['instrumentRef'] == 'Combinations of the two'  %}class="selected last" {% else %}class="last"{% endif %}>Combinations of the two</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>        
+                <div class="form_field references">
+                    <div class="form_field_title">WHICH INSTRUMENT WOULD YOU LIKE TO BE THE DOMINANT SOUND ?</div>
+                    <div class="highlight-input">
+                        {% if data['dominantsound'] is defined %}
+                            {{ form_widget(form.dominantsound, {value :  data['dominantsound']}) }}
+                        {% else %}
+                            {{ form_widget(form.dominantsound) }}
+                        {% endif %}
+                        <div class="highlight-input_deco">Dominant sound</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% if proyect == 'CompleteSongs' %}
+            <div class="form_field_category">
+                <div class="form_field_title">
+                    <a class="section_title" id="theme" href="#"><span>+</span> THE THEME</a>
+                    <span class="form_field_category_description">Let's talk specifics.</span>
+                </div>
+                <div class="theme" style="display:none">
+                    <div class="form_field">
+                        <div class="form_field_title uppercase">Any specific topic the song should focus on?</div>
+                        <div class="highlight-textarea">
+                            {% if data['songTopic'] is defined %}
+                                {{ form_widget(form.songTopic, {value :  data['songTopic']}) }}
+                            {% else %}
+                                {{ form_widget(form.songTopic) }}
+                            {% endif %}
+                            <div class="highlight-input_deco">Project topics.</div>
+                        </div>
+                    </div>
+                    <div class="form_field">
+                        <div class="form_field_title uppercase">Anything specific the song should NOT mention?</div>
+                        <div class="highlight-textarea">
+                            {% if data['songMention'] is defined %}
+                                {{ form_widget(form.songMention, {value :  data['songMention']}) }}
+                            {% else %}
+                                {{ form_widget(form.songMention) }}
+                            {% endif %}
+                            <div class="highlight-input_deco">Project mentions.</div>
+                        </div>
+                    </div>        
+                </div>
+            </div>
+        {% endif %}
+    {% endif %}
+    {% if proyect == 'Songwriting' %}
+        <div class="form_field_category">
+            <div class="form_field_title">
+                <a class="section_title" id="theme" href="#"><span>+</span> THE THEME</a>
+                <span class="form_field_category_description">Let's talk specifics.</span>
+            </div>
+            <div class="theme" style="display:none">
+                <div class="form_field">
+                    <div class="form_field_title uppercase">Any specific topic the song should focus on?</div>
+                    <div class="highlight-textarea">
+                        {% if data['songTopic'] is defined %}
+                            {{ form_widget(form.songTopic, {value :  data['songTopic']}) }}
+                        {% else %}
+                            {{ form_widget(form.songTopic) }}
+                        {% endif %}
+                        <div class="highlight-input_deco">Project topics.</div>
+                    </div>
+                </div>
+                <div class="form_field">
+                    <div class="form_field_title uppercase">Anything specific the song should NOT mention?</div>
+                    <div class="highlight-textarea">
+                        {% if data['songMention'] is defined %}
+                            {{ form_widget(form.songMention, {value :  data['songMention']}) }}
+                        {% else %}
+                            {{ form_widget(form.songMention) }}
+                        {% endif %}
+                        <div class="highlight-input_deco">Project mentions.</div>
+                    </div>
+                </div>        
+            </div>
+        </div>
+    {% endif %}
+    {% if proyect == 'Musician' %}
+        <div class="form_field musician_field">
+            <div class="form_field_title uppercase">What type of musician do you need?</div>
+            <div class="project_properties_1 properties">
+                {% if data['musicianType'] is defined %}
+                    {{ form_widget(form.musicianType, {value :  data['musicianType']}) }}
+                {% else %}
+                    {{ form_widget(form.musicianType) }}
+                {% endif %}
+                <ul>
+                    <li {% if data['musicianType'] is not defined or data['musicianType'] == 'Select option'  %}class="selected"{% endif %}>Select option</li>
+                    <li {% if data['musicianType'] is defined and data['musicianType'] == 'Guitarist'  %}class="selected"{% endif %}>Guitarist</li>
+                    <li {% if data['musicianType'] is defined and data['musicianType'] == 'Keyboard/Pianist'  %}class="selected"{% endif %}>Keyboard/Pianist</li>
+                    <li {% if data['musicianType'] is defined and data['musicianType'] == 'Bass'  %}class="selected"{% endif %}>Bass</li>
+                    <li {% if data['musicianType'] is defined and data['musicianType'] == 'Drummer'  %}class="selected last" {% else %}class="last"{% endif %}>Drummer</li>
+                </ul>
+            </div>
+        </div>
+        <div class="form_field musician_field">
+            <div class="form_field_title uppercase">What technique should they use?</div>
+            <div class="project_properties_3 properties">
+                {% if data['musicianTech'] is defined %}
+                    {{ form_widget(form.musicianTech, {value :  data['musicianTech']}) }}
+                {% else %}
+                    {{ form_widget(form.musicianTech) }}
+                {% endif %}
+                <ul>
+                    <li {% if data['musicianTech'] is not defined or data['musicianTech'] == 'Select option'  %}class="selected"{% endif %}>Select option</li>
+                    <li {% if data['musicianTech'] is defined and data['musicianTech'] == 'Legato'  %}class="selected"{% endif %}>Legato</li>
+                    <li {% if data['musicianTech'] is defined and data['musicianTech'] == 'Staccato'  %}class="selected last" {% else %}class="last"{% endif %}>Staccato</li>
+                </ul>
+            </div>
+        </div>
+        {{ form_errors(form.musicianType) }}
+    {% endif %}
+    {% if proyect == 'Vocal' %}
+        <script src="{{ asset('js/projectType.js') }}" type="text/javascript"></script>
+        <div class="form_field vocal_field">
+            <div class="form_field_title uppercase">What gender vocals?</div>
+            <div class="project_properties_1 properties">
+                {% if data['genderVocal'] is defined %}
+                    {{ form_widget(form.genderVocal, {value :  data['genderVocal']}) }}
+                {% else %}
+                    {{ form_widget(form.genderVocal) }}
+                {% endif %}
+                <ul>
+                    <li {% if data['genderVocal'] is not defined or data['genderVocal'] == 'Select option'  %}class="selected"{% endif %}>Select option</li>
+                    <li {% if data['genderVocal'] is defined and data['genderVocal'] == 'Male'  %}class="selected"{% endif %}>Male</li>
+                    <li {% if data['genderVocal'] is defined and data['genderVocal'] == 'Female'  %}class="selected"{% endif %}>Female</li>
+                    <li {% if data['genderVocal'] is defined and data['genderVocal'] == "Doesn't Matter"  %}class="selected last" {% else %}class="last"{% endif %}>Doesn't Matter</li>
+                </ul>
+            </div>
+        </div>
+        <div class="form_field vocal_field">
+            <div class="form_field_title uppercase">What gender vocals?</div>
+            <div class="project_properties_3 properties">
+                {% if data['vocalRange'] is defined %}
+                    {{ form_widget(form.vocalRange, {value :  data['vocalRange']}) }}
+                {% else %}
+                    {{ form_widget(form.vocalRange) }}
+                {% endif %}
+                <ul>
+                    <li {% if data['vocalRange'] is not defined or data['vocalRange'] == 'Select option'  %}class="selected"{% endif %}>Select option</li>
+                    <li {% if data['vocalRange'] is defined and data['vocalRange'] == 'Seprano'  %}class="selected"{% endif %}>Seprano</li>
+                    <li {% if data['vocalRange'] is defined and data['vocalRange'] == 'Tenor'  %}class="selected"{% endif %}>Tenor</li>
+                    <li {% if data['vocalRange'] is defined and data['vocalRange'] == 'Alto'  %}class="selected"{% endif %}>Alto</li>
+                    <li {% if data['vocalRange'] is defined and data['vocalRange'] == 'Baritone'  %}class="selected"{% endif %}>Baritone</li>
+                    <li {% if data['vocalRange'] is defined and data['vocalRange'] == "Bass"  %}class="selected last" {% else %}class="last"{% endif %}>Bass</li>
+                </ul>
+            </div>
+        </div>
+        <div style="clear:both"></div>
+        <div class="form_field project_genre_wrapper form-genre-step1">
+            <div class="form_field_title uppercase">What language should it be in?</div>
+            <div class="highlight-input step_three_input">
+                {% if data['vocalLan'] is defined %}
+                    {{ form_widget(form.vocalLan, {value :  data['vocalLan']}) }}
+                {% else %}
+                    {{ form_widget(form.vocalLan) }}
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+    {% if proyect == 'Engineering' %}
+        <br />
+        <h4>Instructions:</h4>
+            <p>1. Engineers only need raw (no processing or effects) audio files bounced from your session, not the entire session itself.</p>
+            <p>2. All audio files provided MUST be either WAV or AIFF files, not MP3's.</p>
+            <p>3. Please consolidate all tracks from the session so that they align correctly from the beginning to the end of the song.</p>
+        <div class="form_field project_name_wrapper engineering_field">
+            <div class="form_field_title uppercase">What tempo is the song in?</div>
+            <div class="highlight-input step_one_input">
+                {% if data['engTempo'] is defined %}
+                    {{ form_widget(form.engTempo, {value :  data['engTempo']}) }}
+                {% else %}
+                    {{ form_widget(form.engTempo) }}
+                {% endif %}
+                <div class="highlight-input_deco"></div>
+            </div>
+        </div>
+        <div class="alert alert-danger global-alerttempo" style="display:none"></div>
+        <div class="form_field references engineering_field">
+            <div class="form_field_title">WHAT KEY SHOULD THE SONG BE IN ?</div>
+            <div class="project_properties_5 properties">
+                {% if data['keysong'] is defined %}
+                    {{ form_widget(form.keysong, {value :  data['keysong']}) }}
+                {% else %}
+                    {{ form_widget(form.keysong) }}
+                {% endif %}
+                <ul>
+                    {% for key in ["Select option", "C", "Db / C#", "D", "Eb", "E", "F", "Gb / F#", "G", "Ab", "A", "Bb", "B / Cb"] %}
+                        <li class="{{data['keysong'] is defined and data['keysong'] == key ? 'selected' : data['keysong'] is not defined and loop.index == 1 ? 'selected' : ''}}">{{key}}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <div style="clear:both"></div>
+    {% endif %}
+    <div class="form_field" style="display:none">
+        <div class="form_field_title">PROJECT FILES</div>
+
+        <div class="project_input_img gray-button "><img class="upload_logo" src="{{asset('bundles/sooundapp/css/images/upload_img.png') }}">UPLOAD MORE</span><input id="fileInput" name="uploadedfile" type="file"></div>
+        <div class="upload_valid_msg"></div>
+        <div class="upload_main ">
+
+        </div >
+        <div class="upload_bar"></div >
+        <div class="upload_percent">uploading
+            <img src="{{asset('bundles/sooundapp/css/images/turtle.png') }}"/></div >
+        <div class="upload_progress"></div >
+        <div class="upload_tabs"></div>
+        <div class="upload_status"></div >
+    </div>
+    <div class="gobackbtn">
+        <a href="{{ path('projects_addGeneralInformation') }}">Go back</a>
+    </div>
+    {{ form_rest(form) }}
+	<input type="submit" name="project_submit" value="DONE HERE" class="project_submit green-button" onclick="return validateTempo()">
+</form>
+{% endblock %}

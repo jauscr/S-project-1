@@ -1,0 +1,261 @@
+/* Start Submission CSS Rules */
+
+.submission-container {
+	padding-top: 10px;
+	padding-bottom: 10px;
+	/*
+	border-bottom: solid 1px #f5f5f5;
+	*/
+	/*
+	margin-bottom: 20px;
+	*/
+}
+
+.submission-top {
+	display: inline-block;
+	width: 100%;
+	min-height: 20px;
+}
+
+.submission-title {
+	float: left;
+	font-family: "brandongrotesqueregular";
+	font-size: 22px;
+}
+
+.submission-winner-icon {
+	float: right;
+	border-right: solid 1px #f5f5f5;
+	padding-right: 10px;
+	width: 40px;
+	height: 30px;
+	background: url("images/cup.png") no-repeat;
+}
+
+.submission-compress-spacer {
+	float: right;
+	border-right: solid 1px #f5f5f5;
+	width: 1px;
+	height: 34px;
+	margin-right: 10px;
+}
+
+.submission-compress {
+	cursor: pointer;
+	float: right;
+	margin-top: 4px;
+	border: solid 5px #FFF;
+	width: 25px;
+	height: 20px;
+	background-image: url("images/compress.png");
+	background-clip: content-box;
+	background-repeat: no-repeat;
+}
+
+.submission-compress.compressed { background-position: 0px 0px; }
+.submission-compress.compressed:hover { background-position: -15px 0px; }
+.submission-compress.expanded { background-position: 0px -10px; }
+.submission-compress.expanded:hover { background-position: -15px -10px; }
+
+.submission-middle {
+	display: inline-block;
+	width: 100%;
+}
+
+.submission-bottom {
+	display: inline-block;
+	width: 100%;
+	margin-top: 10px;
+	margin-bottom:15px;
+}
+
+.submission-upload-button {
+	cursor: pointer;
+	float: right;
+	padding: 10px 15px 10px 15px;
+	color: #FFF;
+	background-color: #CCC;
+	border-radius: 5px;
+	font-size: 14px;
+	font-family: "brandongrotesquebold";
+}
+
+.submission-upload-button:hover {
+	background-color: #BBB;
+}
+
+.submission-first-revision-cont {
+	margin-top: 20px;
+	display: inline-block;
+	width: 100%;
+}
+
+.submission-older-revisions-cont {
+	display: inline-block;
+	width: 100%;
+	background-color: #F5F5F5;
+	float: left;
+	padding: 20px;
+	border-radius: 5px;
+	position: relative;
+	margin-top: 10px;
+}
+
+.submission-older-revisions-cont:before {
+	content: "";
+	text-indent: -9999px;
+	border-right: 20px solid transparent;
+	border-bottom: 10px solid #f5f5f5;
+	border-left: 20px solid rgba(201, 55, 55, 0);
+	width: 0;
+	height: 0;
+	position: absolute;
+	top: -8px;
+	left: 50%;
+}
+.submission-last-revision-cont {
+	display: none;
+	width: 100%;
+	/*
+	margin-top: 20px;
+	*/
+}
+
+.submission-first-revision-history {
+	visibility: hidden;
+	float: left;
+	width: 10px;
+	height: 86px;
+	margin-top: 96px;
+	border-right: dashed 1px #DDD;
+}
+
+.submission-last-revision-history {
+	float: left;
+	width: 10px;
+	margin-top: -20px;
+	height: 116px;
+	border-right: dashed 1px #DDD;
+}
+.submission-history-title{
+	color:#E74C3D;
+	margin-bottom:10px;
+}
+.submission-history-close{
+	background-image: url("images/history-close.png");
+	background-repeat: no-repeat; 
+	width: 14px;
+	height: 14px;
+	float: right;
+	font-size: 20px;
+	cursor: pointer;
+}
+.submission-history {
+	float: left;
+	width: 10px;
+	margin-top: -20px;
+	height: 190px;
+	border-right: dashed 1px #DDD;
+}
+
+.submission-history-display {
+	position: absolute;
+	width: 130px;
+	height: 80px;
+	background-color: #FFF;
+	border: solid 1px #DDD;
+	z-index: 1;
+	margin-top: -35px;
+	margin-left: 30px;
+	padding: 10px;
+	color: #3c3c3c;
+	font-family: "brandongrotesqueregular";
+}
+
+.submission-history-display.older {
+	/*
+	margin-top: 82px;
+	*/
+}
+
+.submission-history-display:after, .submission-history-display:before {
+	border-bottom: 13px solid transparent;
+	border-right: 13px solid transparent;
+	border-top: 13px solid transparent;
+	border-right-color: #FFF;
+	bottom: 25px;
+	content: '';
+	left: 0px;
+	margin-left: -13px;
+	position: absolute;
+}
+
+.submission-history-display:before {
+	border-bottom: 13px solid transparent;
+    border-right: 14px solid transparent;
+    border-top: 13px solid transparent;
+    border-right-color: inherit;
+    bottom: 25px;
+    margin-left: -15px;
+}
+
+.submission-players {
+	float: left;
+	width: 740px;
+}
+.submission-older-revisions-cont .player-bottom{
+	margin-bottom:15px;
+}
+.submission-older-revisions-cont .submission-players{
+	width:700px !important;
+}
+.submission-older-revisions-cont .wave-new-thread-button, .submission-older-revisions-cont .team-comments-new{
+	display:none;
+}
+.submission-date {
+	cursor: pointer;
+	float: left;
+	margin-top: 96px;
+	margin-left: -27px;
+	margin-right: 3px;
+	width: 14px;
+	height: 14px;
+	border-radius: 7px;
+	border: solid 1px #DDD;
+	/*
+	background-color: #fdfdfd;
+	opacity: 1;
+	*/
+	background-color: rgba(253, 253, 253, 1);
+}
+
+.submission-date:hover {
+	margin-top: 93px;
+	margin-left: -30px;
+	margin-right: 0px;
+	border-radius: 10px;
+	width: 20px;
+	height: 20px;
+	background-color: rgba(253, 253, 253, .5);
+	/*
+	opacity: .5;
+	*/
+}
+
+.revision-cont {
+	display: inline-block;
+	width: 100%;
+}
+
+.submission-revised{
+	color: #E74C3D;
+	font-size: 14px;
+	cursor: pointer;
+	margin-left:10px;
+	float: left;
+	margin-top: 5px;
+}
+.submission-revised i{
+	font-style: normal;
+}
+/* End Submission CSS Rules */

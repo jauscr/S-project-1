@@ -1,0 +1,8 @@
+{% if message is defined %}
+	{{ message }}
+{% endif %}
+<form method="post" action="{{ path('register') }}">
+	<label>Email:</label>
+	<input type="text" name="register_email" placeholder="email@yahoo.com"/>
+	<input type="submit" name="register_submit" value="Register">
+</form>

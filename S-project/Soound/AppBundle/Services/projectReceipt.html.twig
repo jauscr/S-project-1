@@ -1,0 +1,22 @@
+{% extends "SooundAppBundle:Mail:emailLayout.html.twig" %}
+
+{% block subject %}Receipt for {{project->getProjectName()}}{% endblock %}
+{% block content %}
+
+<div>
+Hello!
+
+This is a receipt for your records of the project.<br>
+<br>
+Project: {{project->getProjectName()}},<br>
+Amount: {{amount}},<br>
+To: {{to->getFullname()}},<br>
+From: {{from->getFullname()}}<br>
+<br>
+
+Best Regards,
+
+the Soound team
+</div>
+
+{% endblock %}

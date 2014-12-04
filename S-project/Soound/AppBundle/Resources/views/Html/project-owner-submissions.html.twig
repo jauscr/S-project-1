@@ -1,0 +1,353 @@
+{% extends "SooundAppBundle::layout.html.twig" %}
+{% block title %}Submissions - {{projectTitle}}{% endblock title %}
+{% block content %}
+{% include "SooundAppBundle:blocks:player.html.twig" %}
+{% include "SooundAppBundle:blocks:header.html.twig" %}
+
+{% javascripts
+'@SooundAppBundle/Resources/public/js/jquery.easing.min.js'
+'@SooundAppBundle/Resources/public/js/facebook-inv.js'
+'@SooundAppBundle/Resources/public/js/google-inv.js'
+'@SooundAppBundle/Resources/public/js/invitation.js'
+'@SooundAppBundle/Resources/public/js/vertical-panel.js'
+'@SooundAppBundle/Resources/public/js/jquery.scrollTo.min.js'
+'@SooundAppBundle/Resources/public/js/submission.js'
+'@SooundAppBundle/Resources/public/js/dropzone.min.js'
+'@SooundAppBundle/Resources/public/js/projectOwnerSubmissions.js'
+'@SooundAppBundle/Resources/public/js/svg.js'
+'@SooundAppBundle/Resources/public/js/easyPieChart.js'
+%}
+<script src="{{ asset_url }}"></script>
+{% endjavascripts %}
+
+<script type="text/javascript">
+    $(function(){
+        $('#inviteByFacebook').click(function(){
+            login();
+        });
+
+        $('#google-email-btn').click(function(){
+            sendGoogleInvite();
+        });
+
+        $('#authorize-button').click(function(event){
+            handleAuthClick(event);
+        });
+        makeTags();
+
+        $('li.oo-ui-first').removeAttr('style');
+        $('li.oo-ui-first a').removeClass('start-btn');
+        {% if winner is defined %}
+            $("#project-submenu a[href='#exchange']").trigger("click");
+        {% endif %}
+
+
+    })
+
+</script>
+<script type="text/javascript">
+
+    var userPic = "{{userPic}}";
+    userProjectRole = 'project {% if isOwner %}owner{% else %}team{% endif %}';
+    var removeTeamURL = "{{path('removeTeamMember')}}";
+
+    //Realtime submissions
+    $(function(){
+        $(".project-details .container:not('.references, .project_files')").each(function(){
+            if($(this).find(".detail-container").length == 0)
+                $(this).remove();
+        });
+
+        sooundLive.addChannel("submission/{{ projectPublicId }}", function(uri, payload)
+        {
+            var tab = $.url().param('tab');
+
+            if(!tab || tab === "new"){
+                if(!submissions.length){
+                    $('#players').empty();
+                }
+                var submission = new Submission({
+                    publicId: payload.publicId,
+                    cont: $('#players'),
+                    sooundPlayer: sooundPlayer,
+                    submitable: false,
+                    top: true,
+                    role: userProjectRole,
+                    commentsOn: {
+                        waveform: {{isOwner ? 'true' : 'false'}}, //Only if this user is owner or submitter
+                        team: true  //Only if this user is a team member or owner
+                    },
+                    revisions: [payload.revision]
+                });
+                submission.listenForRevisions();
+                submissions.push(submission);
+            }
+        });
+        var tab = $.url().param('tab');
+        {% if submissions > 0 %}
+        if(typeof tab == 'undefined'){
+            $('#tab-new').removeClass('inactive').addClass('active');
+            getSubmissions("new");
+            $("#project-submenu a[href='#submissions']").trigger("click");
+        }
+        {% endif %}
+    });
+</script>
+
+{% stylesheets
+    'bundles/sooundapp/css/project.css' filter="cssrewrite"
+    'bundles/sooundapp/css/submission.css' filter="cssrewrite"
+%}
+<link rel="stylesheet" href="{{ asset_url }}" />
+{% endstylesheets %}
+<form id="projectForm" method="post" action="{{path('updateProject')}}">
+    <div id="notifications"></div>
+    <div class="content-wrapper" style="margin-top: 75px;">
+        <div id="left-content">
+            <div id="project-title" class="project-nonedit">{{projectTitle}}</div>
+            {% if isOwner %}
+                <input id="project-title-edit" class="project-edit" name="title" type="text" value="{{projectTitle}}" />
+            {% endif %}
+
+            <div id="project-photo">
+                <img id="project-img" src="{{picture}}" width="130px" style="float:left;border-radius:5px;">
+                {% if isOwner %}
+                    <div id="userfile-dropzone" class="dz-clickable-pic">
+                        <div id="project-picture-thumb" class="dz-clickable-pic">
+                            <div id="project-picture-edit">Change Photo</div>
+                        </div>
+                        <div id="project-upload-preview" style="display:none"></div>
+                    </div>
+                {% endif %}
+            </div>
+            <div id="project-des" class="project-nonedit">
+                {{projectDesc}}
+            </div>
+            {% if isOwner %}
+                <textarea id="project-des-edit" name="desc" class="project-edit">{{projectDesc}}</textarea>
+            {% endif %}
+            
+        </div>
+        <div id="right-content">
+            {% if isOwner %}
+            <div id="project-edit" data-state="done" class="project-nonedit"><span class="soound-edit"></span>EDIT PROJECT</div>
+            <div id="project-save" class="project-edit"><span id="save-count">0</span><span class="icon-save"></span>SAVE</div>
+            <div id="project-save-cancel" class="project-edit gray-square"><span class="triangle"></span><span class="icon-close"></span></div>
+            {% endif %}
+            <div id="project-status" class="sidebar-section">
+                <div class="sidebar-section-title">PROJECT STATUS</div>
+            </div>
+            <div id="sidebar-section-status" class="sidebar-section-status">
+                <span class="chart" data-percent="{{daysPercent}}" data-days-total="{{daysTotal}}" data-days-left="{{daysLeft}}">
+                    <span class="chart-wrapper">
+                        <span class="percent">{{daysTotal}}</span><br/>
+                        <span class="days">days left</span>
+                    </span>
+                </span>
+                <div class="sidebar-section-status-title">
+                    {% if winner %}
+                        {% if hqFiles is defined %}
+                            High quality files submitted. Please verify by {{acceptBy}}.
+                        {% else %}
+                            Waiting on the creative to submit high quality files.
+                        {% endif %}
+                    {% else %}
+                        *currently accepting submissions
+                    {% endif %}</div>
+            </div>
+            <div id="project-metrics" class="sidebar-section">
+                <div class="sidebar-section-title">PROJECT METRICS</div>
+                <div id="sidebar-section-budget" class="sidebar-section-metric">
+                    ${{budget}}<span class="sidebar-section-metric-title">budget</span>
+                </div>
+                <div id="sidebar-section-deadline" class="sidebar-section-metric">
+                    {{deadline}} days<span class="sidebar-section-metric-title">deadline</span>
+                </div>
+                <div id="sidebar-section-submissions" class="sidebar-section-metric">
+                    {{submissions}}<span class="sidebar-section-metric-title">submissions</span>
+                </div>
+                <div id="sidebar-section-creatives" class="sidebar-section-metric">
+                    {{members}}<span class="sidebar-section-metric-title">creatives</span>
+                </div>
+                <div id="sidebar-section-followers" class="sidebar-section-metric">
+                    {{watchers}}<span class="sidebar-section-metric-title">followers</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="project-submenu">
+            <a href="#details" class="active"><span class="icon-details"></span>PROJECT DETAILS</a>
+            <a href="#submissions"><span class="icon-submissions"></span>SUBMISSIONS</a>
+            <a href="#people"><span class="icon-person"></span>PEOPLE</a>
+            <a {% if winner == null %} class="passive" {% else %} href="#exchange" {% endif %}><span class="icon-exchange"></span>EXCHANGE</a>
+        </div>
+        {% if winner %}
+            <div id="project-won">
+            Congratulations! You found your sound!
+            </div>
+        {% endif %}
+    <div class="tab-content active" id="details">
+        {% include "SooundAppBundle:Html:project-details.html.twig" %}
+    </div>
+    <div class="tab-content hide" id="submissions">
+        <div id="project-sort">
+            <div id="project-sort-box">
+                <div id="tab-new" class="project-sort-nav-menu active"><img src="/bundles/sooundapp/css/images/new2.png">NEW</div>
+                <div id="tab-rated" class="project-sort-nav-menu inactive"><img src="/bundles/sooundapp/css/images/star-on.png">RATED</div>
+                <div id="tab-not-rated" class="project-sort-nav-menu inactive"><img src="/bundles/sooundapp/css/images/star-empty2.png">NOT RATED</div>
+            </div>
+
+            <div id="players" style="position:relative;display;block"></div>
+        </div>
+    </div>
+    <div class="tab-content hide" id="people">
+        <div class id="project-sort">
+            <div id="project-sort-box">
+                <div id="tab-team" class="project-sort-nav-menu inactive"><img src="/bundles/sooundapp/css/images/avatar-icon.png">TEAM</div>
+                <div id="tab-creatives" class="project-sort-nav-menu inactive"><img src="/bundles/sooundapp/css/images/avatar-icon.png">CREATIVES</div>
+                <div id="tab-followers" class="project-sort-nav-menu inactive"><img src="/bundles/sooundapp/css/images/avatar-icon.png">FOLLOWERS</div>
+            </div>
+            <div id="profiles"></div>
+            <div id="invite-team-cont" class="browse_projects">
+                <h2>Invite your team to help you find your sound!</h2>
+                <section id="wrapper" class="wrapper">
+                    <div id="v-nav">
+                        <ul>
+                            <li tab="tab_email" class="first current"><div class="icon--small icon--envelope-custom"></div>EMAIL</li>
+                        </ul>
+                        <div class="tab-content" style="display: block">
+                            <h4 style="margin-top: 60px">NO FRIENDS ADDED YET!</h4>
+                            <div class="invitedUsers">
+                            </div>
+                            <div class="pull-left">
+                                <div class="moreFriends">ADD MORE FRIENDS</div>
+                                <div class="highlight-input step_three_input invite-emails">
+                                    <input type="text" id="freeMail_txt" name="freeMail_txt" onfocus="this.placeholder = ''" onblur="Separate emails by commas" value="" />
+                                    <input onclick="sendInvitation('{{  app.user.username }}')" type="button" id="inviteByEmail" class="green-button uploader-submit" value="INVITE" style="float: right"/>
+                                </div>
+                                <p class="description">Add some friends by inputing their emails into the fields above, separated by commas.</p>
+                            </div>
+                        </div>
+
+                        <div class="tab-content" style="text-align: center">
+                            <div class="scroll-container">
+                                <div class="highlight-input step_three_input" style="margin-top: 0 !important; text-align: left;">
+                                    <ul class="facebookFriendList-container">
+
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <input type="button" id="inviteByFacebook" class="green-button uploader-submit" value="Invite friends by Facebook"/>
+
+                            <div class="invite-container facebook" style="display: none">
+                                <div class="box-content--facebook">
+                                    <input type="button" id="sendInviteByFacebook" class="green-button uploader-submit" value="INVITE" style="display: none"/>
+                                    <p class="description" style="float: left; margin: 40px 0 0 20px !important;">Click your friends avatar to select them</p>
+                                </div>
+                            </div>
+                            <div id="fb-root"></div>
+                        </div>
+
+                        <div class="tab-content">
+                            <div class="scroll-container">
+                                <div class="highlight-input step_three_input" style="margin-top: 0 !important; text-align: left;">
+                                    <ul class="googleFriendList-container">
+
+                                    </ul>
+                                </div>
+                            </div>
+                            <button id="authorize-button" class="green-button uploader-submit btn_google">Login to Google</button>
+                            <div class="invite-container google" style="display: none">
+                                <div class="box-content--google">
+                                    <button id="google-email-btn" class="green-button uploader-submit btn_google" style="display: none">INVITE</button>
+                                    <p class="description" style="float: left; margin: 40px 0 0 20px !important;">Click your friends avatar to select them</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+    <div class="tab-content hide" id="exchange">
+        {% if winner %}
+            <script type="text/javascript">
+                $(function(){
+                    $.post("{{ path('getProjectWinningSubmission') }}").done(function(data){
+                        var response = $.parseJSON(data);
+                        winningSubmission = new Submission({
+                            role: "none",
+                            publicId: 'w'+response.publicId,
+                            cont: $('#winning-submission'),
+                            sooundPlayer: sooundPlayer,
+                            submitable: false,
+                            top: false,
+                            commentsOn: {
+                                waveform: false,
+                                team: false
+                            },
+                            revisions: response.revisions
+                        });
+                    });
+                    $.post("{{ path('getUploadedHqFiles') }}").done(function(data){
+                        var response = $.parseJSON(data);
+                        for(var i=0; i<response.length; i++){
+                            var file = response[i];
+                            hqFiles.push( new hqFile( {
+                                "id": file.id,
+                                "name": file.name,
+                                "extension": file.extension,
+                                "status": file.status,
+                                "cont": $('#uploaded-files')
+                            } ));
+                        }
+                    });
+                });
+            </script>
+            <div id="winning-submission" style="width:730px;margin-top:50px;padding-left:10px;border-bottom:solid 1px #DDD;"></div>
+            <div id="project-content">
+            {% if acceptBy is defined %}
+                {% if payed == true %}
+                    You've accepted and payed for the high quality files. If you haven't already, download them by clicking on the files below.
+                {% else %}
+                    Now that you've received your high quality files, you'll have until <span style="color:#e74c3c">{{acceptBy}}</span> to raise an issue with them, otherwise we'll assume everything's OK.
+                {% endif %}
+            {% else %}
+                Now sit back and wait on the winning creative to submit your high quality files for this project. <br>Once received, you'll have three days to verify that all is well. If not - we'll assume everything's OK.
+            {% endif %}
+            </div>
+            <div id="uploaded-files">
+            </div>
+            {% if acceptBy is defined and payed == false%}
+            <div id="feedback-container">
+              <div id="feedback-buttons">
+                <div id="all-good-button" class="green-button"><span id="verified-icon"></span>VERIFIED! YES, ALL IS WELL</div>
+                <div id="something-wrong-button" class="green-button"><span id="question-icon"></span>SOMETHING'S WRONG</div>
+              </div>
+              <div id="feedback-complaint" {% if complaint is defined %} style="display:inline-block" {% endif %}>
+                <span id="feedback-arrow"></span>
+                <textarea id="feedback-text" placeholder="Tell the creative what's wrong...">{% if complaint is defined %}{{complaint}}{% endif %}</textarea>
+                <div id="send-complaint-button" class="green-button">SEND COMPLAINT</div>
+              </div>  
+            </div>
+            {% endif %}
+        {% endif %}
+    </div>
+    </div>
+        <div class="overlay winner-overlay">
+            <div class="popup winner-popup">
+                <div class="title">Pick <span class="artist"></span>’s “<span class="revision_title"></span>” as the winner?</div>
+                <img class="winner-popup-close" src="/bundles/sooundapp/css/images/history-close.png"/>
+                <p>Choosing this submission as the winning one will prompt the creative to upload all source files. At this point you will be able to review them and release the funds to the seller’s Paypal Account.</p>
+                <a class="green-button winner-accept" href="#">
+                    <img class="winner-cup" src="/bundles/sooundapp/css/images/winner-cup.png"/>YES, PICK WINNER
+                </a>
+                <a class="gray-button" href="#">
+                    <img class="winner-close" src="/bundles/sooundapp/css/images/winner-close.png"/>NO, NOT MY WINNER
+                </a>
+            </div>
+        </div>
+</form>
+{% endblock %}
+

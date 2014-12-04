@@ -1,0 +1,11 @@
+{% javascripts
+	'@SooundAppBundle/Resources/public/js/walkthrough.js'
+%}
+<script src="{{ asset_url }}"></script>
+{% endjavascripts %}
+
+{% stylesheets
+    'bundles/sooundapp/css/walkthrough.css' filter="cssrewrite"
+%}
+<link rel="stylesheet" href="{{ asset_url }}" />
+{% endstylesheets %}

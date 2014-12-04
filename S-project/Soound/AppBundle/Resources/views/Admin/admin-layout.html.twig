@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>Soound Admin</title>
+        
+        {% stylesheets
+        'bundles/sooundapp/css/admin/admin.css' filter='cssrewrite'
+        %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+        {% endstylesheets %}
+
+        {% javascripts
+            '@SooundAppBundle/Resources/public/js/jquery.js'
+            '@SooundAppBundle/Resources/public/js/admin/admin.js'
+        %}
+        <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+    </head>
+    <body>
+        <div id="wrapper">
+            <div id="header">
+            </div>
+            <div id="main">{% block content %}{% endblock %}</div>
+            <div id="footer">
+            </div>  
+        </div>
+    </body>
+</html>
+

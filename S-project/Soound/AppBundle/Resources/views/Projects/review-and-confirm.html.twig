@@ -1,0 +1,287 @@
+{% set step = 4 %}
+{% extends "SooundAppBundle:Projects:steps.html.twig" %}
+{% block title %}Start A Project - Set Budget & Deadline{% endblock title %}
+{% block step_content %}
+
+{% set filter = app.session.get('project_draft') %}
+{% if filter[5]['form'] is defined %}
+    {% set data = filter[5]['form'] %}
+{% endif %}
+<!--
+<script>
+    window.onBraintreeDataLoad = function() {
+        BraintreeData.setup("YourMerchantId", 'step_form_step5', BraintreeData.environments.sandbox);
+    };
+</script>
+<script src="https://js.braintreegateway.com/v1/braintree-data.js" async=true></script>
+-->
+{% javascripts
+'@SooundAppBundle/Resources/public/js/review-confirm.js'
+'@SooundAppBundle/Resources/public/js/braintree.js'
+%}
+<script src="{{ asset_url }}"></script>
+{% endjavascripts %}
+
+<h3>Project overview</h3>
+<form novalidate id="step_form_step5" action="{{ app.request.getBaseURL() }}/projects/new/confirm" method="post" {{ form_enctype(form) }} class="step_form" enctype="multipart/form-data">
+    {% form_theme form 'SooundAppBundle:Form:fields.html.twig' %}
+	<div class="form_field price">
+		<div class="form_field_title"></div>
+        {% if filter[2]['projectImageBase64'] is defined %}
+        <!--
+            <div class="project_uploaded_img_wrapper overview">
+        -->
+                <div id="project-picture-thumb" style="background:url({{ filter[2]['projectImageBase64'] }}) no-repeat;border:none;">
+                </div>
+        <!--
+            </div>
+        -->
+        {% else %}
+            <div class="project_uploaded_img_wrapper overview"></div>
+        {% endif %}
+		<div class="project_img_content">
+			<div class="project_img_title uppercase">{{ filter[2]['form']['projectname'] }}</div>
+			<div class="project_img_details"> {{ filter[3]['form']['projectdetails']|slice(0, 160) }} ... read more </div>
+			<div class="review-images">
+                <a class="tooltip" id="budget">
+                    <span>
+                        <img class="callout" src="/web/bundles/sooundapp/css/images/border-corner.png" />
+                        Budget: ${{ filter[4]['form']['budget'] }}
+                    </span>
+                </a>
+                <a class="tooltip" id="deadline">
+                    <span>
+                        <img class="callout" src="/web/bundles/sooundapp/css/images/border-corner.png" />
+                        Deadline: {{ filter[4]['form']['deadLine'] }},<br />
+                        {{ filter[4]['form']['deadLine']|daysLeft(filter[4]['form']['deadLine']) }} left
+                    </span>
+                </a>
+                <a class="tooltip" id="file">
+                    <span>
+                        <img class="callout" src="/web/bundles/sooundapp/css/images/border-corner.png" />
+                        Information
+                    </span>
+                </a>
+                {% if filter[3]['project_reference'] is defined  %}
+                    <a class="tooltip" id="link">
+                        <span>
+                                References attached: {{ filter[3]['project_reference']|length }}
+                        </span>
+                    </a>
+                {% endif %}
+                {% if filter[4]['form']['isFeatured'] is defined %}
+                <a class="tooltip" id="featured">
+                    <span>
+                        <img class="callout" src="/web/bundles/sooundapp/css/images/border-corner.png" />
+                        Project type:
+                        {% if filter[4]['form']['isFeatured'] == 'featured' %}
+                            Featured project
+                        {% else %}
+                            Private / Invite only project
+                        {% endif %}
+                    </span>
+                </a>
+                {% endif %}
+			</div>
+		</div>
+	</div>
+    {% if app.user is empty %}
+            <div class="form_field paymentmethod">
+                <div class="highlight-input">
+                    <div class="form_field_title">CREATE AN ACCOUNT<!--<span id="already-have-account-btn">(Already have an Account? Login)</span>--></div>
+                    <label class="login-sub-label">Email Address</label>
+                    {% if data['emailAddress'] is defined %}
+                        {{ form_widget(form.emailAddress, {value :  data['emailAddress']}) }}
+                    {% else %}
+                        {{ form_widget(form.emailAddress) }}
+                    {% endif %}
+                    <div class="highlight-input_deco"></div>
+                </div>
+            </div>
+            <div class="form_field paymentmethod emailExist" style="display:none">
+            </div>
+            <div id="login-extra-fields">
+                <div style="display:inline-block;width:100%;">
+                    <div class="form_field password-left" style="margin-top:0px">
+                        <div class="highlight-input">
+                            <label class="login-sub-label">First Name</label>
+                            {% if data['firstName'] is defined %}
+                                {{ form_widget(form.firstName, {value :  data['firstName']}) }}
+                            {% else %}
+                                {{ form_widget(form.firstName) }}
+                            {% endif %}
+                            <div class="highlight-input_deco"></div>
+                        </div>
+                    </div>
+
+                    <div class="form_field password-right" style="margin-top:0px">
+                        <div class="highlight-input">
+                            <label class="login-sub-label">Last Name</label>
+                            {% if data['lastName'] is defined %}
+                                {{ form_widget(form.lastName, {value :  data['lastName']}) }}
+                            {% else %}
+                                {{ form_widget(form.lastName) }}
+                            {% endif %}
+                            <div class="highlight-input_deco"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="display:inline-block;width:100%;">
+                    <div class="form_field password-left" style="margin-top:0px">
+                        <div class="highlight-input">
+                            <label class="login-sub-label">Password</label>
+                            {% if data['plainPassword']['first'] is defined %}
+                                {{ form_widget(form.plainPassword.first, {value :  data['plainPassword']['first']}) }}
+                            {% else %}
+                                {{ form_widget(form.plainPassword.first) }}
+                            {% endif %}
+                            <div class="highlight-input_deco"></div>
+                        </div>
+                    </div>
+
+                    <div class="form_field password-right" style="margin-top:0px">
+                        <div class="highlight-input">
+                            <label class="login-sub-label">Confirm Password</label>
+                            {% if data['plainPassword']['second'] is defined %}
+                                {{ form_widget(form.plainPassword.second, {value :  data['plainPassword']['second']}) }}
+                            {% else %}
+                                {{ form_widget(form.plainPassword.second) }}
+                            {% endif %}
+                            <div class="highlight-input_deco"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    {% endif %}
+    {% if app.user is empty %}
+        {{ form_errors(form.emailAddress) }}
+        <div class="alert alert-danger global-alert1" style="display:none"></div>
+    {% endif %}
+	<div class="form_field paymentmethod">
+		<div class="form_field_title">METHOD</div>
+        {% for checkbox in form.payMethod %}
+            <div class="custom-radio" style="display:block;margin-bottom:20px;">
+                {% if data['payMethod'] is defined %}
+                    <input {% if data['payMethod'] == checkbox.vars.value %} checked="checked" {% endif %}type="radio" id="{{ checkbox.vars.id }}" name="{{ checkbox.vars.full_name }}" required="required" class="custom-radio_input" value="{{ checkbox.vars.value }}">
+                {% else %}
+                    <input type="radio" id="{{ checkbox.vars.id }}" name="{{ checkbox.vars.full_name }}" required="required" class="custom-radio_input" value="{{ checkbox.vars.value }}">
+                {% endif %}
+                <label class="custom-radio_label" for="{{ checkbox.vars.id }}">{{ checkbox.vars.label }}</label>
+            </div>
+        {% endfor %}
+        {{ form_widget(form.payMethod,{'style':'display:none'}) }}
+	</div>
+    <div class="alert alert-danger global-alert2" style="display:none"></div>
+    {{ form_errors(form.payMethod) }}
+
+	<div class="form_field paymentmethod_card" style="padding-bottom: 10px;{% if form.payMethod|length > 1%}display:none;{%endif%}">
+		
+		<div class="paymentmethod_field cardno">
+			<label>Credit Card Number</label>
+			<div class="highlight-input">
+                {% if data['creditCard'] is defined %}
+                    {{ form_widget(form.creditCard, {'value': data['creditCard'], 'attr': {'data-encrypted-name': "number"}}) }}
+                {% else %}
+                    {{ form_widget(form.creditCard) }}
+                {% endif %}
+				<div class="highlight-input_deco"></div>
+			</div>
+		</div>
+
+		<div class="paymentmethod_field cvccode">
+			<label>CVC Code</label>
+			<div class="highlight-input">
+                {% if data['cvc'] is defined %}
+                    {{ form_widget(form.cvc, {'value': data['cvc'], 'attr': {'data-encrypted-name': "cvv"}}) }}
+                {% else %}
+                    {{ form_widget(form.cvc) }}
+                {% endif %}
+				<div class="highlight-input_deco"></div>
+			</div>
+		</div>
+		<div class="paymentmethod_field expiration">
+			<label>Expiration Data</label>
+
+			<div class="highlight-input first">
+                <div class="project_properties_1 properties expirationMonth">
+                    {% if data['expirationMonth'] is defined %}
+                        {{ form_widget(form.expirationMonth, {'value': data['expirationMonth'], 'attr': {'data-encrypted-name': "month"}}) }}
+                    {% else %}
+                        {{ form_widget(form.expirationMonth) }}
+                    {% endif %}
+                    <ul>
+                        {% for i in 1..12 %}
+                            <li class="{{data['expirationMonth'] is defined and data['expirationMonth'] == i ? 'selected' : data['expirationMonth'] is not defined and loop.index == 1 ? 'selected' : ''}}">{{(i < 10 ? '0' ~ i : i)}}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+				<div class="highlight-input_deco"></div>
+			</div>
+		    <div class="highlight-input">
+                <div class="project_properties_2 properties expirationYear">
+                    {% if data['expirationYear'] is defined %}
+                        {{ form_widget(form.expirationYear, {'value': data['expirationYear'], 'attr': {'data-encrypted-name': "year"}}) }}
+                    {% else %}
+                        {{ form_widget(form.expirationYear) }}
+                    {% endif %}
+                    <ul>
+                        {% for i in 2014..2030 %}
+                            <li class="{{data['expirationYear'] is defined and data['expirationYear'] == i ? 'selected' : data['expirationYear'] is not defined and loop.index == 1 ? 'selected' : ''}}">{{i}}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+				<div class="highlight-input_deco"></div>
+			</div>
+		</div>
+    </div>
+    <div class="alert alert-danger global-alert3" style="display:none"></div>
+    {{ form_errors(form.creditCard) }}
+    <div class="alert alert-danger global-alert4" style="display:none"></div>
+    {{ form_errors(form.cvc) }}
+    <div class="alert alert-danger global-alert5" style="display:none"></div>
+    {{ form_errors(form.expirationMonth) }}
+    <div class="alert alert-danger global-alert6" style="display:none"></div>
+    {{ form_errors(form.expirationYear) }}
+
+    <div class="form_field paymentmethod_card" style="{% if form.payMethod|length > 1%}display:none;{%endif%}">
+		<div class="paymentmethod_field cardholder">
+			<label>Cardholder Name</label>
+			<div class="highlight-input">
+                {% if data['cardName'] is defined %}
+                    {{ form_widget(form.cardName, {'value': data['cardName'], 'attr': {'data-encrypted-name': "name"}}) }}
+                {% else %}
+                    {{ form_widget(form.cardName) }}
+                {% endif %}
+				<div class="highlight-input_deco"></div>
+			</div>
+		</div>
+
+        <div class="paymentmethod_field billing_zipcode">
+            <label>Billing Zipcode</label>
+            <div class="highlight-input">
+                {% if data['billingZip'] is defined %}
+                    {{ form_widget(form.billingZip, {value :  data['billingZip']}) }}
+                {% else %}
+                    {{ form_widget(form.billingZip) }}
+                {% endif %}
+                <div class="highlight-input_deco"></div>
+            </div>
+        </div>
+	</div>
+    <div class="alert alert-danger global-alert7" style="display:none"></div>
+    {{ form_errors(form.cardName) }}
+    <div class="alert alert-danger global-alert8" style="display:none"></div>
+    {{ form_errors(form.billingZip) }}
+    {{ form_errors(form) }}
+    {{ form_rest(form) }}
+	<input id="reviewAndConfirm" type="button" name="project_submit" value="POST PROJECT" class="project_submit green-button">
+	<div class="gobackbtn">
+		<a href="{{ path('projects_setBudgetAndDeadline') }}">Go back</a>
+	</div>
+</form>
+<script type="text/javascript">
+    var braintree = Braintree.create('MIIBCgKCAQEA5hrLwyPbxcYnclbrg2ZDfoq79nqlSETjKOoWKhSApf1JYqGboi8Skkn55a0ADCQEc0IEMnlNNOymIBOQOWoHQq810a22Z4iR9mar6YSexF/AmH23Hm0goyFulYu5nbOG9UJUP4xVhDf8dHACzsHQTOAiB/37eWc0ELvwRko5mj9mPxDimGDsnJX/sG0+jumTzFyV2rU3CxylTCzKJYjAzoAQE4JYB1imwUtWI3v3BqUWrgWQl+33Cv6Amm9ZUlphpSiPKE+cmE/Dio9TlJg1r/GgIzc5MdPAB5LI7IxhyGRLTxiCisGQTOf4shYMJtxP+h/XQ1jdh96sAwvx3A2AuwIDAQAB');
+    braintree.onSubmitEncryptForm('braintree-payment-form');
+</script>
+{% endblock %}

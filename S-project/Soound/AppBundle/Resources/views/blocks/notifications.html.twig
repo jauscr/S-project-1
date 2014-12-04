@@ -1,0 +1,135 @@
+{% javascripts
+'@SooundAppBundle/Resources/public/js/sooundLive.js'
+'@SooundAppBundle/Resources/public/js/notifications.js'
+%}
+<script src="{{ asset_url }}"></script>
+{% endjavascripts %}
+
+<style type="text/css">
+	#navigation-bar {
+		height: 54px;
+		padding: 0px;
+	}
+
+	#navigation-bar-content {
+		margin-top: 16px;
+	}
+
+	#notifications {
+		display: inline-block;
+		width: 100%;
+	}
+
+	.notification-cont {
+		height: 40px;
+		color: #FFF;
+		padding-top: 5px;
+		text-align: center;
+	}
+
+	.notification-content {
+		font-size: 20px;
+		display: inline-block;
+	}
+
+	.notification-link {
+		text-transform: none;
+		text-decoration: underline;
+	}
+
+	.activity-icon.white {
+		background-position: -32px 0px;
+	}
+
+	.heart {
+		background-image: url("/web/bundles/sooundapp/css/images/heart-sprite.png");
+		height: 14px;
+		margin-bottom: -2px;
+	}
+	.file { background-image: url("/web/bundles/sooundapp/css/images/file-sprite.png"); }
+	.money {
+		background-image: url("/web/bundles/sooundapp/css/images/money-sprite.png");
+		height: 12px;
+		margin-bottom: 0px;
+	}
+	.details {
+		background-image: url("/web/bundles/sooundapp/css/images/details-sprite.png");
+		height: 14px;
+		margin-bottom: -2px;
+	}
+	.star {
+		background-image: url("/web/bundles/sooundapp/css/images/star-sprite.png");
+		margin-bottom: -2px;
+	}
+	.people { background-image: url("/web/bundles/sooundapp/css/images/people-sprite.png"); }
+	.remove {
+		background-image: url("/web/bundles/sooundapp/css/images/remove-sprite.png");
+		width: 14px;
+		height: 14px;
+		margin-right: 22px;
+		margin-bottom: -2px;
+	}
+	.remove.white { background-position: -28px 0px; }
+	.cup {
+		background-image: url("/web/bundles/sooundapp/css/images/cup-sprite.png");
+		width: 18px;
+		margin-right: 18px;
+	}
+	.cup.white { background-position: -36px 0px; }
+	.message { background-image: url("/web/bundles/sooundapp/css/images/message-sprite.png"); }
+	.calendar { background-image: url("/web/bundles/sooundapp/css/images/calendar-sprite.png"); }
+	.cd { background-image: url("/web/bundles/sooundapp/css/images/cd-sprite.png"); }
+
+</style>
+
+<script type="text/javascript">
+	var _RATCHET_URI = "ws://{{ ratchet_host }}:{{ ratchet_port }}";
+	console.log("connecting");
+	sooundLive.connect( function(){
+		console.log("Connected to Ratchet Server");
+
+		sooundLive.addChannel("notification/{{ app.user.id }}", function(uri, payload)
+		{
+			console.log(payload);
+			var test = new Notification({
+				cont: $('#notifications'),
+				content: payload.content,
+				type: payload.type
+			});
+		});
+	});
+	function dismissUnread(){
+		$.post("{{path('activityDismiss')}}").done(function(data){
+			//var response = $.parseJSON(data);
+			//console.log(response);
+			$('.activity-count').text("0").removeClass('unread');
+			$('.icon.icon-activity').removeClass('unread');
+			$('.oo-ui-activity-menu').find('.activity-icon').removeClass('not-read');
+		});
+	}
+	$(function(){
+		/*
+		console.log("connecting");
+		sooundLive.connect( function(){
+			console.log("Connected to Ratchet Server");
+
+			sooundLive.addChannel("notification/{{ app.user.id }}", function(uri, payload)
+			{
+				console.log(payload);
+				var test = new Notification({
+					cont: $('#notifications'),
+					content: payload.content,
+					type: payload.type
+				});
+			});
+		});
+		*/
+		//Dismiss Unread Activity on click
+		$('.navi-btn.oo-ui-activity').click(function(e){
+			if( $('.activity-count').hasClass('unread')){
+				dismissUnread();
+			}
+		});
+
+	});
+</script>

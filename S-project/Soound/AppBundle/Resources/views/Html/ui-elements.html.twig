@@ -1,0 +1,72 @@
+{% extends "SooundAppBundle::blocks/browse_project.html.twig" %}
+
+{% block content %}
+
+<div class="temp-container" style="margin:100px; padding: 0 400px;">
+	<div class="custom-checkbox">
+		<input class="custom-checkbox_input"id="checkbox1" type="checkbox"/><!--
+
+	 --><label class="custom-checkbox_label" for="checkbox1">Label</label>
+	</div>
+
+	<div class="custom-checkbox">
+		<input class="custom-checkbox_input"id="checkbox2" type="checkbox"/><!--
+
+	 --><label class="custom-checkbox_label" for="checkbox2">Label</label>
+	</div>
+	
+	<div class="custom-checkbox">
+		<input class="custom-checkbox_input"id="checkbox3" type="checkbox"/><!--
+
+	 --><label class="custom-checkbox_label" for="checkbox3">Label</label>
+	</div>
+	
+	<div class="custom-checkbox">
+		<input class="custom-checkbox_input"id="checkbox4" type="checkbox"/><!--
+
+	 --><label class="custom-checkbox_label" for="checkbox4">Label</label>
+	</div>
+	<br>
+
+	<div>
+		<div class="custom-radio">
+			<input class="custom-radio_input" name="choose" id="radio1" type="radio"/><!--
+
+		 --><label class="custom-radio_label" for="radio1">Label</label>
+	 	</div>
+
+		<div class="custom-radio">
+			<input class="custom-radio_input" name="choose" id="radio2" type="radio"/><!--
+
+		 --><label class="custom-radio_label" for="radio2">Label</label>
+	 	</div>
+
+		<div class="custom-radio">
+			<input class="custom-radio_input" name="choose" id="radio3" type="radio"/><!--
+
+		 --><label class="custom-radio_label" for="radio3">Label</label>
+	 	</div>
+	</div>
+
+	<br>
+
+	<div class="highlight-input">
+		<input type="text" placeholder="placeholder text"/>
+		<div class="highlight-input_deco">This is the description text for this special highlighted inputThis is the description text for this special highlighted input</div>
+	</div>
+
+	<div class="highlight-textarea">
+		<textarea rows="5" placeholder="placeholder-text"></textarea>
+		<div class="highlight-input_deco">This is the description text for this special highlighted inputThis is the description text for this special highlighted input</div>
+	</div>
+	<br>
+
+	<div class="green-button"> Click Me Kind Sir </div>
+	<div class="orange-button"> Click Me Kind Sir </div>
+	<div class="gray-button"> Click Me Kind Sir </div>
+	<div class="green-button"> Click Me Kind Sir </div>
+	<div id="star" style="cursor: pointer; width: 100px;height:20px;background:#f0f0f0;">
+	</div>
+</div>
+
+{% endblock %}

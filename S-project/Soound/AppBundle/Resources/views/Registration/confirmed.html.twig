@@ -1,0 +1,97 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Soound Sign Up</title>
+    {% stylesheets
+    'bundles/sooundapp/css/register-global.css'
+    'bundles/sooundapp/css/forms.css'
+    filter='cssrewrite' %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+
+    {% javascripts
+    '@SooundAppBundle/Resources/public/js/jquery.js'
+    '@SooundAppBundle/Resources/public/js/jquery.placeholder.js'
+    '@SooundAppBundle/Resources/public/js/register-soound.1.1.js'
+    '@SooundAppBundle/Resources/public/js/controls.js'
+    '@SooundAppBundle/Resources/public/js/soound.1.1.js'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+</head>
+<body>
+    {% trans_default_domain 'FOSUserBundle' %}
+
+    {% include "SooundAppBundle:blocks:header.html.twig" %}
+
+    <div class="fullwidth">
+        <div id="page-reg-confirm" class="fullwidth-content">
+            <form novalidate name="startUser" action="{{ path('startNewUser') }}" method="post">
+                <!--
+                <div class="col colone">
+                    <div class="highlight-input--wicon">
+                        <input type="text"  placeholder="Username" required="required" name="username" id="username"/>
+                        <div class="highlight-input_deco">
+                        </div>
+                        <div class="icon--small icon--avatar">
+                        </div>
+                    </div>
+                </div>
+                -->
+                <div class="col colone">
+                    <div class="highlight-input--wicon">
+                        <input type="text"  placeholder="First Name" required="required" name="name" id="name"/>
+                        <div class="highlight-input_deco">
+                        </div>
+                        <div class="icon--small icon--avatar">
+                        </div>
+                    </div>
+                </div>
+                <div class="col coltwo">
+                    <div class="highlight-input--wicon">
+                        <input type="text"  placeholder="Last Name" required="required" name="lastName" id="lastName" />
+                        <div class="highlight-input_deco">
+                        </div>
+                        <div class="icon--small icon--avatar">
+                        </div>
+                    </div>
+                </div>
+                <input type="submit" id="oo-signin-btn" class="green-button" value="Let's Get Started!" />
+                {% if app.request.get('error') is not empty %}
+                    <div class="alert alert-danger">
+                        <strong>Error: </strong> Please verify all information required.
+                    </div>
+                {% endif %}
+            </form>
+            {% block fos_user_content %}
+                <p>{{ 'registration.confirmed'|trans({'%username%': user.username}) }}</p>
+                {% if app.session is not empty %}
+                    {% set targetUrl = app.session.get('_security.' ~ app.security.token.providerKey ~ '.target_path') %}
+                    {% if targetUrl is not empty %}<p><a href="{{ targetUrl }}">{{ 'registration.back'|trans }}</a></p>{% endif %}
+                {% endif %}
+            {% endblock fos_user_content %}
+        </div>
+    </div>
+    <div id="body-btm-wave"></div>
+    <script>
+        OO.Layouts.fullWidthCenter('#page-reg-confirm');
+    </script>
+    <script>
+        {% if app.user %}
+        var nav = new Navigation({
+            'container' :'#nav',
+            'actionOne': '.oo-ui-activity',
+            'actionTwo': '.oo-ui-member'
+        });
+        ooNav(nav);
+        {% else %}
+        var nav = new Navigation({
+            'container' :'#nav',
+            'actionOne': '.oo-ui-login'
+        });
+        ooNav(nav);
+        {% endif %}
+    </script>
+</body>
+</html>
+

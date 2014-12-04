@@ -1,0 +1,436 @@
+<script type="text/javascript">
+	$(function() {
+	    $("#form_projectgenre").tagit({
+	        availableTags: _genres,
+	        allowSpaces: true,
+	        autocomplete: {
+	        	delay: 0, 
+	        	minLength: 2
+	        },
+	        placeholder: 'i.e. Rock, Pop',
+	        beforeTagAdded: function(event, ui) {
+	            if($.inArray(ui.tagLabel, _genres)==-1) return false;
+	        }
+	    });
+
+	    $("#form_dominantsound").tagit({
+	        tagLimit: 2,
+	        allowSpaces: true,
+	        placeholderText: 'i.e. Piano, Jaz guitar'
+	    });
+
+	    $("#details .tagit").addClass("project-edit");
+
+        {% for genre in projectDetails.genres %}
+            $('#form_projectgenre').tagit('createTag', '{{genre|title}}');
+        {% endfor %}
+
+        {% if projectDetails.instrumental is defined %}
+            {% for sound in projectDetails.instrumental.dominantSounds %}
+                $('#form_dominantsound').tagit('createTag', '{{sound|title}}');
+            {% endfor %}
+        {% endif %}
+        var references = {{projectDetails.references|json_encode()|raw }};
+        var x;
+        setTimeout(function() {
+            for(x in references){
+                if(references[x].isAudio){    
+                    var refer = new Reference({
+                        container: $(".reference"+x+" .tablet_player"),
+                        id: references[x].id,
+                        audioURL: references[x].audioURL,
+                        waveURL: references[x].waveURL,
+                        title: references[x].title,
+                        sooundPlayer: sooundPlayer,
+                        duration: references[x].duration,
+                        commentsOn : {
+                            waveform: false,
+                            team: false
+                        }
+                    });
+                    refer.draw();
+                    $(".reference"+x+" .tablet_player").append("<div>"+references[x].description+"</div>")
+                    $(".reference"+x+" .tablet_info_container").hide();
+                    $(".reference"+x+" .tablet_player").fadeIn();
+                }
+                else{
+                    embedReference(references[x].link, $('.reference'+x+' .tablet_pic--second'))
+                    $('.reference'+x+' .tablet_info--second').find('.tablet_description').text(references[x].description);
+                }
+            }
+        }, 1000);
+	});
+</script>
+	<div class="project-details">
+	    <div class="general container">
+	        <div class="main title">GENERAL</div>
+	        <div class="detail-container">
+	            <span class="title gray">TYPE:</span>
+	            <span class="value title">{{projectDetails.type}}</span>
+	        </div>
+	        <div class="detail-container">
+	            <span class="title gray">GENRE:</span>
+	            <input type="hidden" id="form_projectgenre" class="project-edit" name="genre" required="required" placeholder = 'i.e. Rock, Pop'>
+	            <span class="value genre title project-nonedit">{{projectDetails.genres|join(', ')}}</span>
+	        </div> 
+	    </div>
+	    {% set count = 0 %}
+	    <div class="references container gray {% if (projectDetails.references is empty) %} project-edit {% endif %}">
+	        <div class="title">REFERENCES</div>
+	        <div id="add-reference" class="project-edit gray-square"><span class="triangle"></span><span class="icon-plus-solid"></span></div>
+	        {% for key, reference in projectDetails.references %}
+	            {% if reference.isAudio or reference.link is not empty %}
+	                <div class="reference-container reference{{key}} pull-left">
+	                    <div class="number pull-left">{{(key+1)}}</div>
+	                    <div style="clear:both"></div>
+	                    <div class="tablet_player"></div>
+	                    <div class="tablet_info_container">
+	                        <div class="tablet_pic--second"></div>
+	                        <div class="tablet_info tablet_info--second">
+	                            <div class="tablet_description"></div>
+	                        </div>
+	                    </div>
+	                </div>
+	            {% endif %}
+	        {% endfor %}
+	        <div class="reference-container reference pull-left project-edit">
+	            <label class="title gray">LINK: </label>
+	            <div class="highlight-input input-provide-details">
+	                <input type="text" name="project_reference[1][link]" id="link_preference_1" class="link_preference" placeholder="Please enter a link or upload a file"  onfocus="this.placeholder = ''" onblur="this.placeholder = 'Please enter a link or upload a file'"/>
+	                <div class="project_input_img gray-button upload_reference project-reference-clickable1" id="project-reference-dropzone1" style="width:35px !important;"> 
+	                    <img class="upload_logo project-reference-clickable1" src="/bundles/sooundapp/css/images/upload_img.png">
+	                </div>
+	                <input type="hidden" id="references_hasfile1" name="project_reference[1][hasFile]" value="0">
+	            </div>
+	            <div id="ref_description_1" style="display:none" class="desc_container">
+	                <div class="link-box-arrow"></div>
+	                <div class="link-box">
+	                    <div class="link-description">
+	                        <textarea onblur="this.placeholder = 'Point out the things you like in this reference that could help create your sound'" onfocus="this.placeholder = ''" placeholder="Point out the things you like in this reference that could help create your sound" rows="5" class="reference_text" id="reference_text_1" name="project_reference[1][desc]"></textarea>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	    {% if projectDetails.references is empty %}
+	        {% set count = count + 1 %}
+	    {% endif %}
+	    <div class="container project_files {{ count is odd ? 'gray' : ''}}{% if (projectDetails.files is empty) %} project-edit {% endif %}">
+	        <div class="title">FILES</div>
+	        <div id="add-project-file" class="project-edit gray-square"><span class="triangle"></span><span class="icon-plus-solid"></span></div>
+	        {% for key, file in projectDetails.files %}
+	            {% if file.extension or file.link is not empty %}
+	                <div class="reference-container file{{key}} pull-left">
+	                    <div class="number pull-left">{{(key+1)}}</div>
+	                    <div style="clear:both"></div>
+	                    <div class="tablet_player"></div>
+	                    <div class="tablet_info_container">
+	                        <div class="tablet_pic--second">
+	                        	<a href="{{file.link ? file.link : file.download}}">Download File</a>
+	                        </div>
+	                        <div class="tablet_info tablet_info--second">
+	                            <div class="tablet_description">{{file.description}}</div>
+	                        </div>
+	                    </div>
+	                </div>
+	            {% endif %}
+	        {% endfor %}
+	        <div class="reference-container file pull-left project-edit">
+	            <label class="title gray">LINK: </label>
+	            <div class="highlight-input input-provide-details">
+	                <input type="text" name="project_file[1][link]" id="link_project_file_1" class="link_project_file" placeholder="Please enter a link or upload a file"  onfocus="this.placeholder = ''" onblur="this.placeholder = 'Please enter a link or upload a file'"/>
+	                <div class="project_input_img gray-button upload_project_file project-file-clickable1" id="project-file-dropzone1" style="width:35px !important;"> 
+	                    <img class="upload_logo project-file-clickable1" src="/bundles/sooundapp/css/images/upload_img.png">
+	                </div>
+	                <input type="hidden" id="files_hasfile1" name="project_file[1][hasFile]" value="0">
+	            </div>
+	            <div id="file_description_1" style="display:none" class="desc_container">
+	                <div class="link-box-arrow"></div>
+	                <div class="link-box">
+	                    <div class="link-description">
+	                        <textarea onblur="this.placeholder = 'Point out the things you like in this reference that could help create your sound'" onfocus="this.placeholder = ''" placeholder="Point out the things you like in this reference that could help create your sound" rows="5" class="file_text" id="file_text_1" name="project_file[1][desc]"></textarea>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	    {% if projectDetails.files is not empty %}
+	        {% set count = count + 1 %}
+	    {% endif %}
+	    {% if projectDetails.technical is defined %}
+	        {% set technical = projectDetails.technical %}
+	        <div class="technical container project-nonedit {{ count is odd ? 'gray' : ''}}">
+	            <div class="main title">TECHNICAL</div>
+	            {% if technical.tempo is not empty %}
+	            <div class="detail-container">
+	                <span class="title gray">TEMPO:</span>
+	                <span class="value title">{{technical.tempo}}</span>
+	            </div>
+	            {% endif %}
+	            {% if technical.key is not empty %}
+	            <div class="detail-container">
+	                <span class="title gray">KEY:</span>
+	                <span class="value title">{{technical.key}}</span>
+	            </div> 
+	            {% endif %}
+	            {% if technical.mood is not empty %}
+	            <div class="detail-container">
+	                <span class="title gray">MOOD:</span>
+	                <span class="value title">{{technical.mood}}</span>
+	            </div>
+	            {% endif %}
+	            {% if technical.style is not empty %}
+	            <div class="detail-container">
+	                <span class="title gray">STYLE:</span>
+	                <span class="value title">{{technical.style}}</span>
+	            </div> 
+	            {% endif %}
+	        </div>
+	    {% endif %}
+	    {% if isOwner and 'technical' in projectDetails.section_keys %}
+	        <div class="technical container project-edit {{ count is even ? 'gray' : ''}}">
+	            <div class="main title">TECHNICAL</div>
+	            <div class="detail-container">
+	                <span class="title gray">TEMPO:</span>
+	                <div class="project_properties_2 properties">
+	                    <input type="text" readonly="true" name="tempo" class="project_property_selected" value="{{technical is defined ? technical.tempo : ''}}"/>
+	                    <ul>
+	                        {% for tempo in ['Select option', 'Ballad', 'Mid-Tempo', 'Up-Tempo'] %}
+	                            <li class="{{technical is defined and technical.tempo == tempo ? 'selected' : technical is not defined and loop.index == 1 ? 'selected' : ''}}">{{tempo}}</li>
+	                        {% endfor %}
+	                    </ul>
+	                </div>
+	            </div>
+	            <div class="detail-container">
+	                <span class="title gray">KEY:</span>
+	                <div class="project_properties_5 properties">
+	                    <input type="text" readonly="true" name="key" class="project_property_selected" value="{{technical is defined ? technical.key : ''}}"/>
+	                    <ul>
+	                        {% for key in ["Select option", "C", "Db / C#", "D", "Eb", "E", "F", "Gb / F#", "G", "Ab", "A", "Bb", "B / Cb"] %}
+	                            <li class="{{technical is defined and technical.key == key ? 'selected' : technical is not defined and loop.index == 1 ? 'selected' : ''}}">{{key}}</li>
+	                        {% endfor %}
+	                    </ul>
+	                </div>
+	            </div> 
+	            <div class="detail-container">
+	                <span class="title gray">MOOD:</span>
+	                <div class="project_properties_1 properties">
+	                    <input type="text" readonly="true" class="project_property_selected" id="form_moodsong" name="moodsong" value="{{technical is defined ? technical.mood : ''}}"/>
+	                    <ul>
+	                        {% for mood in ['Select option', 'Happy', 'Sad', 'Celebration', 'Fun/Party'] %}
+	                            <li class="{{technical is defined and technical.mood == mood ? 'selected' : technical is not defined and loop.index == 1 ? 'selected' : ''}}">{{mood}}</li>
+	                        {% endfor %}
+	                    </ul>
+	                </div>
+	            </div>
+	            <div class="detail-container">
+	                <span class="title gray">STYLE:</span>
+	                <div class="custom-checkboxes">
+	                    {% for style in ['Radio Friendly', 'Art-Piece'] %}
+	                        <div class="custom-checkbox">
+	                            <input type="checkbox" id="form_projectstyle_{{loop.index0}}" name="style" required="required" class="custom-checkbox_input" value="{{style}}" {{technical is defined and technical.style == style ? 'checked="true"' : ''}}>
+	                            <label class="custom-checkbox_label" for="form_projectstyle_{{loop.index0}}">{{style}}</label>
+	                        </div>
+	                    {% endfor %}
+	                </div>
+	            </div> 
+	        </div>
+	        {% set count = count + 1 %}
+	    {% endif %}
+	    {% if projectDetails.instrumental is defined %}
+	        {% set instrumental = projectDetails.instrumental %}
+	        <div class="instrumental container project-nonedit {{ count is odd ? 'gray' : ''}}">
+	            <div class="main title">INSTRUMENTAL</div>
+	            {% if instrumental.drumsPreference is not empty %}
+	            <div class="detail-container">
+	                <span class="title gray">DRUMS:</span>
+	                <span class="value title">{{instrumental.drumsPreference}}</span>
+	            </div>
+	            {% endif %}
+	            {% if instrumental.instrumentPreference is not empty %}
+	            <div class="detail-container">
+	                <span class="title gray">INSTRUMENT:</span>
+	                <span class="value title">{{instrumental.instrumentPreference}}</span>
+	            </div> 
+	            {% endif %}
+	            {% if instrumental.dominantSounds is not empty %}
+	            <div class="detail-container">
+	                <span class="title gray">DOMINANT SOUND:</span>
+	                <span class="value title">{{instrumental.dominantSounds|join(',')}}</span>
+	            </div>
+	            {% endif %}
+	        </div>
+	    {% endif %}
+	    {% if isOwner and 'instrumental' in projectDetails.section_keys %}
+	        <div class="instrumental container project-edit {{ count is even ? 'gray' : ''}}">
+	            <div class="main title">INSTRUMENTAL</div>
+	            <div class="detail-container">
+	                <span class="title gray">DRUMS:</span>
+	                <div class="project_properties_3 properties">
+	                    <input type="text" readonly="true" class="project_property_selected" name="drumspref" id="form_drumspref" value="{{instrumental is defined ? instrumental.drumsPreference : ''}}"/>
+	                    <ul>
+	                        {% for drumsPreference in ['Select option', 'Drum Machine', 'Live Drums', 'Combinations of the two'] %}
+	                            <li class="{{instrumental is defined and instrumental.drumsPreference == drumsPreference ? 'selected' : instrumental is not defined and loop.index == 1 ? 'selected' : ''}}">{{drumsPreference}}</li>
+	                        {% endfor %}
+	                    </ul>
+	                </div>
+	            </div>
+	            <div class="detail-container">
+	                <span class="title gray">INSTRUMENT:</span>
+	                <div class="project_properties_4 properties">
+	                    <input type="text" readonly="true" class="project_property_selected" name="instrument" id="form_instrument" value="{{instrumental is defined ? instrumental.instrumentPreference : ''}}"/>
+	                    <ul>
+	                        {% for instrumentPreference in ['Select option', 'Synthetic/Midi Instruments', 'Live Instruments', 'Combinations of the two'] %}
+	                            <li class="{{instrumental is defined and instrumental.instrumentPreference == instrumentPreference ? 'selected' : instrumental is not defined and loop.index == 1 ? 'selected' : ''}}">{{instrumentPreference}}</li>
+	                        {% endfor %}
+	                    </ul>
+	                </div>
+	            </div> 
+	            <div class="detail-container" style="width:430px">
+	                <span class="title gray">DOMINANT SOUND:</span>
+	                <input type="hidden" id="form_dominantsound" name="dominantsound" placeholder="i.e. Piano, Jaz guitar" onfocus="this.placeholder = ''" onblur="this.placeholder = 'i.e. Piano, Jaz guitar'">
+	            </div>
+	        </div>
+	        {% set count = count + 1 %}
+	    {% endif %}
+
+	    {% if projectDetails.theme is defined %}
+	        {% set theme = projectDetails.theme %}
+	        <div class="theme container project-nonedit {{ count is odd ? 'gray' : ''}}">
+	            <div class="main title">THEME</div>
+	            {% if theme.topic is not empty %}
+	            <div class="detail-container">
+	                <span class="title gray">TOPIC:</span>
+	                <span class="value title">{{theme.topic}}</span>
+	            </div>
+	            {% endif %}
+	            {% if theme.topic is not empty %}
+	            <div class="detail-container">
+	                <span class="title gray">MENTION:</span>
+	                <span class="value title">{{theme.mention}}</span>
+	            </div>
+	            {% endif %}
+	        </div>
+	    {% endif %}
+
+	    {% if isOwner and 'theme' in projectDetails.section_keys %}
+	        <div class="theme container project-edit {{ count is even ? 'gray' : ''}}">
+	            <div class="main title">THEME</div>
+	            <div class="detail-container">
+	                <span class="title gray">TOPIC:</span>
+	                <textarea id="form_songTopic" name="songTopic" required="required" rows="3" placeholder="Write your topics here" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Write your topics here'">{{theme is defined ? theme.topic : ''}}</textarea>
+	            </div>
+	            <div class="detail-container">
+	                <span class="title gray">MENTION:</span>
+	                <textarea id="form_songMention" name="songMention" required="required" rows="3" placeholder="Write your text here" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Write your text here'">{{theme is defined ? theme.mention : ''}}</textarea>
+	            </div>
+	        </div>
+	        {% set count = count + 1 %}
+	    {% endif %}
+	    {% if projectDetails.musician is defined %}
+	        {% set musician = projectDetails.musician %}
+	        <div class="musician container project-nonedit {{ count is odd ? 'gray' : ''}}">
+	            <div class="main title">MUSICIAN</div>
+	            {% if musician.musicianType is not empty %}
+	            <div class="detail-container">
+	                <span class="title gray">MUSICIAN TYPE:</span>
+	                <span class="value title">{{musician.musicianType}}</span>
+	            </div>
+	            {% endif %}
+	            {% if musician.musicianTech is not empty %}
+	            <div class="detail-container">
+	                <span class="title gray">MUSICIAN TECHNIQUE:</span>
+	                <span class="value title">{{musician.musicianTech}}</span>
+	            </div>
+	            {% endif %}
+	        </div>
+	    {% endif %}
+
+	    {% if isOwner and 'musician' in projectDetails.section_keys %}
+	        <div class="musician container project-edit {{ count is even ? 'gray' : ''}}">
+	            <div class="main title">MUSICIAN</div>
+	            <div class="detail-container">
+	                <span class="title gray">TYPE:</span>
+	                <div class="project_properties_1 properties">
+	                    <input type="text" readonly="true" class="project_property_selected" name="musicianType" id="form_musicianType" value="{{musician.musicianType}}"/>
+	                    <ul>
+	                        {% for musicianType in ['Select option', 'Guitarist', 'Keyboard/Pianist', 'Bass', 'Drummer'] %}
+	                            <li class="{{musician.musicianType == musicianType ? 'selected' :  musician.musicianType is empty and loop.index == 1 ? 'selected' : ''}}">{{musicianType}}</li>
+	                        {% endfor %}
+	                    </ul>
+	                </div>
+	            </div>
+	            <div class="detail-container">
+	                <span class="title gray">TECHNIQUE:</span>
+	                <div class="project_properties_3 properties">
+	                    <input type="text" readonly="true" class="project_property_selected" id="form_musicianTech" name="musicianTech" value="{{musician.musicianTech}}"/>
+	                    <ul>
+	                        {% for musicianTech in ['Select option', 'Legato', 'Staccato'] %}
+	                            <li class="{{musician.musicianTech == musicianTech ? 'selected' :  musician.musicianTech is empty and loop.index == 1 ? 'selected' : ''}}">{{musicianTech}}</li>
+	                        {% endfor %}
+	                    </ul>
+	                </div>
+	            </div>
+	        </div>
+	        {% set count = count + 1 %}
+	    {% endif %}
+
+	    {% if projectDetails.vocal is defined %}
+	        {% set vocal = projectDetails.vocal %}
+	        <div class="vocal container project-nonedit {{ count is odd ? 'gray' : ''}}">
+	            <div class="main title {{count}}">VOCAL</div>
+	            {% if vocal.vocalGender is not empty %}
+	            <div class="detail-container">
+	                <span class="title gray">VOCAL GENDER:</span>
+	                <span class="value title">{{vocal.vocalGender}}</span>
+	            </div>
+	            {% endif %}
+	            {% if vocal.vocalRange is not empty %}
+	            <div class="detail-container">
+	                <span class="title gray">VOCAL RANGE:</span>
+	                <span class="value title">{{vocal.vocalRange}}</span>
+	            </div>
+	            {% endif %}
+	            {% if vocal.vocalRange is not empty %}
+	            <div class="detail-container">
+	                <span class="title gray">VOCAL LANGUAGES:</span>
+	                <span class="value title">{{vocal.vocalLanguages}}</span>
+	            </div>
+	            {% endif %}
+	        </div>
+	    {% endif %}
+
+
+	    {% if isOwner and 'vocal' in projectDetails.section_keys %}
+	        <div class="vocal container project-edit {{ count is even ? 'gray' : ''}}">
+	            <div class="main title">VOCAL</div>
+	            <div class="detail-container">
+	                <span class="title gray">GENDER:</span>
+	                <div class="project_properties_1 properties">
+	                    <input type="text" readonly="true" class="project_property_selected" name="vocalGender" id="form_vocalGender" value="{{vocal.vocalGender}}"/>
+	                    <ul>
+	                        {% for vocalGender in ['Select option', 'Male', 'Female', 'Doesn\'t Matter'] %}
+	                            <li class="{{vocal.vocalGender == vocalGender ? 'selected' :  vocal.vocalGender is empty and loop.index == 1 ? 'selected' : ''}}">{{vocalGender}}</li>
+	                        {% endfor %}
+	                    </ul>
+	                </div>
+	            </div>
+	            <div class="detail-container">
+	                <span class="title gray">RANGE:</span>
+	                <div class="project_properties_2 properties">
+	                    <input type="text" readonly="true" class="project_property_selected" name="vocalRange" id="form_vocalRange" value="{{vocal.vocalRange}}"/>
+	                    <ul>
+	                        {% for vocalRange in ['Select option', 'Seprano', 'Tenor', 'Alto', 'Baritone', 'Bass'] %}
+	                            <li class="{{vocal.vocalRange == vocalRange ? 'selected' :  vocal.vocalRange is empty and loop.index == 1 ? 'selected' : ''}}">{{vocalRange}}</li>
+	                        {% endfor %}
+	                    </ul>
+	                </div>
+	            </div>
+	            <div class="detail-container">
+	                <span class="title gray">LANGUAGES:</span>
+	                <input type="text" class="project-edit" id="form_vocalLanguages" name="vocalLan" required="required" placeholder="i.e. English, Spanish" onfocus="this.placeholder = ''" value="{{vocal.vocalLanguages}}" onblur="this.placeholder = 'i.e. English, Spanish'">
+	            </div>
+	        </div>
+	        {% set count = count + 1 %}
+	    {% endif %}
+	</div>

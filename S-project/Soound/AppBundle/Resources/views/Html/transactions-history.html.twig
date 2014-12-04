@@ -1,0 +1,88 @@
+{% extends "SooundAppBundle::layout.html.twig" %}
+{% block title %}Transactions{% endblock title %}
+{% block content %}
+
+{% include "SooundAppBundle:blocks:header.html.twig" %}
+
+{% javascripts
+'@SooundAppBundle/Resources/public/js/jquery.easing.js'
+'@SooundAppBundle/Resources/public/js/transactionsHistory.js'
+%}
+<script src="{{ asset_url }}"></script>
+{% endjavascripts %}
+
+{% stylesheets 
+    'bundles/sooundapp/css/transactionsHistory.css' filter="cssrewrite"
+%}
+<link rel="stylesheet" href="{{ asset_url }}" />
+{% endstylesheets %}
+
+<div class="content-wrapper transactions-history">
+	<div class="page-title">Transactions</div>
+	<div id="transaction-stats">
+		<div id="total-earned">
+			<span class="stats-data">${{earned}}</span>
+			<span class="stats-text">Earnings</span>
+		</div>
+		<div id="total-spent">
+			<span class="stats-data">${{spent}}</span>
+			<span class="stats-text">Spent on projects</span>
+		</div>
+	</div>
+	<div id="options-cont">
+		<div id="options-title">History</div>
+		<div id="options-dates">
+			<div class="date-selector-cont">
+				<input type="text" id="date-selector-left" placeholder="mm / dd / yyyy" value="{{start}}"/>
+			</div>
+			<div id="options-dates-to">to</div>
+			<div class="date-selector-cont">
+				<input type="text" id="date-selector-right" placeholder="mm / dd / yyyy" value="{{end}}"/>
+			</div>
+		</div>
+	</div>
+	<div id="transactions-history">
+		{% if months %}
+			{% for month in months %}
+				<div class="transaction-month">
+					<div class="transaction-month-date">{{month.date}}</div>
+					{% for transaction in month.transactions %}
+						<div class="transaction-cont">
+							{% if transaction.outgoing %}
+								<div class="transaction-details-left">
+									<span class="transaction-outgoing-icon"></span>
+									<span class="transaction-date">{{transaction.date}}</span>
+								</div>
+								<div class="transaction-details-right">
+									<span class="transaction-light">Paid </span>
+									<span class="transaction-dark">${{transaction.amount}}</span>
+									<span class="transaction-light"> for funding </span>
+									<span class="transaction-dark">"{{transaction.projectTitle}}"</span>
+									<span class="transaction-light"> project.</span>
+								</div>
+							{% else %}
+								<div class="transaction-details-left">
+									<span class="transaction-incoming-icon"></span>
+									<span class="transaction-date">{{transaction.date}}</span>
+								</div>
+								<div class="transaction-details-right">
+									<span class="transaction-light">Received </span>
+									<span class="transaction-dark">${{transaction.amount}}</span>
+									<span class="transaction-light"> for winning </span>
+									<span class="transaction-dark">"{{transaction.projectTitle}}"</span>
+									<span class="transaction-light"> project.</span>
+								</div>
+							{% endif %}
+						</div>
+					{% endfor %}
+				</div>
+			{% endfor %}
+		{% else %}
+			<div class="no-results-cont">
+				<span class="none-available">NONE AVAILABLE</span>
+			</div>
+		{% endif %}
+	</div>
+</div>
+
+{% endblock %}

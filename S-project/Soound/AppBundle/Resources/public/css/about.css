@@ -1,0 +1,182 @@
+body{	
+	width:100%;
+	margin: 0 auto;
+	-webkit-font-smoothing: antialiased;
+	}
+	
+/* ----------- intro  ------------- */
+
+.intro {
+  	margin:0 auto;
+	overflow:hidden;	
+	padding-top:50px;
+}
+
+.intro-title {
+	color:#1e1e1e;
+	font-size:60px;
+	font-family:'BrandonGrotesqueBold';
+	padding-bottom:40px;
+	text-align:center;
+}
+
+.intro-description {
+	width:900px;
+	margin:0 auto;
+	color:#bbb;
+	font-size:19px;
+	text-align:center;
+	line-height:22px;
+}
+
+.about {
+	margin:0 auto;
+	width:1000px;
+	height:560px;	
+	padding-top:120px;
+	margin-bottom:170px;
+}	
+
+.team-photo {
+	float:left;
+	width: 167px;
+	height: 167px;
+}
+
+.team-photo.cardin {
+	background-image: url('images/aboutus-cardin.png');
+}
+.team-photo.patrick {
+	background-image: url('images/aboutus-patrick.png');
+}
+.team-photo.david {
+	background-image: url('images/aboutus-david.png');
+}
+
+.team {
+	width:900px;
+	height:180px;
+	margin:0 45px;
+}
+
+.team-description {
+	width:700px;
+	height:185px;
+	float:left;
+	padding-left:30px;
+	margin-bottom:100px;
+}
+
+.team-member {
+	color:#EF4F35;
+	text-transform: uppercase;
+	font-size:17px;
+}
+
+.team-title {
+	color:#5D5D5D;
+	font-size:17px;
+}
+
+.team-story {
+	color:#aaa;
+	font-size:18px;
+	padding-top:45px;
+}
+
+/* ----------- contact  ------------- */
+
+
+.contact {
+	width:1100px;
+	height:400px;
+	margin:0 auto;
+	text-align:center;
+}
+
+.contact a {
+	color:#EF4F35;
+	text-transform:lowercase;
+	-webkit-transition:color .15s ease-in;  
+	-moz-transition:color .15s ease-in;  
+	-o-transition:color .15s ease-in;  
+	transition:color .15s ease-in;  
+}
+
+.contact a:hover {
+	color:#5d5d5d;
+	text-transform:lowercase;
+	-webkit-transition:color .15s ease-in;  
+	-moz-transition:color .15s ease-in;  
+	-o-transition:color .15s ease-in;  
+	transition:color .15s ease-in;  
+}
+
+.contact img {
+	padding:36px 0;
+}
+
+.contact-box {
+	width:360px;
+	height:370px;
+	padding:0 40px;
+	float:left;
+}
+
+.contact-title {
+	color:#EF4F35;
+	text-transform: uppercase;
+	font-size:19px;
+}
+
+.contact-content {
+	color:#5d5d5d;
+	font-size:19px;
+	line-height:30px;
+}
+
+.about-location-icon {
+	background: url('images/about-location.png') 0 0 no-repeat;
+	margin-top: 30px;
+	margin-bottom: 30px;
+	width: 46px;
+	height: 65px;
+	display: inline-block;
+}
+.about-contact-icon {
+	background: url('images/about-contact.png') 0 0 no-repeat;
+	margin-top: 36px;
+	margin-bottom: 36px;
+	width: 48px;
+	height: 55px;
+	display: inline-block;
+}
+.about-career-icon {
+	background: url('images/about-career.png') 0 0 no-repeat;
+	margin-top: 38px;
+	margin-bottom: 38px;
+	width: 67px;
+	height: 53px;
+	display: inline-block;
+}
+
+/* ----------- map  ------------- */
+
+.location {
+	color:#EF4F35;
+	font-size:24px;
+	background-color:#fff;
+	padding: 10px 17px 10px 15px;
+	border-radius: 5px;
+	margin:-75px 0 0 30px;
+	float:left;
+}
+
+.map {
+	width:100%;
+	height:700px;
+    background-image: url("images/about-map.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+}​

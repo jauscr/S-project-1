@@ -1,0 +1,85 @@
+{% extends "SooundAppBundle::layout.html.twig" %}
+{% block title %}Soound | Welcome{% endblock %}
+{% block sooundJs %}
+    <script src="//apis.google.com/js/client.js?onload=handleClientLoad"></script>
+    {% javascripts
+    '@SooundAppBundle/Resources/public/js/facebook-inv.js'
+    '@SooundAppBundle/Resources/public/js/google-inv.js'
+    '@SooundAppBundle/Resources/public/js/invitation.js'
+    '@SooundAppBundle/Resources/public/js/vertical-panel.js'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script type="text/javascript">
+        /* $(function(){
+            $('#inviteByFacebook').click(function(){
+                login();
+            });
+
+            $('#google-email-btn').click(function(){
+                sendGoogleInvite();
+            });
+
+            $('#authorize-button').click(function(event){
+                handleAuthClick(event);
+            });
+            makeTags();
+            tagsDeco();
+        }) */
+    </script>
+{% endblock %}
+{% block content %}
+    {% include 'SooundAppBundle:blocks:header.html.twig' %}
+    <div class="container">
+        <div class="browse_projects">
+            Welcome {{ user }}
+
+            <section id="wrapper" class="wrapper">
+                <div id="v-nav">
+                    <ul>
+                        <li tab="tab_email" class="first current">EMAIL</li>
+                        <li tab="tab_facebook" class="load-button">FACEBOOK</li>
+                        <li tab="tab_google" class="google-load">GOOGLE +</li>
+                    </ul>
+                    <div class="tab-content" style="display: block">
+                        <h4>NO FRIENDS ADDED YET!</h4>
+                        <div class="highlight-input step_three_input">
+                            <input type="text" id="freeMail_txt" name="freeMail_txt" placeholder="Write your friends emails here" value="" />
+                        </div>
+                        <div class="highlight-input_deco"></div>
+                        <input onclick="sendInvitation('{{ user }}')" type="button" id="inviteByEmail" class="green-button uploader-submit" value="Invite friends by Email" style="float: right"/>
+                    </div>
+                    <div class="tab-content">
+                        <h4>NO FRIENDS ADDED YET!</h4>
+                        <div class="highlight-input step_three_input">
+                            <ul class="facebookFriendList-container">
+
+                            </ul>
+                        </div>
+
+                        <input type="button" id="inviteByFacebook" class="green-button uploader-submit" value="Invite friends by Facebook"/>
+                        <input type="button" id="sendInviteByFacebook" class="green-button uploader-submit" value="Send Invitations" style="display: none"/>
+                        <div id="fb-root"></div>
+
+
+                    </div>
+                    <div class="tab-content">
+                        <h4>NO FRIENDS ADDED YET!</h4>
+                        <div class="highlight-input step_three_input">
+                            <ul class="googleFriendList-container">
+
+                            </ul>
+                        </div>
+                        <button id="authorize-button" class="green-button uploader-submit btn_google">Login to Google</button>
+                        <button id="google-email-btn" class="green-button uploader-submit btn_google" style="display: none">Invite by google</button>
+
+                    </div>
+                </div>
+            </section>
+
+        </div>
+        <div class="sidebar sidebar--right">
+            this is the sidebar
+        </div>
+    </div>
+{% endblock %}

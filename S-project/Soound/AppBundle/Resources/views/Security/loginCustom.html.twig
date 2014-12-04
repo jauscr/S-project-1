@@ -1,0 +1,43 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block fos_user_content %}
+<div id="modal-background"></div>
+<div id="modal-content">
+        <img id="img-login-close" src="{{ asset('bundles/sooundapp/css/images/popup-close.png') }}">
+        <div id="signin-popup">
+            <div id="popup-close"></div>
+            <div class="login_input-costum">
+                <div class="left">
+                    Log In
+                </div>
+                <span class="small-txt right"><a href="{{ path('fos_user_registration_register') }}">Not A Member?</a></span>
+                <br class="clear"/>
+            </div>
+            <form id="login-form" novalidate action="{{ path("fos_user_security_check") }}" method="post">
+                <input type="hidden" name="_csrf_token" value="{{ fos_csrf_provider.generateCsrfToken('authenticate') }}" />
+                <div class="login_input">
+                    <div class="highlight-input--wicon">
+                        <input type="text" placeholder="EMAIL" value="" name="_username" required="required">
+                        <div class="highlight-input_deco deco-login"></div>
+                        <div class="icon--small icon--envelope">
+                        </div>
+                    </div>
+                    <div class="highlight-input--wicon">
+                        <input type="password"  required="required" name="_password" placeholder="PASSWORD">
+                        <div class="highlight-input_deco deco-login"></div>
+                        <div class="icon--small icon--key">
+                        </div>
+                        <span class="fgt_passwd"><a class="login_popup--a" href="{{ path('fos_user_resetting_request') }}">Forgot?</a></span>
+                    </div>
+                    <div class="alert alert-danger global-alert99" style="display:none"></div>
+                </div>
+                <div class="submit_popup">
+                    <input type="submit" class="submit_btn login_popup--a" value="{{ 'security.login.submit'|trans }}">
+                    <div class="right-cutom">
+                        <a class="google_btn js_login_popup-google login_popup--a" href="#"></a> <a class="facebook_btn js_login_popup-facebook login_popup--a" href="#" ></a>
+                    </div>
+                </div>
+            </form>
+        </div>
+</div>
+{% endblock fos_user_content %}

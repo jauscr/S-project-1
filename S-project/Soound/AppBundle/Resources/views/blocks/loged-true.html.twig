@@ -1,0 +1,88 @@
+{% set not_confirmed = false %}
+{% set activePage = app.request.attributes.get('_route')%}
+{% if app.user.confirmed == false and app.session.has('closeNotConfirmed') == false and app.user.getGoogleId() is not null and app.user.getFacebookId() is not null %}
+{% set not_confirmed = true %}
+<div class="not-confirmed-container">
+    <div class="not-confirmed">
+        <img class="icon-info" src="{{ asset('bundles/sooundapp/css/images/icon-info.png') }}"> 
+        <span>To activate your account, please verify your email address. Haven't received our activation email?</span> 
+        <a href="{{ path('resend_confirmation') }}">Click here.</a>
+        <img class="icon-close" src="{{ asset('bundles/sooundapp/css/images/icon-close.png') }}">
+    </div>
+    <div style="height:36px"></div>
+</div>
+{% endif %}
+<div id="navigation-bar" {% if not_confirmed == true %} style="top:36px" {% endif %}>
+    <div id="navigation-bar-content">
+        <a href="{{ path('index_display')}}" class="oo-logo"> <img src="{{ asset('bundles/sooundapp/css/images/logo.png') }}"> </a>
+        <ul id="nav">
+            <li> <a class="navi-btn {{ 'projects' in activePage ? 'active' : '' }}" href="{{ path('projects_addGeneralInformation') }}"><span class="icon-plus-solid"></span>Start a Project</a> </li>
+            <li> <a class="browse-btn navi-btn {{ activePage ==  'browse' ? 'active' : '' }}" href="{{ path('browse') }}"><span class="icon-browse"></span>Browse projects</a> </li>
+            <li> <a class="navi-btn oo-ui-activity">
+                    {% if app.user.unreadActivity|length > 0 %}
+                        <span class="activity-count unread">{{app.user.unreadActivity|length}}</span>
+                        <span class="icon icon-activity unread"></span>
+                    {% else %}
+                        <span class="activity-count">0</span>
+                        <span class="icon icon-activity"></span>
+                    {% endif %}
+                    Activity
+                </a>
+                <div class="oo-ui-activity-menu activity-feed">
+                    <ul id="header-activity-list">
+                    {% for activity in app.user.recentActivity %}
+                        {% set done = false %}
+                        {% if activity.read %}
+                            {% set read = 'read' %}
+                        {% else %}
+                            {% set read = 'not-read' %}
+                        {% endif %}
+                        
+                        <li>
+                            <div class="oo-ui-activity-item">
+                                {% for content in activity.content %}
+                                    {% if content.ref.picture is defined and done == false %}
+                                        {% set details = content.getRefDetails %}
+                                        <a class="activity-picture" href="{{details.link}}"><img src="{{details.picture}}"/></a>
+                                        {% set done = true %}
+                                    {% endif %}
+                                {% endfor %}
+                                {% if done == false %}
+                                    <div class="activity-icon {{read}} envelope"></div>
+                                {% endif %}
+                                <div class="activity-content">
+                                    {% for key,content in activity.content %}
+                                        {% if content.hasRef %}
+                                            {% set details = content.getRefDetails %}
+                                            {# we are using this to tell html when line-break should come #}
+                                            <span class="activity-link"><a class="{{ key > 0 ? 'inner' : 'first'}}" href="{{details.link}}">{{details.name}}</a></span>
+                                        {% endif %}
+                                        {% if content.hasText %}
+                                            <span class="activity-text {{ key > 0 ? 'inner' : 'first'}}">{{content.text}}</span>
+                                            {# we are using this to tell html when line-break should come #}
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </li>
+                    {% endfor %}
+                        <li><a href="{{ path('activity') }}">View All Activity</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li> <a class="navi-btn oo-ui-member"><span class="icon icon-member" style="background-image:url('{{ app.session.get('userPicture') }}' ); background-size:cover;"></span><span id="userName">{{ app.user.getFullname(true) }}</span></a>
+                <div class="oo-ui-member-menu">
+                    <ul class="style-caps">
+                        <li><a href="{{ path('uploadCredits') }}"><span class="icon-credits"></span>Your credits</a></li>
+                        <li><a href="{{ path('userProfile', {'publicId': app.user.publicId}) }}"><span class="icon-profile"></span>Your Profile</a></li>
+                        <li><a href="{{ path('transactionsHistory') }}"><span class="icons icon-transactions"></span>Transactions</a></li>
+                        <li><a href="{{ path('accountSettings') }}"><span class="icons icon-settings"></span>Account Settings</a></li>
+                        <li><a href="{{ app.request.getBaseURL() }}/logout"><span class="icons icon-logout"></span>Log Out</a></li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div id="notifications"></div>
+</div>
+{% include "SooundAppBundle:blocks:notifications.html.twig" %}

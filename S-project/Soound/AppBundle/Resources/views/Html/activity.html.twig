@@ -1,0 +1,74 @@
+{% extends "SooundAppBundle::layout.html.twig" %}
+
+{% block title %}View All Activity{% endblock title %}
+
+{% block content %}
+
+{% include "SooundAppBundle:blocks:header.html.twig" %}
+
+{% javascripts
+'@SooundAppBundle/Resources/public/js/jquery.easing.js'
+'@SooundAppBundle/Resources/public/js/activity.js'
+%}
+<script src="{{ asset_url }}"></script>
+{% endjavascripts %}
+
+{% stylesheets 
+    'bundles/sooundapp/css/activity.css' filter="cssrewrite"
+%}
+<link rel="stylesheet" href="{{ asset_url }}" />
+{% endstylesheets %}
+
+<div class="content-wrapper">
+	<div id="options-cont">
+		<div class="page-title">Your Notifications</div>
+		<div id="options-dates">
+			<div class="date-selector-cont">
+				<input type="text" id="date-selector-left" placeholder="mm / dd / yyyy" value="{{start}}"/>
+			</div>
+			<div id="options-dates-to">to</div>
+			<div class="date-selector-cont">
+				<input type="text" id="date-selector-right" placeholder="mm / dd / yyyy" value="{{end}}"/>
+			</div>
+		</div>
+	</div>
+	<div id="activity-history">
+		{% if days %}
+			{% for day in days %}
+				<div class="activity-day">
+					<div class="activity-day-date">{{day.date}}</div>
+					{% for activity in day.activities %}
+						<div class="activity-cont">
+							<div class="activity-left">
+								{% if activity.read %}
+									<div class="activity-icon read {{activity.icon}}"></div>
+								{% else %}
+									<div class="activity-icon not-read {{activity.icon}}"></div>
+								{% endif %}
+								<div class="activity-content">
+									{% for content in activity.content %}
+										{% if content.ref %}
+											<a class="activity-link" href="{{content.ref.link}}">{{content.ref.name}}</a>
+										{% endif %}
+										{% if content.text %}
+											<span class="activity-text">{{content.text}}</span>
+										{% endif %}
+									{% endfor %}
+								</div>
+							</div>
+							<div class="activity-right">
+								<div class="activity-time">{{activity.time}}</div>
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+			{% endfor %}
+		{% else %}
+			<div class="no-results-cont">
+				<span class="none-available">NONE AVAILABLE</span>
+			</div>
+		{% endif %}
+	</div>
+</div>
+
+{% endblock %}

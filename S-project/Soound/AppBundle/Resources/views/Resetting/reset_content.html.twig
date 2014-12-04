@@ -1,0 +1,20 @@
+<div class="fullwidth">
+    <div id="page-sign-up" class="fullwidth-content">
+        <p>Use this form to change your password!.</p>
+        {% trans_default_domain 'FOSUserBundle' %}
+        <form action="{{ path('fos_user_resetting_reset', {'token': token}) }}" {{ form_enctype(form) }} method="POST" class="fos_user_resetting_reset">
+            {{ form_widget(form) }}
+            <div>
+                <input class="green-button" style="width: 100% !important" type="submit" value="{{ 'resetting.reset.submit'|trans }}" />
+            </div>
+        </form>
+
+        <script>
+            OO.Layouts.fullWidthCenter('#page-sign-up');
+        </script>
+    </div>
+</div>
+<div id="body-btm-wave"></div>
+<script>
+    OO.Layouts.fullWidthCenter('#page-sign-up');
+</script>

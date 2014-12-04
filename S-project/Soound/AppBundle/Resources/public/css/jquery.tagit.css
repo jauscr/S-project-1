@@ -1,0 +1,141 @@
+ul.tagit {
+    padding: 1px 5px;
+    overflow: auto;
+    margin-left: inherit; /* usually we don't want the regular ul margins. */
+    margin-right: inherit;
+}
+ul.tagit li {
+    display: block;
+    float: left;
+    margin: 2px 5px 2px 0;
+}
+ul.tagit li.tagit-choice {
+    position: relative;
+    line-height: inherit;
+}
+
+ul.tagit li.tagit-choice-read-only {
+    padding: .2em .5em .2em .5em;
+}
+
+ul.tagit li.tagit-choice-editable {
+    padding: .2em 18px .2em .5em;
+}
+
+ul.tagit li.tagit-new {
+    padding: .25em 4px .25em 0;
+}
+
+ul.tagit li.tagit-choice a.tagit-label {
+    cursor: pointer;
+    text-decoration: none;
+}
+ul.tagit li.tagit-choice .tagit-close {
+    cursor: pointer;
+    position: absolute;
+    right: .1em;
+    top: 50%;
+    margin-top: -8px;
+    line-height: 17px;
+}
+
+/* used for some custom themes that don't need image icons */
+ul.tagit li.tagit-choice .tagit-close .text-icon {
+    display: none;
+}
+
+ul.tagit li.tagit-choice input {
+    display: block;
+    float: left;
+    margin: 2px 5px 2px 0;
+}
+ul.tagit input[type="text"] {
+    width: 200px;
+    height: 35px;
+    padding: 0 10px;
+    font-size: 13px;
+    border: none !important;
+    margin: -2px 0 0 0;
+    box-shadow: none;
+}
+
+ul.tagit.ui-widget-content{
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    border-width: 2px !important;
+    border-style: solid !important;
+    border-color: #EBEBEB !important;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+    color: #787878;
+    -webkit-appearance: none;
+    outline: none;
+    -webkit-font-smoothing: antialiased;
+    -webkit-transition: color .2s tagit-choice-editablese, border-color .2s ease;
+    -moz-transition: color .2s ease, border-color .2s ease;
+    -o-transition: color .2s ease, border-color .2s ease;
+    -ms-transition: color .2s ease, border-color .2s ease;
+    transition: color .2s ease,border-color .2s ease;
+    background: transparent;
+    cursor:pointer;
+}
+
+ul.tagit.ui-widget-content:hover{border-color:#dcdcdc !important}
+
+ul.tagit input.ui-widget-content.ui-autocomplete-input{
+    background: none !important;
+}
+
+ul.tagit .tagit-choice.ui-widget-content.ui-state-default.ui-corner-all.tagit-choice-editable{
+    background-color: #fafafa;
+    background-image: none !important;
+    font-size: 13px;
+    padding: 7px 20px 7px 7px;
+    color: #3c3c3c;
+    border: 1px solid #e8e8e8 !important;
+    webkit-border-radius:0 !important;
+    border-radius: 0 !important;
+    height:30px !important;
+    width: auto !important;
+    border-radius: 5% !important;
+    box-shadow: none;
+    font-family: "helveticaneuemedium";
+    outline: none;
+}
+ul.tagit .tagit-choice.ui-widget-content.ui-state-default.ui-corner-all.tagit-choice-editable:hover{
+    border:1px solid #e8e8e8 !important;
+    background-color:#e6e6e6;
+
+}
+ul.tagit .tagit-choice.ui-widget-content.ui-state-default.ui-corner-all.tagit-choice-editable:focus{background-color:#3c3c3c !important;color:#fff;}
+
+ul.tagit .ui-state-default .ui-icon{
+    margin-right: 5px;
+}
+
+ul.tagit .ui-icon-close{
+    background-image: url("images/tag-close.png");
+    background-position: 7px 4px;
+}
+ul.tagit .ui-icon-close:hover{
+    background-image: url("images/tag-close.png");
+    background-position: 7px 4px;
+}
+
+ul.tagit .tagit-choice.ui-widget-content.ui-state-default.ui-corner-all.tagit-choice-editable:focus .ui-icon-close{
+    background-image: url("images/tag-close-white.png");
+    background-position: 7px 4px;
+}
+ul.tagit .tagit-choice.ui-widget-content.ui-state-default.ui-corner-all.tagit-choice-editable:focus .ui-icon-close:hover{
+    background-image: url("images/tag-close-white.png");
+    background-position: 7px 4px;   
+}
+
+ul.tagit .ui-state-default .ui-icon:not(.ui-icon-close){
+    background-image: url(../images/ui-icons_256x240_black.png) !important;
+}
+
+ul.tagit .ui-state-default .ui-icon:not(.ui-icon-close):hover{
+    background-image: url(../images/ui-icons_256x240_red.png) !important;
+}

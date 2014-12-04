@@ -1,0 +1,19 @@
+{% javascripts
+'@SooundAppBundle/Resources/public/js/jquery.raty.min.js'
+'@SooundAppBundle/Resources/public/js/soundmanager2/script/soundmanager2-min.js'
+'@SooundAppBundle/Resources/public/js/player.js'
+%}
+<script src="{{ asset_url }}"></script>
+{% endjavascripts %}
+<script type="text/javascript">
+	var commentURL = "{{path('comment')}}";
+	var readThreadURL = "{{path('readThread')}}";
+	var ratingURL = "{{path('rateSong')}}";
+	var winnerURL = "{{path('winnerSubmission')}}";
+	var userPublicId = "{{app.user.publicId}}";
+</script>
+{% stylesheets 
+    'bundles/sooundapp/css/player.css' filter="cssrewrite"
+%}
+<link rel="stylesheet" href="{{ asset_url }}" />
+{% endstylesheets %}

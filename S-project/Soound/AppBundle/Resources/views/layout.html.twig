@@ -1,0 +1,162 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>{% block title %}{% endblock %} | Soound</title>
+        <!--
+        <link href="{{ asset('css/soound-style.css') }}" rel="stylesheet" type="text/css">
+        <link href="{{ asset('css/jquery.tagit.css') }}" rel="stylesheet" type="text/css">
+        -->
+        {% if app.request.attributes.get('_route') != 'index_display' %}
+            <style type="text/css">
+                #navigation-bar{
+                    background-color: #000000 !important;
+                }
+            </style>
+        {% endif %}
+        <!-- home.css and global.css make conflickts -->
+        
+        {% if app.request.attributes.get('_route') == 'index_display' %}
+            {% stylesheets
+            'bundles/sooundapp/css/icons.css' filter='cssrewrite'
+            'bundles/sooundapp/css/soound-style.css' filter='cssrewrite'
+            'bundles/sooundapp/css/jquery.tagit.css' filter='cssrewrite'
+            'bundles/sooundapp/css/global.css' filter='cssrewrite'
+            'bundles/sooundapp/css/home.css' filter='cssrewrite'
+            'bundles/sooundapp/css/forms.css' filter='cssrewrite'
+            'bundles/sooundapp/js/jquery-ui/css/ui-lightness/jquery-ui.custom.css'
+            filter='cssrewrite' %}
+            <link rel="stylesheet" href="{{ asset_url }}" />
+            {% endstylesheets %}
+
+            {% javascripts
+            '@SooundAppBundle/Resources/public/js/jquery.js'
+            '@SooundAppBundle/Resources/public/js/jquery-ui/jqueryui.js'
+            '@SooundAppBundle/Resources/public/js/jquery.form.js'
+            '@SooundAppBundle/Resources/public/js/purl.js'
+            '@SooundAppBundle/Resources/public/js/functions.js'
+            '@SooundAppBundle/Resources/public/js/soound.1.1.js'
+            '@SooundAppBundle/Resources/public/js/soound.js'
+            '@SooundAppBundle/Resources/public/js/jquery.raty.min.js'
+            '@SooundAppBundle/Resources/public/js/jquery.ui.widget.js'
+            '@SooundAppBundle/Resources/public/js/underscore.js'
+            '@SooundAppBundle/Resources/public/js/html5shiv.js'
+            '@SooundAppBundle/Resources/public/js/controls.js'
+            '@SooundAppBundle/Resources/public/js/oauth_connect.js'
+            '@SooundAppBundle/Resources/public/js/jquery.slimscroll.min.js'
+            '@SooundAppBundle/Resources/public/js/jquery.placeholder.js'
+            '@SooundAppBundle/Resources/public/js/tag-it.js'
+            '@SooundAppBundle/Resources/public/js/autobahn.min.js'
+            '@SooundAppBundle/Resources/public/js/sooundLive.js'
+            '@SooundAppBundle/Resources/public/js/register-soound.1.1.js'
+            %}
+            <script src="{{ asset_url }}"></script>
+            {% endjavascripts %}
+        {% else %}
+            {% stylesheets
+            'bundles/sooundapp/css/icons.css' filter='cssrewrite'
+            'bundles/sooundapp/css/soound-style.css' filter='cssrewrite'
+            'bundles/sooundapp/css/simpleTooltip.css' filter='cssrewrite'
+            'bundles/sooundapp/css/jquery.tagit.css' filter='cssrewrite'
+            'bundles/sooundapp/css/global.css' filter='cssrewrite'
+            'bundles/sooundapp/js/jquery-ui/css/ui-lightness/jquery-ui.custom.css' filter='cssrewrite'
+            'bundles/sooundapp/css/jquery.tagsinput.css' filter='cssrewrite'
+            'bundles/sooundapp/css/soound.css' filter='cssrewrite'
+            'bundles/sooundapp/css/upload.css' filter='cssrewrite'
+            filter='cssrewrite' %}
+            <link rel="stylesheet" href="{{ asset_url }}" />
+            {% endstylesheets %}
+
+            {% javascripts
+                '@SooundAppBundle/Resources/public/js/jquery.js'
+                '@SooundAppBundle/Resources/public/js/jquery-ui/jqueryui.js'
+                '@SooundAppBundle/Resources/public/js/purl.js'
+                '@SooundAppBundle/Resources/public/js/soound.1.1.js'
+                '@SooundAppBundle/Resources/public/js/soound.js'
+                '@SooundAppBundle/Resources/public/js/jquery.raty.min.js'
+                '@SooundAppBundle/Resources/public/js/jquery.ui.widget.js'
+                '@SooundAppBundle/Resources/public/js/jquery.form.js'
+                '@SooundAppBundle/Resources/public/js/underscore.js'
+                '@SooundAppBundle/Resources/public/js/html5shiv.js'
+                '@SooundAppBundle/Resources/public/js/controls.js'
+                '@SooundAppBundle/Resources/public/js/oauth_connect.js'
+                '@SooundAppBundle/Resources/public/js/jquery.slimscroll.min.js'
+                '@SooundAppBundle/Resources/public/js/simpleTooltip.core.js'
+                '@SooundAppBundle/Resources/public/js/functions.js'
+                '@SooundAppBundle/Resources/public/js/jquery.placeholder.js'
+                '@SooundAppBundle/Resources/public/js/tag-it.js'
+                '@SooundAppBundle/Resources/public/js/autobahn.min.js'
+                '@SooundAppBundle/Resources/public/js/sooundLive.js'
+            %}
+            <script src="{{ asset_url }}"></script>
+            {% endjavascripts %}
+        {% endif %}
+        
+        <!-- show start project btn-->
+        <script>
+            $(function(){
+                $('li.oo-ui-first, li.oo-ui-first a').removeAttr('style');
+                $('li.oo-ui-first a').removeClass('start-btn');
+            });
+        </script>
+        <!-- soound js -->
+        {% block sooundCss %}{% endblock %}
+        {% block sooundJs %}{% endblock %}
+        <!--[if !IE 7]>
+            <style type="text/css">
+                #wrapper {display:table;height:100%}
+            </style>
+        <![endif]-->
+        {% include "SooundAppBundle:blocks:analytics.html.twig" %}
+    </head>
+    <body id="oo-home" {% if app.user %} class="logged" {% endif %}>
+        <div id="fb-root"></div>
+        <div id="wrapper">
+            <div id="header">{% include "SooundAppBundle:Security:loginCustom.html.twig" %}</div>
+            <div id="main">{% block content %}{% endblock %}</div>
+        </div>
+        <div id="footer">
+            {% include "SooundAppBundle:blocks:footer.html.twig" %}
+        </div>  
+        <script>
+            {% if app.user %}
+                var nav = new Navigation({
+                    'container' :'#nav',
+                    'actionOne': '.oo-ui-activity',
+                    'actionTwo': '.oo-ui-member'
+                });
+                ooNav(nav);
+            {% else %}
+                var nav = new Navigation({
+                    'container' :'#nav'
+                });
+                ooNav(nav);
+
+                $(function(){
+                    $(".log-in-btn.navi-btn.oo-ui-login, #modal-background, #img-login-close").click(function () {
+                        $("#modal-content,#modal-background").toggleClass("active");
+                    });
+                });
+
+            {% endif %}
+        </script>
+
+        <script type="text/javascript">
+            OO.Layouts.fullWidthCenter('#modal-content');
+            var soound = {};
+            soound.oauth = {
+                facebook: {
+                    client_id:  '{{ facebook_client_id }}',
+                    scope:      '{{ facebook_scope }}',
+                    redirect:   '{{ url("hwi_oauth_service_redirect", {service: "facebook"}) }}'
+                },
+                google: {
+                    client_id:  '{{ google_client_id }}',
+                    api_key:    '{{ google_client_secret }}',
+                    scope:      '{{ google_scope }}',
+                    redirect:   '{{ url("hwi_oauth_service_redirect", {service: "google"}) }}'
+                }
+            }
+        </script>
+    </body>
+</html>
+
